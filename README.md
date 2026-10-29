@@ -19,6 +19,8 @@ Service definitions, project areas and the current office are in `src/data/conte
 
 Implemented routes: homepage, service index, eight service details, Work, Industries, Company, Careers, Contact and 404. Navigation is responsive with a keyboard-dismissable services menu.
 
+The homepage Expertise section uses `ServicePlacards`: the Google Sites reference's Architectural Sweep design, logo-spectrum column accents, eight animated concept diagrams, focus/hover reveals and animated Explore arrows. Touch layouts and reduced-motion preferences reveal the content without looping animations. The separate Services index keeps its compact grid.
+
 ## Integration boundaries
 
 - Contact form validates fields and prepares an explicit mailto draft. It does not send, store or claim receipt of an enquiry. Connect a protected server endpoint before replacing this flow.
