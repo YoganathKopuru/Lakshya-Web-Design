@@ -21,6 +21,10 @@ Implemented routes: homepage, service index, eight service details, Work, Indust
 
 The homepage Expertise section uses `ServicePlacards`: the Google Sites reference's Architectural Sweep design, logo-spectrum column accents, eight animated concept diagrams, focus/hover reveals and animated Explore arrows. Touch layouts and reduced-motion preferences reveal the content without looping animations. The separate Services index keeps its compact grid.
 
+Delivery Experience cards have individual hover/focus animations and link to anchored project areas on Work. The Careers invitation draws an ascending career path on hover/focus. Both honor reduced-motion preferences.
+
+All eight service hero panels use `ServiceExperience`, with distinct diagrams, four selectable stages, contextual explanations and finite Play/Pause/Reset controls. Playback starts only on request, pauses outside the viewport and stops when the tab is hidden. These are illustrative concepts, not live systems or measured company results. Content is maintained in `src/data/service-experiences.ts`.
+
 ## Integration boundaries
 
 - Contact form validates fields and prepares an explicit mailto draft. It does not send, store or claim receipt of an enquiry. Connect a protected server endpoint before replacing this flow.
