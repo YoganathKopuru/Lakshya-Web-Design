@@ -7,6 +7,7 @@ export function EnquiryForm() {
   const [service, setService] = useState('');
   const [draft, setDraft] = useState<Draft | null>(null);
   const [copyStatus, setCopyStatus] = useState('');
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const fallback = useRef<HTMLTextAreaElement>(null);
   useEffect(() => {
     const selected = new URLSearchParams(window.location.search).get('service');
@@ -20,12 +21,18 @@ export function EnquiryForm() {
       field instanceof HTMLTextAreaElement
     )
       field.setCustomValidity('');
+    if (
+      field instanceof HTMLInputElement ||
+      field instanceof HTMLTextAreaElement
+    )
+      setErrors((previous) => ({ ...previous, [field.name]: '' }));
     setDraft(null);
     setCopyStatus('');
   }
   function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
+    const validationErrors: Record<string, string> = {};
     for (const name of ['name', 'company', 'message']) {
       const field = form.elements.namedItem(name) as
         HTMLInputElement | HTMLTextAreaElement;
@@ -37,6 +44,13 @@ export function EnquiryForm() {
           : '',
       );
     }
+    for (const name of ['name', 'company', 'message']) {
+      const field = form.elements.namedItem(name) as
+        HTMLInputElement | HTMLTextAreaElement;
+      if (field.validationMessage)
+        validationErrors[name] = field.validationMessage;
+    }
+    setErrors(validationErrors);
     if (!form.reportValidity()) return;
     const data = new FormData(form);
     const value = (name: string) => String(data.get(name) || '').trim();
@@ -77,11 +91,18 @@ export function EnquiryForm() {
           Your name *
           <input
             name="name"
+            aria-invalid={Boolean(errors.name)}
+            aria-describedby={errors.name ? 'error-name' : undefined}
             required
             autoComplete="name"
             maxLength={100}
             placeholder="Full name"
           />
+          {errors.name && (
+            <span className="field-error" id="error-name">
+              {errors.name}
+            </span>
+          )}
         </label>
         <label className="field">
           Work email *
@@ -98,11 +119,18 @@ export function EnquiryForm() {
           Company *
           <input
             name="company"
+            aria-invalid={Boolean(errors.company)}
+            aria-describedby={errors.company ? 'error-company' : undefined}
             required
             autoComplete="organization"
             maxLength={150}
             placeholder="Company name"
           />
+          {errors.company && (
+            <span className="field-error" id="error-company">
+              {errors.company}
+            </span>
+          )}
         </label>
         <label className="field">
           Phone (optional)
@@ -133,11 +161,18 @@ export function EnquiryForm() {
           Your project or challenge *
           <textarea
             name="message"
+            aria-invalid={Boolean(errors.message)}
+            aria-describedby={errors.message ? 'error-message' : undefined}
             required
             minLength={10}
             maxLength={4000}
             placeholder="What would you like to build, improve or explore?"
           />
+          {errors.message && (
+            <span className="field-error" id="error-message">
+              {errors.message}
+            </span>
+          )}
         </label>
       </div>
       <p className="form-note">

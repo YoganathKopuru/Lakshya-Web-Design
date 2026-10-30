@@ -2068,3 +2068,9 @@ textarea:focus-visible {
     grid-column: auto;
   }
 }
+
+.field-error {
+  color: #a02424;
+  font-size: 13px;
+  line-height: 1.5;
+}

@@ -16,6 +16,9 @@ test('draft edits invalidate stale email and trim whitespace', async ({
   await expect(
     page.getByRole('link', { name: 'Open email draft' }),
   ).toHaveCount(0);
+  await expect(
+    page.getByText('Please enter your name.', { exact: true }),
+  ).toBeVisible();
   await page.getByLabel('Your name *').fill(' QA Person ');
   await page.getByRole('button', { name: 'Prepare enquiry' }).click();
   await expect(page.getByLabel('Your prepared enquiry')).toHaveValue(
