@@ -25,6 +25,10 @@ Delivery Experience cards have individual hover/focus animations and link to anc
 
 All eight service hero panels use `ServiceExperience`, with distinct diagrams, four selectable stages, contextual explanations and finite Play/Pause/Reset controls. Playback starts only on request, pauses outside the viewport and stops when the tab is hidden. These are illustrative concepts, not live systems or measured company results. Content is maintained in `src/data/service-experiences.ts`.
 
+The playback invitation is a prominent mint action with progress indicators. The homepage AI illustration rotates automatically and has Pause/Resume controls, viewport pausing and reduced-motion support. The closing contact invitation offers three service-specific enquiry links that preselect the existing contact form.
+
+`EmployeeVoices` near the homepage footer displays a dated Glassdoor rating snapshot and three short, linked positive employee-review excerpts. Values are maintained in `src/data/employee-voices.ts`; source provenance and the direct-access limitation are recorded in `design/glassdoor-source-notes.md`. This is manually maintained content, not a live Glassdoor feed.
+
 ## Integration boundaries
 
 - Contact form validates fields and prepares an explicit mailto draft. It does not send, store or claim receipt of an enquiry. Connect a protected server endpoint before replacing this flow.
