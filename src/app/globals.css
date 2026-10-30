@@ -7,3 +7,12 @@
 @media(max-width:600px){.hero h1{font-size:46px;letter-spacing:-2.5px}}
 @media(max-width:359px){.hero h1{font-size:40px;letter-spacing:-2px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+
+/* Readable secondary copy and enquiry actions. */
+.form-note,.form-status p,.content-note,.footer-bottom{font-size:12px;line-height:1.8}
+.field{font-size:13px}.field input,.field textarea,.field select{font-size:16px;min-width:0}
+.draft-actions{display:flex;flex-wrap:wrap;gap:12px;margin:18px 0}
+.form-status .field{margin:18px 0}.form-status textarea{width:100%;resize:vertical;min-height:220px}
+.footer-grid p,.footer-grid>div>a:not(.footer-wordmark){font-size:13px}
+.breadcrumb,.tag,.related-link{font-size:12px}.eyebrow{font-size:11px}
+@media(max-width:600px){.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}}

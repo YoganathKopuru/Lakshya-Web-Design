@@ -15,7 +15,7 @@ export function ServiceExperience({ serviceSlug }: { serviceSlug: string }) {
   const panel = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(([entry])=>setInView(entry.isIntersecting),{threshold:.15});
+    const observer = new IntersectionObserver(([entry])=>{ setInView(entry.isIntersecting); if (!entry.isIntersecting) setPlaying(false); },{threshold:.15});
     if (panel.current) observer.observe(panel.current);
     const pauseWhenHidden = () => { if (document.hidden) setPlaying(false); };
     document.addEventListener('visibilitychange',pauseWhenHidden);
@@ -23,7 +23,7 @@ export function ServiceExperience({ serviceSlug }: { serviceSlug: string }) {
   },[]);
   useEffect(() => {
     if (!playing || !inView) return;
-    const timer = window.setTimeout(() => { if (step < config.steps.length-1) setStep(step+1); else setPlaying(false); },1600);
+    const timer = window.setTimeout(() => { if (step < config.steps.length-1) setStep(step+1); else setPlaying(false); },5000);
     return () => window.clearTimeout(timer);
   },[step,playing,inView,config.steps.length]);
 
