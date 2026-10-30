@@ -1,12 +1,222 @@
-.banner{display:grid;grid-template-columns:1fr 1fr;gap:55px;padding-top:75px;padding-bottom:75px;align-items:center;isolation:isolate;position:relative}
-.copy{position:relative;z-index:1}.copy h2{font-size:38px;line-height:1.2;margin:19px 0}.copy p{font-size:12px;line-height:1.85;margin-bottom:24px}
-.link{display:inline-flex;gap:22px;align-items:center;font-size:12px;font-weight:600}.link>span{display:grid;place-items:center;border:1px solid #b6ccc1;border-radius:50%;width:34px;height:34px;overflow:hidden;transition:background .3s,color .3s,border-color .3s}
-.link:hover>span,.link:focus-visible>span{background:#0a776a;color:white;border-color:#0a776a}.link:hover svg,.link:focus-visible svg{animation:arrow .55s both}
-.art{position:relative;min-width:0;color:#0b5269}.art>svg{width:100%;height:auto;display:block;position:relative;z-index:1;overflow:visible}.art text{fill:currentColor;font-size:11px;font-weight:500;font-family:monospace}.art text[fill=white]{fill:white}.art .stepLabel{font-size:8px;letter-spacing:1.7px;fill:#627a73}
-.glow{position:absolute;inset:0 0 -25px;background:radial-gradient(ellipse at 60% 55%,#d5ecdf80,transparent 70%);filter:blur(12px);opacity:.7;transition:opacity .5s,transform .8s}.caption{display:block;text-align:right;font-family:monospace;font-size:8px;letter-spacing:2px;color:#8aa197;margin-top:23px}
-.route{stroke-dasharray:1;stroke-dashoffset:.8;opacity:.45;transition:stroke-dashoffset 1.3s cubic-bezier(.22,1,.36,1),opacity .4s}.banner:hover .route,.banner:focus-within .route{stroke-dashoffset:0;opacity:1}.banner:hover .glow,.banner:focus-within .glow{opacity:1;transform:scale(1.05)}
-.step1,.step2,.step3,.launch{transform-box:fill-box;transform-origin:center;transition:transform .55s cubic-bezier(.22,1,.36,1)}.step2{transition-delay:.1s}.step3{transition-delay:.2s}.banner:hover .step1,.banner:focus-within .step1,.banner:hover .step2,.banner:focus-within .step2,.banner:hover .step3,.banner:focus-within .step3{transform:translateY(-5px)}.banner:hover .launch,.banner:focus-within .launch{transform:translate(8px,-8px);transition-delay:.35s}
-@keyframes arrow{45%{transform:translate(13px,-13px);opacity:0}46%{transform:translate(-13px,13px);opacity:0}100%{transform:none;opacity:1}}
-@media(max-width:850px){.banner{gap:25px;padding-top:60px;padding-bottom:60px}.copy h2{font-size:32px}.caption{font-size:7px}.copy p{font-size:11px}}
-@media(max-width:600px){.banner{grid-template-columns:1fr;gap:35px;padding-top:52px;padding-bottom:55px}.copy h2{font-size:34px}.copy p{font-size:12px}.art{max-width:420px;width:100%;margin:auto}.caption{font-size:7px;margin-top:10px}.route{stroke-dashoffset:0;opacity:.85}}
-@media(prefers-reduced-motion:reduce){.banner *{animation:none!important;transition:none!important}.route{stroke-dashoffset:0;opacity:1}.banner:hover .step1,.banner:hover .step2,.banner:hover .step3,.banner:hover .launch,.banner:focus-within .step1,.banner:focus-within .step2,.banner:focus-within .step3,.banner:focus-within .launch{transform:none}}
+.banner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 55px;
+  padding-top: 75px;
+  padding-bottom: 75px;
+  align-items: center;
+  isolation: isolate;
+  position: relative;
+}
+.copy {
+  position: relative;
+  z-index: 1;
+}
+.copy h2 {
+  font-size: 38px;
+  line-height: 1.2;
+  margin: 19px 0;
+}
+.copy p {
+  font-size: 12px;
+  line-height: 1.85;
+  margin-bottom: 24px;
+}
+.link {
+  display: inline-flex;
+  gap: 22px;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 600;
+}
+.link > span {
+  display: grid;
+  place-items: center;
+  border: 1px solid #b6ccc1;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  overflow: hidden;
+  transition:
+    background 0.3s,
+    color 0.3s,
+    border-color 0.3s;
+}
+.link:hover > span,
+.link:focus-visible > span {
+  background: #0a776a;
+  color: white;
+  border-color: #0a776a;
+}
+.link:hover svg,
+.link:focus-visible svg {
+  animation: arrow 0.55s both;
+}
+.art {
+  position: relative;
+  min-width: 0;
+  color: #0b5269;
+}
+.art > svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  position: relative;
+  z-index: 1;
+  overflow: visible;
+}
+.art text {
+  fill: currentColor;
+  font-size: 11px;
+  font-weight: 500;
+  font-family: monospace;
+}
+.art text[fill='white'] {
+  fill: white;
+}
+.art .stepLabel {
+  font-size: 8px;
+  letter-spacing: 1.7px;
+  fill: #627a73;
+}
+.glow {
+  position: absolute;
+  inset: 0 0 -25px;
+  background: radial-gradient(ellipse at 60% 55%, #d5ecdf80, transparent 70%);
+  filter: blur(12px);
+  opacity: 0.7;
+  transition:
+    opacity 0.5s,
+    transform 0.8s;
+}
+.caption {
+  display: block;
+  text-align: right;
+  font-family: monospace;
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: #8aa197;
+  margin-top: 23px;
+}
+.route {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0.8;
+  opacity: 0.45;
+  transition:
+    stroke-dashoffset 1.3s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.4s;
+}
+.banner:hover .route,
+.banner:focus-within .route {
+  stroke-dashoffset: 0;
+  opacity: 1;
+}
+.banner:hover .glow,
+.banner:focus-within .glow {
+  opacity: 1;
+  transform: scale(1.05);
+}
+.step1,
+.step2,
+.step3,
+.launch {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.step2 {
+  transition-delay: 0.1s;
+}
+.step3 {
+  transition-delay: 0.2s;
+}
+.banner:hover .step1,
+.banner:focus-within .step1,
+.banner:hover .step2,
+.banner:focus-within .step2,
+.banner:hover .step3,
+.banner:focus-within .step3 {
+  transform: translateY(-5px);
+}
+.banner:hover .launch,
+.banner:focus-within .launch {
+  transform: translate(8px, -8px);
+  transition-delay: 0.35s;
+}
+@keyframes arrow {
+  45% {
+    transform: translate(13px, -13px);
+    opacity: 0;
+  }
+  46% {
+    transform: translate(-13px, 13px);
+    opacity: 0;
+  }
+  100% {
+    transform: none;
+    opacity: 1;
+  }
+}
+@media (max-width: 850px) {
+  .banner {
+    gap: 25px;
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+  .copy h2 {
+    font-size: 32px;
+  }
+  .caption {
+    font-size: 7px;
+  }
+  .copy p {
+    font-size: 11px;
+  }
+}
+@media (max-width: 600px) {
+  .banner {
+    grid-template-columns: 1fr;
+    gap: 35px;
+    padding-top: 52px;
+    padding-bottom: 55px;
+  }
+  .copy h2 {
+    font-size: 34px;
+  }
+  .copy p {
+    font-size: 12px;
+  }
+  .art {
+    max-width: 420px;
+    width: 100%;
+    margin: auto;
+  }
+  .caption {
+    font-size: 7px;
+    margin-top: 10px;
+  }
+  .route {
+    stroke-dashoffset: 0;
+    opacity: 0.85;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .banner * {
+    animation: none !important;
+    transition: none !important;
+  }
+  .route {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  .banner:hover .step1,
+  .banner:hover .step2,
+  .banner:hover .step3,
+  .banner:hover .launch,
+  .banner:focus-within .step1,
+  .banner:focus-within .step2,
+  .banner:focus-within .step3,
+  .banner:focus-within .launch {
+    transform: none;
+  }
+}

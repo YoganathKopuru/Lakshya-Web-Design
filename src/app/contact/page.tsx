@@ -1,6 +1,84 @@
+import { pageMetadata } from '@/lib/site-metadata';
 import type { Metadata } from 'next';
 import { ArrowUpRight, MapPin } from 'lucide-react';
 import { office } from '@/data/content';
 import { EnquiryForm } from '@/components/enquiry-form';
-export const metadata: Metadata={title:'Contact us',description:'Talk to Lakshya Software Technologies. Visit our current office at RENT A DESK – Mind Space, Madhapur, Hyderabad.'};
-export default function Contact(){return <main id="main"><section className="page-hero wrap"><span className="eyebrow">LET’S CONNECT</span><h1>Good things start<br/><span className="muted">with a conversation.</span></h1><p>An idea to explore, a system to improve, or a team to build. We’d like to hear about it.</p></section><section className="section wrap"><div className="contact-layout"><div className="contact-details"><span className="eyebrow">TALK TO OUR TEAM</span><h2>What’s your next move?</h2><div><h3>Business enquiries</h3><p>Tell us about your technology or delivery needs.</p><a className="text-link" href="mailto:contact@lakshya-soft.com">contact@lakshya-soft.com <ArrowUpRight size={16}/></a></div><div><h3>Careers & recruitment</h3><p>Explore opportunities or get in touch with HR.</p><a className="text-link" href="mailto:hr@lakshya-soft.com">hr@lakshya-soft.com <ArrowUpRight size={16}/></a></div><div><h3>{office.name}, India</h3><p>{office.building}<br/>{office.address}</p><a className="text-link" href={office.maps} target="_blank" rel="noreferrer">Open in Google Maps <ArrowUpRight size={16}/></a></div></div><EnquiryForm/></div><div className="map-panel"><MapPin strokeWidth={1.2}/><div><h3>Find us in Madhapur.</h3><p>{office.building} · Hyderabad, Telangana</p></div><a className="button button-dark" href={office.maps} target="_blank" rel="noreferrer">Get directions <ArrowUpRight size={16}/></a></div></section></main>;}
+
+export default function Contact() {
+  return (
+    <main id="main">
+      <section className="page-hero wrap">
+        <span className="eyebrow">LET’S CONNECT</span>
+        <h1>
+          Good things start
+          <br />
+          <span className="muted">with a conversation.</span>
+        </h1>
+        <p>
+          An idea to explore, a system to improve, or a team to build. We’d like
+          to hear about it.
+        </p>
+      </section>
+      <section className="section wrap">
+        <div className="contact-layout">
+          <div className="contact-details">
+            <span className="eyebrow">TALK TO OUR TEAM</span>
+            <h2>What’s your next move?</h2>
+            <div>
+              <h3>Business enquiries</h3>
+              <p>Tell us about your technology or delivery needs.</p>
+              <a className="text-link" href="mailto:contact@lakshya-soft.com">
+                contact@lakshya-soft.com <ArrowUpRight size={16} />
+              </a>
+            </div>
+            <div>
+              <h3>Careers & recruitment</h3>
+              <p>Explore opportunities or get in touch with HR.</p>
+              <a className="text-link" href="mailto:hr@lakshya-soft.com">
+                hr@lakshya-soft.com <ArrowUpRight size={16} />
+              </a>
+            </div>
+            <div>
+              <h3>{office.name}, India</h3>
+              <p>
+                {office.building}
+                <br />
+                {office.address}
+              </p>
+              <a
+                className="text-link"
+                href={office.maps}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Open in Google Maps <ArrowUpRight size={16} />
+              </a>
+            </div>
+          </div>
+          <EnquiryForm />
+        </div>
+        <div className="map-panel">
+          <MapPin strokeWidth={1.2} />
+          <div>
+            <h3>Find us in Madhapur.</h3>
+            <p>{office.building} · Hyderabad, Telangana</p>
+          </div>
+          <a
+            className="button button-dark"
+            href={office.maps}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Get directions <ArrowUpRight size={16} />
+          </a>
+        </div>
+      </section>
+    </main>
+  );
+}
+
+export const metadata = pageMetadata(
+  'Contact us',
+  'Discuss your project with Lakshya Software Technologies or find our Hyderabad office and business enquiry details.',
+  '/contact/',
+);

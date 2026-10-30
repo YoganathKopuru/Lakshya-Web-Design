@@ -2,7 +2,7 @@
 
 ## Local setup
 
-Use Node.js 22+ and pnpm 9+. Run `pnpm install --frozen-lockfile` after cloning, then `pnpm dev` to work locally.
+Use Node.js 24.22.1 and pnpm 11.25.0. Run `pnpm install --frozen-lockfile` after cloning, then `pnpm dev` to work locally.
 
 ## Changes
 
