@@ -1,44 +1,52 @@
-# Lakshya frontend
+# Lakshya Software Technologies — Website
 
-Responsive Next.js / React / TypeScript frontend, using the current Lakshya logo and the indigo-to-teal palette from the redesign feedback.
+Responsive company website built with Next.js 15, React 19 and TypeScript. The project is configured for static export and deployment through OpenAI Sites.
 
-## Run
+## Start on another laptop
 
-Use Node.js 22+ and pnpm:
+Install **Node.js 22 or newer** and **pnpm 9 or newer**, then clone and run:
 
-```
-pnpm install
+```sh
+git clone https://github.com/YoganathKopuru/Lakshya-Web-Design.git
+cd Lakshya-Web-Design
+pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-`pnpm build` creates a static website in `out/`. `pnpm typecheck` checks TypeScript.
+Open the local address printed by Next.js (normally `http://127.0.0.1:3000`). The project has no required `.env` values. Google Fonts are optional; system font fallbacks are included.
 
-## Content
+## Common commands
 
-Service definitions, project areas and the current office are in `src/data/content.ts`. Service detail routes are generated from this data. The logo is downloaded from the existing official website's `/assets/imgs/lst.png`.
+| Command | Purpose |
+| --- | --- |
+| `pnpm dev` | Start the local development server |
+| `pnpm typecheck` | Check TypeScript types |
+| `pnpm build` | Create and export the production site to `out/` |
 
-Implemented routes: homepage, service index, eight service details, Work, Industries, Company, Careers, Contact and 404. Navigation is responsive with a keyboard-dismissable services menu.
+## Project layout
 
-The homepage Expertise section uses `ServicePlacards`: the Google Sites reference's Architectural Sweep design, logo-spectrum column accents, eight animated concept diagrams, focus/hover reveals and animated Explore arrows. Touch layouts and reduced-motion preferences reveal the content without looping animations. The separate Services index keeps its compact grid.
+```text
+src/app/             Routes and page composition
+src/components/      Shared sections, navigation and interactive visuals
+src/data/            Service, office, experience and review content
+public/               Images, logo and static assets
+design/               Design and source research notes
+.openai/hosting.json  Sites project and static output configuration
+```
 
-Delivery Experience cards have individual hover/focus animations and link to anchored project areas on Work. The Careers invitation draws an ascending career path on hover/focus. Both honor reduced-motion preferences.
+Content changes belong in `src/data/` where possible. The eight service pages share data-driven layouts; reusable visuals and page sections live in `src/components/`.
 
-All eight service hero panels use `ServiceExperience`, with distinct diagrams, four selectable stages, contextual explanations and finite Play/Pause/Reset controls. Playback starts only on request, pauses outside the viewport and stops when the tab is hidden. These are illustrative concepts, not live systems or measured company results. Content is maintained in `src/data/service-experiences.ts`.
+## Collaboration
 
-The playback invitation is a prominent mint action with progress indicators. The homepage AI illustration rotates automatically and has Pause/Resume controls, viewport pausing and reduced-motion support. The closing contact invitation offers three service-specific enquiry links that preselect the existing contact form.
+Use short, descriptive commits on `main` for direct work. Keep generated output, dependencies, local environment files and TypeScript build state out of Git (see `.gitignore`). Before pushing a change, run `pnpm typecheck` and `pnpm build`, then review `git status`.
 
-`EmployeeVoices` near the homepage footer displays a dated Glassdoor rating snapshot and three short, linked positive employee-review excerpts. Values are maintained in `src/data/employee-voices.ts`; source provenance and the direct-access limitation are recorded in `design/glassdoor-source-notes.md`. This is manually maintained content, not a live Glassdoor feed.
+To contribute from a second machine, sign into GitHub with an account that has write access to this repository, clone it, and push your branch. Open a pull request when changes need review.
 
-## Integration boundaries
+## Site details
 
-- Contact form validates fields and prepares an explicit mailto draft. It does not send, store or claim receipt of an enquiry. Connect a protected server endpoint before replacing this flow.
-- Careers does not invent vacancies or imply that none exist. It offers the confirmed HR mailbox. ATS source: `https://ats.project2026.dpdns.org/`. Public jobs endpoint, response schema and protected application flow still need to be supplied before live integration.
-- Project cards describe manager-confirmed delivery areas. Illustrations are decorative, not product screenshots. No client identities, metrics or testimonials are fabricated.
-- New service content is draft copy for review; verify detailed capability scope before public launch.
-- Current office location supplied by the user: `https://maps.app.goo.gl/HRKtQG2ZDugDw7hb6`, resolving to RENT A DESK – Mind Space, coordinates 17.4416029, 78.3825443. Building address cross-checked against public location listings; no unverified office suite or Lakshya telephone number added.
-- Google Fonts are optional; system font fallbacks remain available.
-- CMS, live ATS, server submissions, analytics and final legal content remain separate integration tasks. No tracking is installed in this version.
+- Homepage, eight expertise pages, services index, Work, Industries, Company, Careers and Contact routes.
+- The contact form prepares an email draft for the visitor to review and send. It does not submit data to a server.
+- Employee review excerpts and the Glassdoor rating are a dated, manually maintained snapshot. Provenance is in `design/glassdoor-source-notes.md`.
+- Interactive illustrations are explanatory concepts, not live system data or performance claims.
 
-## Design feedback applied
-
-AI-led IT positioning, software engineering second, eight connected service categories, original logo colors, no Products navigation, confirmed enquiry / HR mailbox destinations, and current office directions. Leadership content, client logos, partner badges and unsupported performance claims are excluded until approved assets are available.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the day-to-day workflow and review checklist.
