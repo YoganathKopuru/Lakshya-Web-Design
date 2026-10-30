@@ -3,9 +3,9 @@ test('draft edits invalidate stale email and trim whitespace', async ({
   page,
 }) => {
   await page.goto('/contact/?service=software-engineering');
-  await expect(page.getByLabel('I�m interested in')).toHaveValue(
-    'software-engineering',
-  );
+  await expect(
+    page.getByRole('combobox', { name: /interested in/ }),
+  ).toHaveValue('software-engineering');
   await page.getByLabel('Your name *').fill('   ');
   await page.getByLabel('Work email *').fill('qa@example.com');
   await page.getByLabel('Company *').fill('QA Company');
@@ -34,7 +34,9 @@ test('draft edits invalidate stale email and trim whitespace', async ({
   await expect(page.getByLabel('Your prepared enquiry')).toHaveValue(
     /An updated enquiry message/,
   );
-  await page.getByLabel('I�m interested in').selectOption('ai-data');
+  await page
+    .getByRole('combobox', { name: /interested in/ })
+    .selectOption('ai-data');
   await expect(
     page.getByRole('link', { name: 'Open email draft' }),
   ).toHaveCount(0);
