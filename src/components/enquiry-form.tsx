@@ -11,7 +11,10 @@ export function EnquiryForm() {
   const fallback = useRef<HTMLTextAreaElement>(null);
   useEffect(() => {
     const selected = new URLSearchParams(window.location.search).get('service');
-    if (selected && services.some((s) => s.slug === selected))
+    if (
+      selected &&
+      (selected === 'other' || services.some((s) => s.slug === selected))
+    )
       setService(selected);
   }, []);
   function invalidate(event: React.FormEvent<HTMLFormElement>) {
@@ -55,7 +58,9 @@ export function EnquiryForm() {
     const data = new FormData(form);
     const value = (name: string) => String(data.get(name) || '').trim();
     const label =
-      services.find((s) => s.slug === service)?.name || 'General enquiry';
+      service === 'other'
+        ? 'Other'
+        : services.find((s) => s.slug === service)?.name || 'General enquiry';
     const subject = `Website enquiry | ${label}`;
     const body = `Name: ${value('name')}\nEmail: ${value('email')}\nCompany: ${value('company')}\nPhone: ${value('phone') || 'Not provided'}\nService: ${label}\n\n${value('message')}`;
     setDraft({
@@ -155,6 +160,7 @@ export function EnquiryForm() {
                 {s.name}
               </option>
             ))}
+            <option value="other">Other</option>
           </select>
         </label>
         <label className="field full">

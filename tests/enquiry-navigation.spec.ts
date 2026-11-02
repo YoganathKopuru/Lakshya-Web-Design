@@ -1,4 +1,29 @@
 import { test, expect } from '@playwright/test';
+test('Other is preserved in prepared enquiries and query preselection', async ({
+  page,
+}) => {
+  await page.goto('/contact/?service=other');
+  const services = page.getByRole('combobox', { name: /interested in/ });
+  await expect(services).toHaveValue('other');
+  await expect(services.locator('option[value="other"]')).toHaveText('Other');
+  await page.getByLabel('Your name *').fill('QA Person');
+  await page.getByLabel('Work email *').fill('qa@example.com');
+  await page.getByLabel('Company *').fill('QA Company');
+  await page
+    .getByLabel('Your project or challenge *')
+    .fill('An enquiry outside the listed service categories.');
+  await page.getByRole('button', { name: 'Prepare enquiry' }).click();
+  await expect(page.getByLabel('Your prepared enquiry')).toHaveValue(
+    /Subject: Website enquiry \| Other[\s\S]*Service: Other/,
+  );
+  await expect(
+    page.getByRole('link', { name: 'Open email draft' }),
+  ).toHaveAttribute('href', /Service%3A%20Other/);
+  await services.selectOption('ai-data');
+  await expect(
+    page.getByRole('link', { name: 'Open email draft' }),
+  ).toHaveCount(0);
+});
 test('draft edits invalidate stale email and trim whitespace', async ({
   page,
 }) => {
