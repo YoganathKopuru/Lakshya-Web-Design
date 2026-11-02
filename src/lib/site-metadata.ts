@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 export const siteUrl = new URL(
   process.env.SITE_URL ||
-    'https://lakshya-technology-preview.loyalkite22.chatgpt.site',
+    'https://lakshya-technology-preview.yoganathkopur.chatgpt.site',
 );
 export const allowIndexing = process.env.SITE_INDEXABLE === 'true';
 if (
