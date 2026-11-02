@@ -1,11 +1,26 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
-import { Pause, Play } from 'lucide-react';
+import { useEffect, useId, useRef, useState } from 'react';
 import styles from './ai-orbit.module.css';
 
+// The rail and its moving signal use the exact same SVG path and coordinate system.
+const orbits = [
+  {
+    path: 'M 438 210 A 188 94 0 1 1 62 210 A 188 94 0 1 1 438 210',
+    angle: -28,
+    duration: '18s',
+    start: 'translate(438 210)',
+  },
+  {
+    path: 'M 76 210 A 174 88 0 1 0 424 210 A 174 88 0 1 0 76 210',
+    angle: 62,
+    duration: '24s',
+    start: 'translate(76 210)',
+  },
+];
+
 export function AiOrbit() {
-  const [paused, setPaused] = useState(false);
-  const [reduced, setReduced] = useState(false);
+  const gradientId = `orbit-${useId().replace(/:/g, '')}`;
+  const [reduced, setReduced] = useState(true);
   const [visible, setVisible] = useState(false);
   const root = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -23,82 +38,86 @@ export function AiOrbit() {
       observer.disconnect();
     };
   }, []);
+  const moving = visible && !reduced;
   return (
     <div
       ref={root}
       className={styles.art}
-      data-paused={paused || reduced || !visible}
+      data-motion={moving ? 'running' : 'resting'}
     >
       <div
         className={styles.scene}
         role="img"
-        aria-label="Rotating orbital lines connect your knowledge, workflows and people around an AI core."
+        aria-label="Signals orbit an AI core, connecting your knowledge, workflows and people."
       >
         <div className={styles.glow} aria-hidden="true" />
         <svg viewBox="0 0 500 420" fill="none" aria-hidden="true">
           <defs>
             <linearGradient
-              id="ai-orbit-stroke"
-              x1="70"
+              id={gradientId}
+              x1="65"
               y1="100"
-              x2="420"
-              y2="340"
+              x2="440"
+              y2="320"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stopColor="#6f8ab7" />
-              <stop offset=".55" stopColor="#71bba7" />
-              <stop offset="1" stopColor="#c9efdb" />
+              <stop stopColor="#5477a2" />
+              <stop offset=".55" stopColor="#74bcae" />
+              <stop offset="1" stopColor="#bee9d2" />
             </linearGradient>
           </defs>
-          <g className={styles.ringOne}>
-            <g transform="rotate(-28 250 210)">
-              <ellipse
-                cx="250"
-                cy="210"
-                rx="192"
-                ry="91"
-                className={styles.rail}
-              />
-              <ellipse
-                cx="250"
-                cy="210"
-                rx="192"
-                ry="91"
-                className={styles.tracer}
-              />
-              <circle cx="442" cy="210" r="4" className={styles.satellite} />
-            </g>
-          </g>
-          <g className={styles.ringTwo}>
-            <g transform="rotate(63 250 210)">
-              <ellipse
-                cx="250"
-                cy="210"
-                rx="180"
-                ry="83"
-                className={styles.rail}
-              />
-              <ellipse
-                cx="250"
-                cy="210"
-                rx="180"
-                ry="83"
-                className={styles.tracer}
-              />
-              <circle cx="70" cy="210" r="3" className={styles.satellite} />
-            </g>
-          </g>
           <circle
             cx="250"
             cy="210"
-            r="120"
-            stroke="#93cdb518"
+            r="145"
+            stroke="#93cdb521"
             strokeDasharray="2 10"
           />
+          {orbits.map((orbit, index) => (
+            <g
+              key={orbit.path}
+              transform={`rotate(${orbit.angle} 250 210)`}
+              data-orbit={index}
+            >
+              <path
+                d={orbit.path}
+                stroke={`url(#${gradientId})`}
+                className={styles.rail}
+                data-orbit-path=""
+              />
+              <g
+                className={styles.signal}
+                transform={moving ? undefined : orbit.start}
+                data-orbit-signal=""
+              >
+                <circle r="10" fill="#9ce3c4" opacity=".09" />
+                <circle r="6" fill="#a8e8ca" opacity=".2" />
+                <circle r="3.5" fill="#def9e8" />
+                {moving && (
+                  <animateMotion
+                    path={orbit.path}
+                    dur={orbit.duration}
+                    repeatCount="indefinite"
+                    calcMode="paced"
+                  />
+                )}
+              </g>
+            </g>
+          ))}
+          <g className={styles.core}>
+            <path
+              d="M250 125 335 210 250 295 165 210Z"
+              fill="#173e49"
+              stroke="#76b9aa"
+              strokeWidth="1"
+            />
+            <path d="M250 138 322 210 250 282 178 210Z" stroke="#b7e8ce30" />
+            <path d="M250 151 309 210 250 269 191 210Z" stroke="#b7e8ce20" />
+            <text x="250" y="214" textAnchor="middle" dominantBaseline="middle">
+              AI
+            </text>
+          </g>
         </svg>
-        <div className={styles.core} aria-hidden="true">
-          <span>AI</span>
-        </div>
         <span
           className={`${styles.label} ${styles.knowledge}`}
           aria-hidden="true"
@@ -118,23 +137,6 @@ export function AiOrbit() {
           YOUR PEOPLE
         </span>
       </div>
-      <button
-        type="button"
-        className={styles.motionButton}
-        disabled={reduced}
-        onClick={() => setPaused(!paused)}
-        aria-pressed={paused || reduced}
-        aria-label={
-          reduced
-            ? 'Orbital motion disabled by reduced-motion preference'
-            : paused
-              ? 'Resume orbital motion'
-              : 'Pause orbital motion'
-        }
-      >
-        {paused || reduced ? <Play size={11} /> : <Pause size={11} />}{' '}
-        {reduced ? 'Motion reduced' : paused ? 'Resume motion' : 'Pause motion'}
-      </button>
     </div>
   );
 }
