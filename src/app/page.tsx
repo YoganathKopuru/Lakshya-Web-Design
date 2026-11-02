@@ -8,6 +8,7 @@ import { DeliveryExperience } from '@/components/delivery-experience';
 import { CareersInvitation } from '@/components/careers-invitation';
 import { AiOrbit } from '@/components/ai-orbit';
 import { EmployeeVoices } from '@/components/employee-voices';
+import { CapabilityMarquee } from '@/components/capability-marquee';
 
 export default function Home() {
   return (
@@ -45,19 +46,7 @@ export default function Home() {
         </div>
         <HeroVisual />
       </section>
-      <div className="capability-strip">
-        <div className="wrap">
-          <span>INTELLIGENT BY DESIGN</span>
-          <i />
-          AI & Data
-          <i />
-          Software Engineering
-          <i />
-          Enterprise Platforms
-          <i />
-          Cloud & Beyond
-        </div>
-      </div>
+      <CapabilityMarquee />
       <section className="section wrap" id="expertise">
         <div className="section-head">
           <div>
