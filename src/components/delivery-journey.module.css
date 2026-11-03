@@ -8,7 +8,7 @@
   display: flex;
   justify-content: space-between;
   gap: 48px;
-  align-items: end;
+  align-items: flex-end;
 }
 .heading h2 {
   font-size: clamp(36px, 4vw, 56px);
@@ -43,7 +43,28 @@
   gap: 14px;
   margin: 48px 0 0;
   padding: 0;
-  counter-reset: stage;
+  position: relative;
+  isolation: isolate;
+}
+.stages::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: -35px -45px;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse at 25% 40%,
+      rgba(75, 211, 185, 0.22),
+      transparent 40%
+    ),
+    radial-gradient(
+      ellipse at 75% 60%,
+      rgba(67, 125, 210, 0.2),
+      transparent 42%
+    );
+  filter: blur(18px);
+  animation: journey-glow 9s ease-in-out infinite alternate;
 }
 .stages li {
   position: relative;
@@ -58,6 +79,8 @@
   transform: translateY(-50%);
 }
 .card {
+  position: relative;
+  overflow: hidden;
   height: 100%;
   min-height: 160px;
   padding: 22px;
@@ -66,11 +89,53 @@
   border-radius: 5px;
   transition:
     transform 0.25s,
-    border-color 0.25s;
+    border-color 0.25s,
+    box-shadow 0.25s,
+    background 0.25s;
 }
-.card:hover {
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 20% 0%,
+    rgba(156, 242, 211, 0.22),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.card:hover,
+.card:focus-visible,
+.card:focus {
   transform: translateY(-5px);
   border-color: #a5e3cb;
+  box-shadow: 0 12px 35px rgba(30, 192, 166, 0.16);
+  outline: none;
+}
+.card:hover::before,
+.card:focus::before {
+  opacity: 1;
+}
+.card:hover .icon,
+.card:focus .icon {
+  background: #b5e5d4;
+  color: #103535;
+}
+.card:focus-visible {
+  outline: 2px solid #b5e5d4;
+  outline-offset: 3px;
+}
+@keyframes journey-glow {
+  from {
+    transform: translateX(-4%) scale(0.95);
+    opacity: 0.55;
+  }
+  to {
+    transform: translateX(4%) scale(1.05);
+    opacity: 1;
+  }
 }
 .top {
   display: flex;
@@ -85,6 +150,9 @@
   border: 1px solid #4b7d79;
   border-radius: 50%;
   color: #afe8d1;
+  transition:
+    background 0.25s,
+    color 0.25s;
 }
 .number {
   font-size: 10px;
@@ -140,16 +208,6 @@
   color: #b7c9cc;
   margin-top: 6px;
 }
-.source {
-  font-size: 11px;
-  line-height: 1.5;
-  color: #a9bdc4;
-  margin: 28px 0 0;
-}
-.source a {
-  text-decoration: underline;
-  color: #c3e9dc;
-}
 @media (max-width: 850px) {
   .stages {
     grid-template-columns: repeat(2, 1fr);
@@ -196,7 +254,12 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .card {
+  .card,
+  .card::before,
+  .icon {
     transition: none;
+  }
+  .stages::before {
+    animation: none;
   }
 }

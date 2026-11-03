@@ -52,7 +52,7 @@ export function DeliveryJourney() {
         <ol className={styles.stages}>
           {stages.map(({ name, detail, Icon }, i) => (
             <li key={name}>
-              <div className={styles.card}>
+              <div className={styles.card} tabIndex={0}>
                 <div className={styles.top}>
                   <span className={styles.icon}>
                     <Icon size={21} strokeWidth={1.5} />
@@ -79,14 +79,6 @@ export function DeliveryJourney() {
             ))}
           </div>
         </div>
-        <p className={styles.source}>
-          Figures as listed on{' '}
-          <a href="https://www.lakshya-soft.com/#/carrers">
-            Lakshya’s original website
-          </a>
-          , accessed November 2026. They are a historical snapshot and have not
-          been independently verified.
-        </p>
       </div>
     </section>
   );
