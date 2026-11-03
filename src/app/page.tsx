@@ -1,6 +1,6 @@
 import { pageMetadata } from '@/lib/site-metadata';
 import Link from 'next/link';
-import { ArrowRight, ArrowUpRight, MoveDown } from 'lucide-react';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { HeroVisual } from '@/components/hero-visual';
 import { ServicePlacards } from '@/components/service-placards';
 import { ContactBand } from '@/components/chrome';
@@ -10,6 +10,7 @@ import { AiOrbit } from '@/components/ai-orbit';
 import { EmployeeVoices } from '@/components/employee-voices';
 import { CapabilityMarquee } from '@/components/capability-marquee';
 import { ClientShowcase } from '@/components/client-showcase';
+import { DeliveryJourney } from '@/components/delivery-journey';
 
 export default function Home() {
   return (
@@ -93,55 +94,7 @@ export default function Home() {
       </section>
       <ClientShowcase />
       <DeliveryExperience />
-      <section className="approach-section">
-        <div className="wrap approach-layout">
-          <div>
-            <span className="eyebrow">03 — THE LAKSHYA APPROACH</span>
-            <h2>
-              Built with you.
-              <br />
-              <span className="muted">For what comes next.</span>
-            </h2>
-            <p>
-              Great technology starts with understanding.
-              <br />
-              We connect your priorities with a practical delivery plan.
-            </p>
-            <Link className="text-link" href="/company/">
-              Get to know Lakshya <ArrowUpRight size={18} />
-            </Link>
-          </div>
-          <div className="steps">
-            {[
-              [
-                'Understand',
-                'Start with the problem, the people and the possibilities.',
-              ],
-              [
-                'Shape',
-                'Connect the right technologies with a clear delivery roadmap.',
-              ],
-              [
-                'Build',
-                'Design, engineer and validate with your team in the loop.',
-              ],
-              [
-                'Evolve',
-                'Support adoption and keep improving as your business grows.',
-              ],
-            ].map(([title, text], i) => (
-              <div className="step" key={title}>
-                <span>0{i + 1}</span>
-                <div>
-                  <h3>{title}</h3>
-                  <p>{text}</p>
-                </div>
-                {i < 3 && <MoveDown size={17} />}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <DeliveryJourney />
       <CareersInvitation />
       <EmployeeVoices />
       <ContactBand />
