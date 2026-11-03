@@ -9,6 +9,7 @@ import { CareersInvitation } from '@/components/careers-invitation';
 import { AiOrbit } from '@/components/ai-orbit';
 import { EmployeeVoices } from '@/components/employee-voices';
 import { CapabilityMarquee } from '@/components/capability-marquee';
+import { ClientShowcase } from '@/components/client-showcase';
 
 export default function Home() {
   return (
@@ -90,6 +91,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <ClientShowcase />
       <DeliveryExperience />
       <section className="approach-section">
         <div className="wrap approach-layout">

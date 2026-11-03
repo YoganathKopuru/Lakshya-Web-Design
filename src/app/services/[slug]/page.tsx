@@ -6,6 +6,7 @@ import { ArrowUpRight, ChevronRight } from 'lucide-react';
 import { services } from '@/data/content';
 import { ContactBand } from '@/components/chrome';
 import { ServiceExperience } from '@/components/service-experience';
+import { QualityStandards } from '@/components/quality-standards';
 export function generateStaticParams() {
   return services.map((s) => ({ slug: s.slug }));
 }
@@ -78,6 +79,7 @@ export default async function Service({
           ))}
         </div>
       </section>
+      {s.slug === 'quality-managed-services' && <QualityStandards />}
       <section className="section wrap" style={{ paddingTop: 0 }}>
         <span className="eyebrow">CONNECTED EXPERTISE</span>
         <h2 style={{ marginTop: 16 }}>Explore what’s next.</h2>

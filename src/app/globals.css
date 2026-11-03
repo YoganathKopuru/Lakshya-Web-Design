@@ -2074,3 +2074,92 @@ textarea:focus-visible {
   font-size: 13px;
   line-height: 1.5;
 }
+.why-lakshya {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 70px;
+}
+.why-lakshya h2,
+.standards h2 {
+  margin: 18px 0;
+}
+.why-lakshya > div > p,
+.standards-intro p {
+  color: #60718a;
+  line-height: 1.7;
+  max-width: 440px;
+}
+.why-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.why-cards article,
+.standards-grid article {
+  background: #f0f5f2;
+  border: 1px solid #d6e3dd;
+  padding: 28px;
+  min-height: 210px;
+}
+.why-cards span,
+.standards-number {
+  font-size: 10px;
+  color: #008172;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+}
+.why-cards h3 {
+  margin: 42px 0 12px;
+  font-size: 20px;
+}
+.why-cards p,
+.standards-grid p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #60718a;
+}
+.standards {
+  border-top: 1px solid #d9e1de;
+}
+.standards-intro {
+  max-width: 620px;
+}
+.standards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin: 38px 0 20px;
+}
+.standards-grid h3 {
+  margin: 32px 0 10px;
+  font-size: 21px;
+}
+.standards-grid strong {
+  font-size: 14px;
+}
+.standards .content-note a {
+  text-decoration: underline;
+}
+@media (max-width: 900px) {
+  .why-lakshya {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .standards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  .why-cards,
+  .standards-grid {
+    grid-template-columns: 1fr;
+  }
+  .why-cards article,
+  .standards-grid article {
+    min-height: 0;
+  }
+  .why-cards h3,
+  .standards-grid h3 {
+    margin-top: 22px;
+  }
+}

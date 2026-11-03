@@ -1,0 +1,99 @@
+.section {
+  padding: 96px 0;
+  background: #f0f4ef;
+  overflow: hidden;
+}
+.heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 32px;
+  margin-bottom: 38px;
+}
+.heading h2 {
+  margin: 17px 0 0;
+}
+.heading p {
+  max-width: 310px;
+  color: #647488;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.viewport {
+  overflow: hidden;
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 3%,
+    #000 97%,
+    transparent
+  );
+}
+.track {
+  display: flex;
+  width: max-content;
+  animation: slide 45s linear infinite;
+}
+.group {
+  display: flex;
+  gap: 14px;
+  padding-right: 14px;
+}
+.card {
+  width: 210px;
+  height: 116px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #d9e4e0;
+  border-radius: 4px;
+}
+.card img {
+  max-width: 100%;
+  max-height: 76px;
+  object-fit: contain;
+}
+.wordmark {
+  font-weight: 700;
+  font-size: 23px;
+  color: #182c51;
+  letter-spacing: -0.05em;
+}
+.viewport:hover .track,
+.viewport:focus .track {
+  animation-play-state: paused;
+}
+@keyframes slide {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (max-width: 700px) {
+  .section {
+    padding: 65px 0;
+  }
+  .heading {
+    display: block;
+  }
+  .heading p {
+    margin-top: 16px;
+  }
+  .card {
+    width: 170px;
+    height: 100px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .viewport {
+    overflow-x: auto;
+    mask-image: none;
+  }
+  .track {
+    animation: none;
+  }
+  .group:nth-child(2) {
+    display: none;
+  }
+}

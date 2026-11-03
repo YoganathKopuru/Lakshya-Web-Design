@@ -78,6 +78,46 @@ export default function Careers() {
           </div>
         </div>
       </section>
+      <section className="section wrap why-lakshya">
+        <div>
+          <span className="eyebrow">WHY LAKSHYA</span>
+          <h2>
+            Bring your ideas.
+            <br />
+            <span className="muted">Make them matter.</span>
+          </h2>
+          <p>
+            Join people from different disciplines who bring curiosity and a
+            shared commitment to their work.
+          </p>
+        </div>
+        <div className="why-cards">
+          <article>
+            <span>01 / THINK</span>
+            <h3>Room to imagine</h3>
+            <p>
+              Bring fresh perspectives and creative thinking to meaningful
+              technology challenges.
+            </p>
+          </article>
+          <article>
+            <span>02 / OWN</span>
+            <h3>Make your mark</h3>
+            <p>
+              Take ownership of your work and contribute ideas from concept
+              through delivery.
+            </p>
+          </article>
+          <article>
+            <span>03 / CONNECT</span>
+            <h3>Grow together</h3>
+            <p>
+              Work alongside people with different skills, experiences and
+              points of view.
+            </p>
+          </article>
+        </div>
+      </section>
       <ContactBand />
     </main>
   );
