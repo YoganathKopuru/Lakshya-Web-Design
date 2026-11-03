@@ -78,6 +78,34 @@
   color: #89d8be;
   transform: translateY(-50%);
 }
+/* Continue the journey back across the second row. */
+@media (min-width: 851px) {
+  .stages li:nth-child(5) {
+    grid-column: 4;
+    grid-row: 2;
+  }
+  .stages li:nth-child(6) {
+    grid-column: 3;
+    grid-row: 2;
+  }
+  .stages li:nth-child(7) {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  .stages li:nth-child(4)::after {
+    content: '↓';
+    right: 50%;
+    top: auto;
+    bottom: -19px;
+    transform: translateX(50%);
+  }
+  .stages li:nth-child(5)::after,
+  .stages li:nth-child(6)::after {
+    content: '←';
+    right: auto;
+    left: -13px;
+  }
+}
 .card {
   position: relative;
   overflow: hidden;
@@ -212,6 +240,32 @@
   .stages {
     grid-template-columns: repeat(2, 1fr);
   }
+  .stages li:nth-child(3) {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  .stages li:nth-child(4) {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .stages li:nth-child(7) {
+    grid-column: 2;
+    grid-row: 4;
+  }
+  .stages li:nth-child(2)::after,
+  .stages li:nth-child(4)::after,
+  .stages li:nth-child(6)::after {
+    content: '↓';
+    right: 50%;
+    top: auto;
+    bottom: -19px;
+    transform: translateX(50%);
+  }
+  .stages li:nth-child(3)::after {
+    content: '←';
+    right: auto;
+    left: -13px;
+  }
   .snapshot {
     grid-template-columns: 1fr;
     gap: 20px;
@@ -231,7 +285,12 @@
     grid-template-columns: 1fr;
     gap: 10px;
   }
-  .stages li:not(:last-child):after {
+  .stages li:nth-child(n) {
+    grid-column: auto;
+    grid-row: auto;
+  }
+  .stages li:nth-child(n):not(:last-child):after {
+    left: auto;
     content: '↓';
     right: 22px;
     top: auto;
@@ -263,3 +322,4 @@
     animation: none;
   }
 }
+
