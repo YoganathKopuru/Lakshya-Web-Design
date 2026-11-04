@@ -139,23 +139,23 @@
   transition: opacity 0.3s;
 }
 .card:hover,
-.card:focus-visible,
-.card:focus {
+.card:has(:focus-visible),
+.card:focus-within {
   transform: translateY(-5px);
   border-color: #a5e3cb;
   box-shadow: 0 12px 35px rgba(30, 192, 166, 0.16);
   outline: none;
 }
 .card:hover::before,
-.card:focus::before {
+.card:focus-within::before {
   opacity: 1;
 }
 .card:hover .icon,
-.card:focus .icon {
+.card:focus-within .icon {
   background: #b5e5d4;
   color: #103535;
 }
-.card:focus-visible {
+.card:has(:focus-visible) {
   outline: 2px solid #b5e5d4;
   outline-offset: 3px;
 }
@@ -325,4 +325,35 @@
   .stages::before {
     animation: none;
   }
+}
+
+.summary {
+  cursor: pointer;
+  list-style: none;
+}
+.summary::-webkit-details-marker {
+  display: none;
+}
+.summary:focus-visible {
+  outline: 2px solid #b5e5d4;
+  outline-offset: 6px;
+  border-radius: 2px;
+}
+.prompt {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+  color: #b5e5d4;
+  font-size: 11px;
+}
+.card[open] .prompt > span {
+  transform: rotate(45deg);
+}
+.card p.explanation {
+  margin-top: 15px;
+  padding-top: 12px;
+  border-top: 1px solid #4b7d79;
+  color: #e3eeef;
+  line-height: 1.6;
 }

@@ -20,6 +20,15 @@ const stages = [
   { name: 'Deploy', detail: 'Launch & adoption', Icon: CloudUpload },
   { name: 'Support', detail: 'Maintain & improve', Icon: Headphones },
 ];
+const explanations = [
+  'Agree on the problem, stakeholders and what success should look like.',
+  'Define priorities, dependencies and a practical delivery roadmap.',
+  'Explore user journeys and validate the proposed experience before building.',
+  'Develop and integrate the solution in manageable increments.',
+  'Check expected behavior, reliability and readiness for release.',
+  'Prepare the release, rollout and handover with your team.',
+  'Maintain the solution and identify opportunities for improvement.',
+];
 const numbers = [
   ['2015', 'Established'],
   ['9+', 'Years of experience'],
@@ -52,16 +61,22 @@ export function DeliveryJourney() {
         <ol className={styles.stages}>
           {stages.map(({ name, detail, Icon }, i) => (
             <li key={name}>
-              <div className={styles.card} tabIndex={0}>
-                <div className={styles.top}>
-                  <span className={styles.icon}>
-                    <Icon size={21} strokeWidth={1.5} />
+              <details className={styles.card}>
+                <summary className={styles.summary}>
+                  <div className={styles.top}>
+                    <span className={styles.icon}>
+                      <Icon size={21} strokeWidth={1.5} />
+                    </span>
+                    <span className={styles.number}>0{i + 1}</span>
+                  </div>
+                  <h3>{name}</h3>
+                  <p>{detail}</p>
+                  <span className={styles.prompt}>
+                    Explore this stage <span aria-hidden="true">+</span>
                   </span>
-                  <span className={styles.number}>0{i + 1}</span>
-                </div>
-                <h3>{name}</h3>
-                <p>{detail}</p>
-              </div>
+                </summary>
+                <p className={styles.explanation}>{explanations[i]}</p>
+              </details>
             </li>
           ))}
         </ol>
