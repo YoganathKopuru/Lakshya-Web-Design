@@ -40,8 +40,9 @@
   list-style: none;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
-  margin: 48px 0 0;
+  gap: 22px 28px;
+  max-width: 820px;
+  margin: 38px auto 0;
   padding: 0;
   position: relative;
   isolation: isolate;
@@ -72,10 +73,13 @@
 .stages li:not(:last-child):after {
   content: '→';
   position: absolute;
-  right: -13px;
+  right: -25px;
+  width: 22px;
+  text-align: center;
   top: 50%;
   z-index: 1;
-  color: #89d8be;
+  color: #a5e8d1;
+  text-shadow: 0 0 9px rgba(126, 235, 205, 0.65);
   transform: translateY(-50%);
 }
 /* Continue the journey back across the second row. */
@@ -96,22 +100,22 @@
     content: '↓';
     right: 50%;
     top: auto;
-    bottom: -19px;
+    bottom: -23px;
     transform: translateX(50%);
   }
   .stages li:nth-child(5)::after,
   .stages li:nth-child(6)::after {
     content: '←';
     right: auto;
-    left: -13px;
+    left: -25px;
   }
 }
 .card {
   position: relative;
   overflow: hidden;
   height: 100%;
-  min-height: 160px;
-  padding: 22px;
+  min-height: 116px;
+  padding: 15px 17px;
   background: linear-gradient(135deg, #192d47, #133f46);
   border: 1px solid #31505b;
   border-radius: 5px;
@@ -173,8 +177,8 @@
 .icon {
   display: grid;
   place-items: center;
-  width: 42px;
-  height: 42px;
+  width: 34px;
+  height: 34px;
   border: 1px solid #4b7d79;
   border-radius: 50%;
   color: #afe8d1;
@@ -188,8 +192,8 @@
   color: #8abbb3;
 }
 .card h3 {
-  font-size: 19px;
-  margin: 20px 0 5px;
+  font-size: 16px;
+  margin: 12px 0 4px;
 }
 .card p {
   font-size: 12px;
@@ -258,13 +262,13 @@
     content: '↓';
     right: 50%;
     top: auto;
-    bottom: -19px;
+    bottom: -23px;
     transform: translateX(50%);
   }
   .stages li:nth-child(3)::after {
     content: '←';
     right: auto;
-    left: -13px;
+    left: -25px;
   }
   .snapshot {
     grid-template-columns: 1fr;
@@ -283,7 +287,7 @@
   }
   .stages {
     grid-template-columns: 1fr;
-    gap: 10px;
+    gap: 20px;
   }
   .stages li:nth-child(n) {
     grid-column: auto;
@@ -294,12 +298,12 @@
     content: '↓';
     right: 22px;
     top: auto;
-    bottom: -17px;
+    bottom: -22px;
     transform: none;
   }
   .card {
     min-height: 0;
-    padding: 18px;
+    padding: 14px 17px;
   }
   .card h3 {
     margin-top: 12px;
@@ -322,4 +326,3 @@
     animation: none;
   }
 }
-
