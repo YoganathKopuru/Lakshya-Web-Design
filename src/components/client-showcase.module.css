@@ -6,7 +6,7 @@
 .heading {
   display: flex;
   justify-content: space-between;
-  align-items: end;
+  align-items: flex-end;
   gap: 32px;
   margin-bottom: 38px;
 }
@@ -20,7 +20,10 @@
   line-height: 1.7;
 }
 .viewport {
-  overflow: hidden;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #8fb9ad transparent;
+  padding-bottom: 12px;
   mask-image: linear-gradient(
     to right,
     transparent,
@@ -32,7 +35,7 @@
 .track {
   display: flex;
   width: max-content;
-  animation: slide 45s linear infinite;
+  transform: none;
 }
 .group {
   display: flex;
@@ -96,4 +99,9 @@
   .group:nth-child(2) {
     display: none;
   }
+}
+
+.viewport:focus-visible {
+  outline: 2px solid #007e70;
+  outline-offset: 6px;
 }

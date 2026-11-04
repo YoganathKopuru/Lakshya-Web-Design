@@ -8,6 +8,8 @@ export function HeroVisual() {
     >
       <img
         src="/hero-connected-earth-v2.webp"
+        srcSet="/hero-connected-earth-640.webp 640w, /hero-connected-earth-960.webp 960w, /hero-connected-earth-v2.webp 1672w"
+        sizes="(max-width: 760px) 90vw, 45vw"
         alt="The illuminated Earth with India and Asia visible, connected by fine teal arcs across a midnight-blue horizon."
         width="1672"
         height="941"
