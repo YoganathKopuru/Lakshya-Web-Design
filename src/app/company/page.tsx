@@ -1,3 +1,4 @@
+import { PeopleStory } from '@/components/people-story';
 import { pageMetadata } from '@/lib/site-metadata';
 import type { Metadata } from 'next';
 import Link from 'next/link';
@@ -7,7 +8,7 @@ import { ContactBand } from '@/components/chrome';
 export default function Company() {
   return (
     <main id="main">
-      <section className="page-hero wrap">
+      <section className="page-hero wrap story-hero">
         <span className="eyebrow">WE ARE LAKSHYA</span>
         <h1>
           Human ingenuity.
@@ -69,6 +70,7 @@ export default function Company() {
           ))}
         </div>
       </section>
+      <PeopleStory />
       <ContactBand />
     </main>
   );

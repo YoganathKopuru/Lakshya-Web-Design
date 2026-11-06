@@ -108,6 +108,7 @@ export function Header() {
             ['Work', '/work/'],
             ['Industries', '/industries/'],
             ['Company', '/company/'],
+            ['Why Lakshya', '/why-lakshya/'],
             ['Careers', '/careers/'],
           ].map(([label, href]) => (
             <Link

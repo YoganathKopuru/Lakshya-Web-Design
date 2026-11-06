@@ -299,3 +299,21 @@
     transform: none;
   }
 }
+.band {
+  background: linear-gradient(115deg, #091a2b, #123c50 60%, #0d655d);
+  border-radius: 16px;
+}
+.ambient {
+  animation: contact-drift 9s ease-in-out infinite alternate;
+}
+@keyframes contact-drift {
+  to {
+    transform: translateX(-30px) scale(1.1);
+    opacity: 0.65;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ambient {
+    animation: none;
+  }
+}

@@ -1,3 +1,4 @@
+import { PeopleStory } from '@/components/people-story';
 import { pageMetadata } from '@/lib/site-metadata';
 import type { Metadata } from 'next';
 import { ArrowUpRight, BriefcaseBusiness } from 'lucide-react';
@@ -6,7 +7,7 @@ import { ContactBand } from '@/components/chrome';
 export default function Careers() {
   return (
     <main id="main">
-      <section className="page-hero wrap">
+      <section className="page-hero wrap story-hero">
         <span className="eyebrow">CAREERS AT LAKSHYA</span>
         <h1>
           Bring your curiosity.
@@ -118,6 +119,7 @@ export default function Careers() {
           </article>
         </div>
       </section>
+      <PeopleStory careers />
       <ContactBand />
     </main>
   );

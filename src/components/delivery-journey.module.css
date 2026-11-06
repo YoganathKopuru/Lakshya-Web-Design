@@ -472,3 +472,53 @@
     font-size: 30px;
   }
 }
+.section {
+  background: #edf3f0;
+  color: #102638;
+}
+.heading h2 span {
+  color: #13766c;
+}
+.heading p {
+  color: #526d7b;
+}
+.heading :global(.eyebrow),
+.link {
+  color: #087c70;
+}
+.heading {
+  border-color: #b9ccc4;
+}
+.card {
+  background: linear-gradient(145deg, #ffffffd9, #dcece5bd);
+  border-color: #b3cec3;
+  color: #102638;
+  backdrop-filter: blur(12px);
+}
+.card p,
+.number {
+  color: #526e74;
+}
+.icon {
+  color: #087c70;
+  border-color: #90bcb0;
+}
+.prompt {
+  color: #086e63;
+}
+.card[open] {
+  background: #dceee5;
+}
+.card p.explanation {
+  color: #264954;
+}
+.stages li:nth-child(n)::after {
+  color: #18776d;
+  text-shadow: none;
+}
+.snapshot {
+  background: #091a2b;
+}
+.snapshotIntro h3 {
+  color: #f5faf7;
+}
