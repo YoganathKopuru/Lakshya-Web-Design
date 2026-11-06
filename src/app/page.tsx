@@ -1,7 +1,7 @@
 import { pageMetadata } from '@/lib/site-metadata';
 import Link from 'next/link';
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
-import { HeroVisual } from '@/components/hero-visual';
+import { ArrowUpRight } from 'lucide-react';
+import { HomeHero } from '@/components/home-hero';
 import { ServicePlacards } from '@/components/service-placards';
 import { ContactBand } from '@/components/chrome';
 import { DeliveryExperience } from '@/components/delivery-experience';
@@ -15,39 +15,7 @@ import { DeliveryJourney } from '@/components/delivery-journey';
 export default function Home() {
   return (
     <main id="main">
-      <section className="hero wrap">
-        <div className="hero-content">
-          <div className="eyebrow">
-            <span className="status-dot" /> ENGINEERING THE NEXT
-          </div>
-          <h1>
-            Intelligence.
-            <br />
-            Engineering.
-            <br />
-            <span>Real possibility.</span>
-          </h1>
-          <p>
-            From AI ambition to enterprise transformation.
-            <br className="desktop-br" /> We bring technology, talent and
-            purposeful thinking together to move your business forward.
-          </p>
-          <div className="hero-actions">
-            <Link className="button button-dark" href="/services/">
-              Explore our expertise <ArrowUpRight size={18} />
-            </Link>
-            <Link className="text-link" href="/contact/">
-              Let’s build together <ArrowRight size={17} />
-            </Link>
-          </div>
-          <div className="hero-note">
-            <span>FROM IDEA TO IMPACT</span>
-            <span className="note-line" />
-            <span>YOUR TECHNOLOGY PARTNER</span>
-          </div>
-        </div>
-        <HeroVisual />
-      </section>
+      <HomeHero />
       <CapabilityMarquee />
       <section className="section wrap" id="expertise">
         <div className="section-head">

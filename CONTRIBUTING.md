@@ -24,6 +24,11 @@ Make focused commits with a clear verb-led message. Push a topic branch and open
 
 ## Rollback checkpoint: November 4, 2026
 
+The cinematic homepage update has its own checkpoint:
+`rollback/pre-cinematic-2026-11-06`, pointing to `10a244a8862e7265372acbf580ced443eda56860`
+(Sites version 14). Revert the cinematic homepage commit and republish to restore
+that design. The original hero component and artwork remain available in source.
+
 The version before the usability and performance improvements is tagged
 `rollback/pre-improvements-2026-11-04` (commit `cd57cf8f13119f45e8e327503cf44610e916b5a3`).
 
