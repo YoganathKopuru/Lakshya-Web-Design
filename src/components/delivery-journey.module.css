@@ -357,3 +357,118 @@
   color: #e3eeef;
   line-height: 1.6;
 }
+
+/* Editorial process rail: a single reading direction on wide screens. */
+.section {
+  background:
+    radial-gradient(ellipse at 90% 5%, #16414a66, transparent 55%), #091a2b;
+}
+.heading {
+  padding-bottom: 36px;
+  border-bottom: 1px solid #b5e5d426;
+}
+.heading :global(.eyebrow) {
+  color: #a5dfcd;
+}
+.stages {
+  max-width: none;
+  margin-top: 46px;
+}
+.card {
+  background: linear-gradient(150deg, #1c3645, #102939);
+  border-color: #43636b;
+  border-radius: 12px;
+  padding: 22px;
+}
+.card h3 {
+  font-size: 20px;
+  margin-top: 22px;
+  font-weight: 500;
+}
+.card p {
+  line-height: 1.6;
+}
+.icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #b5e5d40a;
+}
+.number {
+  font-size: 12px;
+}
+.prompt {
+  margin-top: 24px;
+}
+.card[open] {
+  border-color: #a5e3cb;
+  background: linear-gradient(150deg, #234f54, #122e3e);
+}
+.snapshot {
+  background: #b5e5d407;
+  border: 1px solid #b5e5d426;
+  border-radius: 12px;
+  padding: 28px;
+  margin-top: 42px;
+  align-items: center;
+}
+.metrics strong {
+  font-size: 36px;
+  font-weight: 500;
+}
+@media (min-width: 1150px) {
+  .stages {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 20px;
+  }
+  .stages li:nth-child(n) {
+    grid-column: auto;
+    grid-row: auto;
+  }
+  .stages li:nth-child(n):not(:last-child)::after {
+    content: '→';
+    top: 44px;
+    bottom: auto;
+    left: auto;
+    right: -20px;
+    width: 20px;
+    transform: none;
+  }
+  .card {
+    padding: 18px 13px;
+  }
+  .card h3 {
+    font-size: 18px;
+  }
+  .card p {
+    font-size: 11px;
+    min-height: 36px;
+  }
+  .prompt {
+    font-size: 10px;
+  }
+  .icon {
+    width: 36px;
+    height: 36px;
+  }
+}
+@media (max-width: 600px) {
+  .heading {
+    padding-bottom: 28px;
+  }
+  .stages {
+    margin-top: 28px;
+  }
+  .card {
+    padding: 20px;
+  }
+  .card h3 {
+    margin-top: 14px;
+  }
+  .snapshot {
+    padding: 22px;
+  }
+  .metrics strong {
+    font-size: 30px;
+  }
+}
