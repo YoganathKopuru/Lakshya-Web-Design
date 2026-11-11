@@ -45,7 +45,12 @@ export function ShuffleNumber({ value }: { value: string }) {
       aria-label={value}
       style={{ fontVariantNumeric: 'tabular-nums' }}
     >
-      <span aria-hidden="true">{display}</span>
+      <span
+        aria-hidden="true"
+        style={{ font: 'inherit', color: 'inherit', margin: 0 }}
+      >
+        {display}
+      </span>
     </strong>
   );
 }

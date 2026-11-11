@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styles from './client-showcase.module.css';
 const clients = [
   ['AMD', '/images/clients/AMD-Symbol.webp'],
@@ -47,6 +48,12 @@ export function ClientShowcase() {
               <span className={styles.tileIndex}>0{i + 1}</span>
             </div>
           ))}
+        </div>
+        <div className="trust-followup">
+          <span>Quality, security and dependable delivery.</span>
+          <Link href="/services/quality-managed-services/">
+            Explore our quality framework ↗
+          </Link>
         </div>
       </div>
     </section>

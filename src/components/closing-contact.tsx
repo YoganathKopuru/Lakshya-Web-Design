@@ -3,11 +3,11 @@ import { ArrowUpRight, Sparkles, Code2, Layers3, Mail } from 'lucide-react';
 import styles from './closing-contact.module.css';
 
 const startingPoints = [
-  { label: 'Explore AI & data', slug: 'ai-data', icon: Sparkles },
-  { label: 'Build better software', slug: 'software-engineering', icon: Code2 },
+  { label: 'Discuss a project', href: '/contact/', icon: Sparkles },
+  { label: 'Explore careers', href: '/careers/', icon: Code2 },
   {
-    label: 'Connect enterprise systems',
-    slug: 'enterprise-platforms',
+    label: 'Discuss a partnership',
+    href: '/contact/?service=other',
     icon: Layers3,
   },
 ];
@@ -56,8 +56,8 @@ export function ClosingContact() {
       <div className={styles.paths}>
         <span>What are you exploring?</span>
         <div>
-          {startingPoints.map(({ label, slug, icon: Icon }) => (
-            <Link href={`/contact/?service=${slug}`} key={slug}>
+          {startingPoints.map(({ label, href, icon: Icon }) => (
+            <Link href={href} key={label}>
               <Icon size={15} strokeWidth={1.5} />
               {label}
               <ArrowUpRight size={14} />

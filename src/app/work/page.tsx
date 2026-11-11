@@ -6,6 +6,24 @@ import { projectAreas } from '@/data/content';
 import { ProjectVisual } from '@/components/visuals';
 import { ContactBand } from '@/components/chrome';
 
+const contexts = {
+  manufacturing: [
+    'Connect production and business information.',
+    'ERP implementation around manufacturing operations.',
+    'A connected view of processes across the business.',
+  ],
+  workflow: [
+    'Make multi-step internal processes easier to manage.',
+    'Role-based workflows, automation and audit trails.',
+    'Clearer handoffs, responsibilities and process visibility.',
+  ],
+  healthcare: [
+    'Bring operational information into a usable view.',
+    'Dashboards and monitoring for medical operations.',
+    'Help teams understand and follow operational activity.',
+  ],
+};
+
 export default function Work() {
   return (
     <main id="main">
@@ -29,6 +47,16 @@ export default function Work() {
               <span className="eyebrow">{p.category}</span>
               <h2>{p.title}</h2>
               <p>{p.text}</p>
+              <dl className="project-story">
+                {['THE CHALLENGE', 'DELIVERY FOCUS', 'INTENDED VALUE'].map(
+                  (label, index) => (
+                    <div key={label}>
+                      <dt>{label}</dt>
+                      <dd>{contexts[p.type][index]}</dd>
+                    </div>
+                  ),
+                )}
+              </dl>
               <span className="tag">
                 Project area · detailed case study forthcoming
               </span>

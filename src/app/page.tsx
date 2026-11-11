@@ -2,7 +2,7 @@ import { pageMetadata } from '@/lib/site-metadata';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { HomeHero } from '@/components/home-hero';
-import { ServicePlacards } from '@/components/service-placards';
+import { ExpertiseChapters } from '@/components/expertise-chapters';
 import { ContactBand } from '@/components/chrome';
 import { DeliveryExperience } from '@/components/delivery-experience';
 import { CareersInvitation } from '@/components/careers-invitation';
@@ -33,8 +33,9 @@ export default function Home() {
             Built around where you are—and where you want to go.
           </p>
         </div>
-        <ServicePlacards />
+        <ExpertiseChapters />
       </section>
+      <ClientShowcase />
       <section className="ai-feature" id="ai-in-motion">
         <div className="wrap ai-feature-inner">
           <AiOrbit />
@@ -54,13 +55,29 @@ export default function Home() {
               document intelligence to agentic automation—with a clear path from
               exploration to integration.
             </p>
+            <ol className="ai-outcomes">
+              <li>
+                <span>01 / YOUR KNOWLEDGE</span>
+                <strong>Find the answer.</strong>
+                <p>Bring relevant documents and business context together.</p>
+              </li>
+              <li>
+                <span>02 / CONNECTED INTELLIGENCE</span>
+                <strong>Understand the work.</strong>
+                <p>Explore document processing and connected workflows.</p>
+              </li>
+              <li>
+                <span>03 / USEFUL ACTION</span>
+                <strong>Help people move forward.</strong>
+                <p>Put insights into tools your team can use.</p>
+              </li>
+            </ol>
             <Link className="button button-light" href="/services/ai-data/">
               Explore AI & data <ArrowUpRight size={18} />
             </Link>
           </div>
         </div>
       </section>
-      <ClientShowcase />
       <DeliveryExperience />
       <DeliveryJourney />
       <CareersInvitation />
