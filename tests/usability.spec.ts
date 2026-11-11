@@ -7,6 +7,7 @@ test('journey stages disclose useful detail with keyboard and pointer', async ({
   const stage = page.locator('#approach details').first();
   const summary = stage.locator('summary');
   await summary.focus();
+  await expect(stage).toHaveCSS('outline-style', 'solid');
   await page.keyboard.press('Enter');
   await expect(stage).toHaveAttribute('open', '');
   await expect(
@@ -16,6 +17,35 @@ test('journey stages disclose useful detail with keyboard and pointer', async ({
   ).toBeVisible();
   await summary.click();
   await expect(stage).not.toHaveAttribute('open', '');
+});
+
+test('journey connectors follow the stage order at each layout breakpoint', async ({
+  page,
+}) => {
+  await page.goto('/#approach');
+  const stages = page.locator('#approach ol > li');
+  for (const [width, expected] of [
+    [600, '↓↓↓↓↓↓'],
+    [601, '→↓←↓→↓'],
+    [850, '→↓←↓→↓'],
+    [851, '→→→↓←←'],
+    [1149, '→→→↓←←'],
+    [1150, '→→→→→→'],
+  ] as const) {
+    await page.setViewportSize({ width, height: 900 });
+    await expect
+      .poll(() =>
+        stages.evaluateAll((items) =>
+          items
+            .slice(0, -1)
+            .map((item) =>
+              getComputedStyle(item, '::after').content.slice(1, -1),
+            )
+            .join(''),
+        ),
+      )
+      .toBe(expected);
+  }
 });
 
 test('client mosaic displays every logo without horizontal scrolling', async ({
