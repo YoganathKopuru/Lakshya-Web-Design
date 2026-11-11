@@ -102,3 +102,39 @@
     bottom: 5%;
   }
 }
+
+.art[data-motion='running'] .core {
+  animation: core-breathe 5s ease-in-out infinite;
+  transform-origin: 250px 210px;
+}
+.art[data-motion='running'] .glow {
+  animation: core-glow 5s ease-in-out infinite;
+}
+.art[data-motion='running'] .rail {
+  stroke-dasharray: 3 5;
+  animation: signal-travel 12s linear infinite;
+}
+@keyframes core-breathe {
+  50% {
+    transform: scale(1.045);
+    filter: drop-shadow(0 0 24px #73dfb84d);
+  }
+}
+@keyframes core-glow {
+  50% {
+    opacity: 0.5;
+    transform: scale(1.18);
+  }
+}
+@keyframes signal-travel {
+  to {
+    stroke-dashoffset: -160;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .art .core,
+  .art .glow,
+  .art .rail {
+    animation: none !important;
+  }
+}

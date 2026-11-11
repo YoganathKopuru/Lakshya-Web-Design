@@ -80,18 +80,18 @@ test('Escape restores focus to the expertise trigger', async ({
   await expect(trigger).toBeFocused();
   await expect(trigger).toHaveAttribute('aria-expanded', 'false');
 });
-test('service walkthrough can be paused and reset', async ({ page }) => {
+test('service diagrams autoplay without controls and respect reduced motion', async ({
+  page,
+}) => {
   await page.goto('/services/software-engineering/');
-  await page.getByRole('button', { name: 'Play flow', exact: true }).click();
-  await expect(
-    page.getByRole('button', { name: 'Pause flow', exact: true }),
-  ).toBeVisible();
-  await page.getByRole('button', { name: 'Pause flow', exact: true }).click();
-  await page.getByRole('button', { name: 'Reset visual' }).click();
-  await expect(
-    page
-      .getByRole('group', { name: 'Explore the stages' })
-      .getByRole('button')
-      .first(),
-  ).toHaveAttribute('aria-pressed', 'true');
+  const panel = page.locator('section[data-step]');
+  await panel.scrollIntoViewIfNeeded();
+  await expect(panel.getByRole('button')).toHaveCount(0);
+  await expect(panel).toHaveAttribute('data-playing', 'true');
+  const initial = await panel.getAttribute('data-step');
+  await expect
+    .poll(() => panel.getAttribute('data-step'), { timeout: 6000 })
+    .not.toBe(initial);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect(panel).toHaveAttribute('data-playing', 'false');
 });

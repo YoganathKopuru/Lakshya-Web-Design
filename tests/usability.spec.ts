@@ -18,21 +18,31 @@ test('journey stages disclose useful detail with keyboard and pointer', async ({
   await expect(stage).not.toHaveAttribute('open', '');
 });
 
-test('client showcase supports manual keyboard scrolling and reduced motion', async ({
+test('client mosaic displays every logo without horizontal scrolling', async ({
   page,
 }) => {
   await page.goto('/');
-  const region = page.getByRole('region', {
-    name: 'Client showcase; scroll to explore',
-  });
-  await region.focus();
-  await page.keyboard.press('Home');
-  await page.keyboard.press('ArrowRight');
-  await expect
-    .poll(() => region.evaluate((el) => el.scrollLeft))
-    .toBeGreaterThan(50);
-  await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.keyboard.press('Home');
-  await expect.poll(() => region.evaluate((el) => el.scrollLeft)).toBe(0);
-  await expect(region.getByRole('img')).toHaveCount(8);
+  const wall = page.locator('[aria-label="Client showcase"]');
+  await wall.scrollIntoViewIfNeeded();
+  await expect(wall.getByRole('img')).toHaveCount(8);
+  await expect(wall.getByText('Synopsys')).toBeVisible();
+  expect(
+    await wall.evaluate((el) => el.scrollWidth <= el.clientWidth + 1),
+  ).toBe(true);
+});
+test('audience cards expand on pointer and keyboard', async ({
+  page,
+  isMobile,
+}) => {
+  await page.goto('/why-lakshya/');
+  const cards = page.locator('.audience-card');
+  if (!isMobile) {
+    await cards.first().hover();
+    await expect(cards.first()).toHaveAttribute('open', '');
+  }
+  const summary = cards.nth(1).locator('summary');
+  await summary.focus();
+  await page.keyboard.press('Enter');
+  await expect(cards.nth(1)).toHaveAttribute('open', '');
+  await expect(cards.nth(1).getByRole('link')).toBeVisible();
 });

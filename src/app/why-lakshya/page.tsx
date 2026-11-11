@@ -1,3 +1,4 @@
+import { AudienceCard } from '@/components/audience-card';
 import Link from 'next/link';
 import { pageMetadata } from '@/lib/site-metadata';
 import { ContactBand } from '@/components/chrome';
@@ -54,7 +55,7 @@ export default function WhyLakshya() {
       </section>
       <section className="section wrap audience-grid">
         {audiences.map(([label, title, body, cta, href]) => (
-          <details className="audience-card" key={label}>
+          <AudienceCard key={label}>
             <summary>
               <span className="eyebrow">{label}</span>
               <h2>{title}</h2>
@@ -64,7 +65,7 @@ export default function WhyLakshya() {
             <Link className="text-link" href={href}>
               {cta} ↗
             </Link>
-          </details>
+          </AudienceCard>
         ))}
       </section>
       <PeopleStory />

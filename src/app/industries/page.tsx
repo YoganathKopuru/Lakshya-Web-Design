@@ -1,3 +1,4 @@
+import { IndustryScene } from '@/components/industry-scene';
 import { pageMetadata } from '@/lib/site-metadata';
 import type { Metadata } from 'next';
 import Link from 'next/link';
@@ -56,8 +57,9 @@ export default function Industries() {
         </p>
       </section>
       <section className="section wrap industry-grid">
-        {industries.map(({ name, icon: Icon, description, service }) => (
+        {industries.map(({ name, icon: Icon, description, service }, index) => (
           <article className="industry-card" key={name}>
+            <IndustryScene type={index} />
             <Icon size={30} strokeWidth={1.3} />
             <h3>{name}</h3>
             <p>{description}</p>

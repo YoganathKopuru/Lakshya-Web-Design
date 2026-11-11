@@ -4,21 +4,84 @@ export function PeopleStory({ careers = false }: { careers?: boolean }) {
       <div
         className="people-art"
         role="img"
-        aria-label="Illustration of people connecting ideas across technology disciplines"
+        aria-label={
+          careers
+            ? 'Illustration of colleagues developing skills through learning, building, ownership and growth'
+            : 'Illustration of a delivery team turning a shared plan into working software'
+        }
       >
         <span>IDEAS</span>
         <span>PEOPLE</span>
         <span>POSSIBILITY</span>
         <svg viewBox="0 0 500 300" aria-hidden="true">
+          <rect
+            x="95"
+            y="35"
+            width="310"
+            height="175"
+            rx="14"
+            fill="#0d2438"
+            stroke="currentColor"
+          />
           <path
-            d="M50 220 Q250 20 450 220 M50 80 Q250 280 450 80"
+            d="M110 65h280M170 230h160M250 210v20"
             fill="none"
             stroke="currentColor"
           />
-          <circle cx="170" cy="120" r="25" />
-          <path d="M120 230v-30a50 50 0 0 1 100 0v30" />
-          <circle cx="330" cy="120" r="25" />
-          <path d="M280 230v-30a50 50 0 0 1 100 0v30" />
+          <circle cx="113" cy="50" r="3" />
+          <circle cx="125" cy="50" r="3" />
+          {careers ? (
+            <g className="career-ladder">
+              <path
+                d="M130 180h60v-30h60v-30h60V90h60"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+              />
+              {[0, 1, 2, 3].map((i) => (
+                <g key={i}>
+                  <circle cx={160 + i * 60} cy={160 - i * 30} r="9" />
+                  <text
+                    x={160 + i * 60}
+                    y={200}
+                    textAnchor="middle"
+                    fill="currentColor"
+                    stroke="none"
+                    fontSize="9"
+                  >
+                    {['LEARN', 'BUILD', 'OWN', 'GROW'][i]}
+                  </text>
+                </g>
+              ))}
+            </g>
+          ) : (
+            <g className="collaboration-screen">
+              <rect x="120" y="90" width="70" height="90" rx="5" />
+              <path d="M135 110h40m-40 15h30m-30 15h40" stroke="currentColor" />
+              <path
+                d="M210 125h45m-15-12 15 12-15 12"
+                stroke="currentColor"
+                fill="none"
+              />
+              <rect x="275" y="90" width="105" height="90" rx="5" />
+              <path
+                d="m290 155 20-25 20 10 35-35"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+              />
+            </g>
+          )}
+          <g className="team-figure">
+            <circle cx="95" cy="205" r="20" />
+            <path d="M60 280v-35a35 35 0 0 1 70 0v35" />
+            <path d="M125 244l45-25" stroke="currentColor" strokeWidth="9" />
+          </g>
+          <g className="team-figure">
+            <circle cx="405" cy="205" r="20" />
+            <path d="M370 280v-35a35 35 0 0 1 70 0v35" />
+            <path d="M375 244l-45-25" stroke="currentColor" strokeWidth="9" />
+          </g>
         </svg>
       </div>
       <div>

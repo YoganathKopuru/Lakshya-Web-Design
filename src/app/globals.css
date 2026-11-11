@@ -2335,3 +2335,192 @@ textarea:focus-visible {
     transition: none;
   }
 }
+
+/* Contextual motion scenes */
+.industry-card {
+  isolation: isolate;
+  min-height: 290px;
+  overflow: hidden;
+  padding-right: 34%;
+}
+.industry-card::before {
+  display: none;
+}
+.industry-card > h3,
+.industry-card > p,
+.industry-card > a,
+.industry-card > svg {
+  position: relative;
+  z-index: 1;
+}
+.industry-scene {
+  position: absolute;
+  inset: 0 0 0 25%;
+  display: flex;
+  align-items: flex-end;
+  color: #167d76;
+  opacity: 0.18;
+  z-index: -1;
+  mask-image: linear-gradient(to right, transparent, #000 50%);
+}
+.industry-scene svg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.scene-conveyor {
+  animation: conveyor 4s linear infinite;
+}
+.scene-signal {
+  animation: scene-light 4s ease-in-out infinite;
+}
+.scene-pulse {
+  stroke-dasharray: 700;
+  animation: scene-draw 5s linear infinite;
+}
+@keyframes conveyor {
+  to {
+    transform: translateX(80px);
+  }
+}
+@keyframes scene-light {
+  50% {
+    opacity: 0.3;
+    transform: translateY(-6px);
+  }
+}
+@keyframes scene-draw {
+  from {
+    stroke-dashoffset: 700;
+  }
+  to {
+    stroke-dashoffset: -700;
+  }
+}
+.factory-art > div,
+.health-bars > i {
+  transform-origin: bottom;
+  animation: plant-rise 4s ease-in-out infinite alternate;
+}
+.factory-art > div:nth-child(even),
+.health-bars > i:nth-child(even) {
+  animation-delay: -2s;
+}
+.health-art path {
+  stroke-dasharray: 700;
+  animation: scene-draw 7s linear infinite;
+}
+@keyframes plant-rise {
+  to {
+    transform: scaleY(0.76);
+  }
+}
+.audience-grid:has(.audience-card[open]) {
+  grid-template-columns: repeat(3, 1fr);
+}
+.audience-card[open] {
+  grid-column: 1/-1;
+  grid-row: 1;
+  background: linear-gradient(120deg, #d4eae3, #eff5f3);
+  box-shadow: 0 16px 40px #0b433d0b;
+}
+.audience-card[open] p {
+  max-width: 800px;
+}
+.audience-card {
+  transition:
+    background 0.3s,
+    box-shadow 0.3s;
+}
+.audience-card summary {
+  cursor: pointer;
+}
+.ocean-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: linear-gradient(145deg, #071b32, #07536a 55%, #248f87);
+  border: 1px solid #bddfd7;
+}
+.ocean-hero:after {
+  content: '';
+  position: absolute;
+  inset: 24px 38% 24px 24px;
+  border: 1px solid #ffffff29;
+  border-radius: 16px;
+  background: #0a233b69;
+  backdrop-filter: blur(18px);
+  z-index: -1;
+}
+.ocean-waves {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+}
+.ocean-waves svg {
+  width: 140%;
+  height: 100%;
+  fill: #73d3bd25;
+  stroke: #b2e8dc50;
+  stroke-width: 1;
+}
+.ocean-waves path {
+  animation: ocean-drift 12s ease-in-out infinite alternate;
+}
+.ocean-waves path:nth-child(2) {
+  animation-delay: -4s;
+  fill: #67b7c135;
+}
+.ocean-waves path:nth-child(3) {
+  animation-delay: -8s;
+  fill: #95dbce40;
+}
+@keyframes ocean-drift {
+  to {
+    transform: translateX(-180px) translateY(15px);
+  }
+}
+.people-art svg {
+  animation: none;
+}
+.people-art .team-figure {
+  fill: #69b7ac66;
+  stroke: #ace2ce;
+  stroke-width: 1.5;
+}
+.people-art .collaboration-screen,
+.people-art .career-ladder {
+  animation: scene-light 6s ease-in-out infinite;
+}
+.people-art .collaboration-screen rect {
+  fill: #277b7444;
+}
+@media (max-width: 800px) {
+  .industry-card {
+    padding-right: 25%;
+    min-height: 270px;
+  }
+  .audience-grid:has(.audience-card[open]) {
+    grid-template-columns: 1fr;
+  }
+  .ocean-hero:after {
+    inset: 14px;
+  }
+  .audience-card[open] {
+    grid-row: auto;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scene-conveyor,
+  .scene-signal,
+  .scene-pulse,
+  .factory-art > div,
+  .health-bars > i,
+  .health-art path,
+  .ocean-waves path,
+  .people-art .collaboration-screen,
+  .people-art .career-ladder {
+    animation: none;
+  }
+}
