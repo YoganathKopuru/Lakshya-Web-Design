@@ -28,7 +28,9 @@ export function Footer() {
           <h3>Explore</h3>
           <Link href="/services/">Expertise</Link>
           <Link href="/work/">Our work</Link>
+          <Link href="/industries/">Industries</Link>
           <Link href="/company/">Company</Link>
+          <Link href="/why-lakshya/">Why Lakshya</Link>
           <Link href="/careers/">Careers</Link>
         </div>
         <div>

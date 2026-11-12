@@ -145,7 +145,7 @@
   flex: 1;
 }
 .copy :global(.eyebrow) {
-  font-size: 8px;
+  font-size: 11px;
   letter-spacing: 1.1px;
 }
 .copy h3 {
@@ -170,7 +170,7 @@
   color: #0a776a;
 }
 .bottom > span:first-child {
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 550;
 }
 .arrow {

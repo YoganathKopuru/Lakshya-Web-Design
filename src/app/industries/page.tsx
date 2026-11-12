@@ -56,6 +56,7 @@ export default function Industries() {
           and build around the people who use your systems.
         </p>
       </section>
+      <h2 className="visually-hidden">Industries we work with</h2>
       <section className="section wrap industry-grid">
         {industries.map(({ name, icon: Icon, description, service }, index) => (
           <article className="industry-card" key={name}>
