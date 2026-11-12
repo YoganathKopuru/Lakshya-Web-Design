@@ -129,8 +129,9 @@
   height: 98px;
   border: 1px solid #bef4db55;
   border-radius: 24px;
-  background: #a9ddcb12;
-  backdrop-filter: blur(12px);
+  /* A stronger tint stands in for backdrop-filter, which stalls WebKit's
+     software renderer when combined with the other blurred homepage layers. */
+  background: #a9ddcb24;
   box-shadow: 0 0 50px #41ba9a18;
 }
 .words {

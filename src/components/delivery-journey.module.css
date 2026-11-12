@@ -121,7 +121,8 @@
   background: linear-gradient(145deg, #ffffffd9, #dcece5bd);
   border: 1px solid #b3cec3;
   border-radius: 12px;
-  backdrop-filter: blur(12px);
+  /* No backdrop-filter: the section behind is a flat colour, and stacking
+     blurred layers on the homepage stalls WebKit's software renderer. */
   transition:
     border-color 0.25s,
     box-shadow 0.25s;
