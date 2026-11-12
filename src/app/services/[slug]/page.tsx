@@ -27,17 +27,22 @@ export default async function Service({
   const { slug } = await params;
   const s = services.find((s) => s.slug === slug);
   if (!s) notFound();
-  const related = services.filter((r) => r.slug !== slug).slice(0, 3);
+  // Suggest the next three services in order (wrapping around) so each page
+  // links to a different set, rather than every page repeating the first three.
+  const index = services.indexOf(s);
+  const related = [1, 2, 3].map(
+    (offset) => services[(index + offset) % services.length],
+  );
   return (
     <main id="main">
       <section className="page-hero wrap">
-        <div className="breadcrumb">
+        <nav className="breadcrumb" aria-label="Breadcrumb">
           <Link href="/">Home</Link>
-          <ChevronRight size={12} />
+          <ChevronRight size={12} aria-hidden="true" />
           <Link href="/services/">Expertise</Link>
-          <ChevronRight size={12} />
-          <span>{s.name}</span>
-        </div>
+          <ChevronRight size={12} aria-hidden="true" />
+          <span aria-current="page">{s.name}</span>
+        </nav>
         <div className="detail-hero">
           <div>
             <span className="eyebrow">{s.name.toUpperCase()}</span>

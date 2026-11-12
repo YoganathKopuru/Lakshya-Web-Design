@@ -1,21 +1,44 @@
 name: Website quality
-on: [push, pull_request]
+on:
+  push:
+    # Branch pushes only: rollback tags do not need a full test run.
+    branches: ['**']
+  pull_request:
 permissions:
   contents: read
+concurrency:
+  # A newer push to the same branch or PR supersedes an in-progress run.
+  group: quality-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   checks:
     runs-on: ubuntu-24.04
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
       - run: npm install --global pnpm@11.25.0
+      - name: Locate pnpm store
+        id: pnpm-store
+        run: echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-store.outputs.path }}
+          key: pnpm-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: pnpm-${{ runner.os }}-
       - run: pnpm install --frozen-lockfile
       - run: pnpm format:check
       - run: pnpm build
       - run: pnpm typecheck
       - run: pnpm check:links
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+      # Still runs on a cache hit: it skips cached browsers but installs the
+      # system libraries they need.
       - run: pnpm exec playwright install --with-deps chromium firefox webkit
       - run: pnpm test:e2e
       - uses: actions/upload-artifact@v4

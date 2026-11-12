@@ -22,15 +22,24 @@ export function EnquiryForm() {
     if (
       field instanceof HTMLInputElement ||
       field instanceof HTMLTextAreaElement
-    )
+    ) {
       field.setCustomValidity('');
+      setErrors((previous) => ({ ...previous, [field.name]: '' }));
+    }
+    setDraft(null);
+    setCopyStatus('');
+  }
+  // The browser blocks submission for built-in failures (an empty required
+  // field, a malformed email) before `submit` runs, so record those here too.
+  function recordInvalid(event: React.FormEvent<HTMLFormElement>) {
+    const field = event.target;
     if (
       field instanceof HTMLInputElement ||
       field instanceof HTMLTextAreaElement
-    )
-      setErrors((previous) => ({ ...previous, [field.name]: '' }));
-    setDraft(null);
-    setCopyStatus('');
+    ) {
+      const { name, validationMessage } = field;
+      setErrors((previous) => ({ ...previous, [name]: validationMessage }));
+    }
   }
   function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -47,7 +56,7 @@ export function EnquiryForm() {
           : '',
       );
     }
-    for (const name of ['name', 'company', 'message']) {
+    for (const name of ['name', 'email', 'company', 'message']) {
       const field = form.elements.namedItem(name) as
         HTMLInputElement | HTMLTextAreaElement;
       if (field.validationMessage)
@@ -85,7 +94,12 @@ export function EnquiryForm() {
     }
   }
   return (
-    <form className="contact-form" onSubmit={submit} onChange={invalidate}>
+    <form
+      className="contact-form"
+      onSubmit={submit}
+      onChange={invalidate}
+      onInvalidCapture={recordInvalid}
+    >
       <h2>What are you working on?</h2>
       <p>
         Share a little about your challenge. This form prepares an email for you
@@ -113,12 +127,19 @@ export function EnquiryForm() {
           Work email *
           <input
             name="email"
+            aria-invalid={Boolean(errors.email)}
+            aria-describedby={errors.email ? 'error-email' : undefined}
             required
             type="email"
             autoComplete="email"
             maxLength={254}
             placeholder="you@company.com"
           />
+          {errors.email && (
+            <span className="field-error" id="error-email">
+              {errors.email}
+            </span>
+          )}
         </label>
         <label className="field">
           Company *

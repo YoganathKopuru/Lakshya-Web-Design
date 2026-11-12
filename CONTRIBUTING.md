@@ -22,6 +22,14 @@ git status --short
 
 Make focused commits with a clear verb-led message. Push a topic branch and open a pull request when review is needed; otherwise coordinate before pushing directly to `main`.
 
+## Rollback checkpoint: November 12, 2026
+
+The full-stack improvements (service cross-links, breadcrumb landmark, footer
+links, email field errors, CI caching) start from tag
+`rollback/pre-fullstack-improvements-2026-11-12`, pointing to `e8115f8` (the
+mobile WebKit CI fix). To undo them, `git revert` the improvement commit on a
+new branch from `main`, or compare against the tag in a separate worktree.
+
 ## Rollback checkpoint: November 4, 2026
 
 The cinematic homepage update has its own checkpoint:
