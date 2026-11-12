@@ -282,8 +282,11 @@ textarea:focus-visible {
   color: var(--teal);
 }
 .menu-scrim {
-  position: fixed;
-  inset: 93px 0 0;
+  /* Absolute, not fixed: the header's backdrop-filter makes it the containing
+     block for fixed children, which collapsed this overlay to 2px tall. */
+  position: absolute;
+  inset: 100% 0 auto;
+  height: 100vh;
   background: #0e1e2b30;
   border: 0;
   z-index: -1;
@@ -2348,7 +2351,7 @@ textarea:focus-visible {
   border-left: 1px solid #86d6bf66;
 }
 .ai-outcomes li > span {
-  font: 9px monospace;
+  font: 11px monospace;
   letter-spacing: 1.4px;
   color: #9edacc;
 }
@@ -2601,5 +2604,41 @@ textarea:focus-visible {
   .people-art .collaboration-screen,
   .people-art .career-ladder {
     animation: none;
+  }
+}
+
+/* Usability pass: readable labels, larger touch targets, clean disclosures. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.audience-card summary {
+  list-style: none;
+}
+.audience-card summary::-webkit-details-marker {
+  display: none;
+}
+.mega-all {
+  display: none;
+}
+.breadcrumb a {
+  padding-block: 8px;
+}
+.text-link {
+  min-height: 32px;
+}
+@media (max-width: 800px) {
+  .mega-links > a.mega-all {
+    display: flex;
+    font-weight: 600;
+    color: var(--teal);
+  }
+  .footer-grid > div > a:not(.footer-wordmark) {
+    min-height: 32px;
+    margin-bottom: 4px;
   }
 }

@@ -56,6 +56,13 @@ export function EnquiryForm() {
           : '',
       );
     }
+    // Browsers accept addresses such as "name@example"; require a dotted domain.
+    const email = form.elements.namedItem('email') as HTMLInputElement;
+    email.setCustomValidity(
+      email.value && !/^[^\s@]+@[^\s@]+\.[^\s@.]{2,}$/.test(email.value)
+        ? 'Enter a complete email address, such as name@company.com.'
+        : '',
+    );
     for (const name of ['name', 'email', 'company', 'message']) {
       const field = form.elements.namedItem(name) as
         HTMLInputElement | HTMLTextAreaElement;

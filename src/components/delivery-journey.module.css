@@ -218,7 +218,7 @@
   padding: 28px;
 }
 .snapshotIntro span {
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0.16em;
   color: #a8dcca;
 }
@@ -353,7 +353,7 @@
   gap: 12px;
   margin-top: 24px;
   color: #086e63;
-  font-size: 11px;
+  font-size: 12px;
 }
 .card[open] .prompt > span {
   transform: rotate(45deg);
@@ -385,7 +385,7 @@
     min-height: 3.2em;
   }
   .prompt {
-    font-size: 10px;
+    font-size: 12px;
   }
   .icon {
     width: 36px;

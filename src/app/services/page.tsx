@@ -19,6 +19,7 @@ export default function Services() {
         </p>
       </section>
       <section className="section wrap">
+        <h2 className="visually-hidden">All services</h2>
         <ServiceGrid />
       </section>
       <ContactBand />
