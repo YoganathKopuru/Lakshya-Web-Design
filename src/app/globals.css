@@ -477,7 +477,7 @@ textarea:focus-visible {
   margin-bottom: 27px;
 }
 .service-card-top > span {
-  font-size: 9px;
+  font-size: 11px;
   color: #8b969b;
 }
 .service-card h3 {
@@ -502,7 +502,7 @@ textarea:focus-visible {
   gap: 10px;
 }
 .card-bottom > span {
-  font-size: 9px;
+  font-size: 11px;
   color: #65746c;
 }
 .ai-feature {
@@ -1700,14 +1700,14 @@ textarea:focus-visible {
     line-height: 1.3;
   }
   .service-card p {
-    font-size: 10px;
-    line-height: 1.85;
+    font-size: 12px;
+    line-height: 1.7;
   }
   .card-bottom {
     padding-top: 20px;
   }
   .card-bottom > span {
-    font-size: 8px;
+    font-size: 11px;
   }
   .card-bottom > svg {
     width: 18px;
