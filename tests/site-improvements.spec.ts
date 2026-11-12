@@ -69,6 +69,11 @@ test('clicking outside the Expertise menu closes it', async ({
   const trigger = page.getByRole('button', { name: 'Expertise', exact: true });
   await trigger.click();
   await expect(page.locator('#expertise-menu')).toBeVisible();
+  // The phone-only "All services" link must stay out of the desktop grid.
+  await expect(page.locator('#expertise-menu .mega-all')).toBeHidden();
+  await expect(
+    page.locator('#expertise-menu .mega-links a:visible'),
+  ).toHaveCount(8);
   const viewport = page.viewportSize()!;
   const scrim = await page.locator('.menu-scrim').boundingBox();
   expect(scrim!.height).toBeGreaterThan(viewport.height / 2);

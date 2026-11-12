@@ -2622,7 +2622,8 @@ textarea:focus-visible {
 .audience-card summary::-webkit-details-marker {
   display: none;
 }
-.mega-all {
+/* Phone-only link; the selector must outrank `.mega-links a`. */
+.mega-links > a.mega-all {
   display: none;
 }
 .breadcrumb a {
