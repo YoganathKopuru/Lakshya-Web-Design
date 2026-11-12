@@ -1,7 +1,11 @@
 'use client';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 export function AudienceCard({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLDetailsElement>(null);
+  const hoverTimer = useRef<ReturnType<typeof setTimeout> | undefined>(
+    undefined,
+  );
+  useEffect(() => () => clearTimeout(hoverTimer.current), []);
   return (
     <details
       ref={ref}
@@ -17,13 +21,16 @@ export function AudienceCard({ children }: { children: React.ReactNode }) {
         }
       }}
       onPointerEnter={(e) => {
-        if (e.pointerType === 'mouse' && ref.current) {
-          for (const card of ref.current.parentElement?.querySelectorAll(
-            'details',
-          ) ?? [])
-            card.open = card === ref.current;
-        }
+        if (e.pointerType !== 'mouse' || e.currentTarget.open) return;
+        clearTimeout(hoverTimer.current);
+        hoverTimer.current = setTimeout(() => {
+          if (ref.current?.matches(':hover') && !ref.current.open) {
+            ref.current.open = true;
+          }
+        }, 200);
       }}
+      onPointerLeave={() => clearTimeout(hoverTimer.current)}
+      onPointerDown={() => clearTimeout(hoverTimer.current)}
     >
       {children}
     </details>

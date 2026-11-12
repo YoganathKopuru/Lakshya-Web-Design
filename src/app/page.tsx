@@ -2,7 +2,7 @@ import { pageMetadata } from '@/lib/site-metadata';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { HomeHero } from '@/components/home-hero';
-import { ExpertiseChapters } from '@/components/expertise-chapters';
+import { ServicePlacards } from '@/components/service-placards';
 import { ContactBand } from '@/components/chrome';
 import { DeliveryExperience } from '@/components/delivery-experience';
 import { CareersInvitation } from '@/components/careers-invitation';
@@ -33,7 +33,7 @@ export default function Home() {
             Built around where you are—and where you want to go.
           </p>
         </div>
-        <ExpertiseChapters />
+        <ServicePlacards />
       </section>
       <ClientShowcase />
       <section className="ai-feature" id="ai-in-motion">

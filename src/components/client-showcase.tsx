@@ -27,27 +27,35 @@ export function ClientShowcase() {
           </div>
           <p>Organizations featured on the original Lakshya client showcase.</p>
         </div>
-        <div className={styles.wall} aria-label="Client showcase">
-          {clients.map(([name, src], i) => (
-            <div
-              className={styles.tile}
-              key={name}
-              style={{ animationDelay: `${i * 0.35}s` }}
-            >
-              {src ? (
-                <img
-                  src={src}
-                  alt={name}
-                  width={170}
-                  height={76}
-                  loading="lazy"
-                />
-              ) : (
-                <span className={styles.wordmark}>{name}</span>
-              )}
-              <span className={styles.tileIndex}>0{i + 1}</span>
-            </div>
-          ))}
+        <div
+          className={styles.viewport}
+          aria-label="Client showcase"
+          tabIndex={0}
+        >
+          <div className={styles.track}>
+            {[false, true].map((duplicate) => (
+              <div
+                className={styles.group}
+                aria-hidden={duplicate || undefined}
+                key={String(duplicate)}
+              >
+                {clients.map(([name, src]) => (
+                  <div className={styles.card} key={name}>
+                    {src ? (
+                      <img
+                        src={src}
+                        alt={duplicate ? '' : name}
+                        width={170}
+                        height={76}
+                      />
+                    ) : (
+                      <span className={styles.wordmark}>{name}</span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
         </div>
         <div className="trust-followup">
           <span>Quality, security and dependable delivery.</span>

@@ -2506,6 +2506,41 @@ textarea:focus-visible {
 .audience-card[open] p {
   max-width: 800px;
 }
+.audience-card[open] > :not(summary) {
+  animation: audience-reveal 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes audience-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+.people-media {
+  margin: 0;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #0d2438;
+}
+.people-media video,
+.people-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+.people-media figcaption {
+  padding: 8px 14px;
+  color: #c4e4db;
+  font-size: 11px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .audience-card,
+  .audience-card[open] > :not(summary) {
+    animation: none;
+    transition: none;
+  }
+}
 .audience-card {
   transition:
     background 0.3s,

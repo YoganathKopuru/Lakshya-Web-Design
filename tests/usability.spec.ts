@@ -48,17 +48,18 @@ test('journey connectors follow the stage order at each layout breakpoint', asyn
   }
 });
 
-test('client mosaic displays every logo without horizontal scrolling', async ({
+test('client logo loop exposes each brand once and respects reduced motion', async ({
   page,
 }) => {
   await page.goto('/');
   const wall = page.locator('[aria-label="Client showcase"]');
   await wall.scrollIntoViewIfNeeded();
   await expect(wall.getByRole('img')).toHaveCount(8);
-  await expect(wall.getByText('Synopsys')).toBeVisible();
-  expect(
-    await wall.evaluate((el) => el.scrollWidth <= el.clientWidth + 1),
-  ).toBe(true);
+  const track = wall.locator(':scope > div');
+  await expect(track).toHaveCSS('animation-timing-function', 'linear');
+  await expect(track).toHaveCSS('animation-iteration-count', 'infinite');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect(track).toHaveCSS('animation-name', 'none');
 });
 test('audience cards expand on pointer and keyboard', async ({
   page,
