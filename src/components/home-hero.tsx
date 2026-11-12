@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ArrowDown, ArrowUpRight } from 'lucide-react';
 import styles from './home-hero.module.css';
+import { HeroVideo } from './hero-video';
 
 const pathways = [
   {
@@ -36,6 +37,7 @@ export function HomeHero() {
           alt=""
           fetchPriority="high"
         />
+        <HeroVideo />
         <div className={styles.veil} />
       </div>
       <div className={`wrap ${styles.content}`}>
