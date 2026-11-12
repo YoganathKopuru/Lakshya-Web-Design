@@ -61,19 +61,15 @@ test('client logo loop exposes each brand once and respects reduced motion', asy
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect(track).toHaveCSS('animation-name', 'none');
 });
-test('audience cards expand on pointer and keyboard', async ({
+test('audience routes are visible and keyboard accessible', async ({
   page,
-  isMobile,
 }) => {
   await page.goto('/why-lakshya/');
-  const cards = page.locator('.audience-card');
-  if (!isMobile) {
-    await cards.first().hover();
-    await expect(cards.first()).toHaveAttribute('open', '');
-  }
-  const summary = cards.nth(1).locator('summary');
-  await summary.focus();
-  await page.keyboard.press('Enter');
-  await expect(cards.nth(1)).toHaveAttribute('open', '');
-  await expect(cards.nth(1).getByRole('link')).toBeVisible();
+  const routes = page.locator('.audience-route');
+  await expect(routes).toHaveCount(4);
+  const careers = routes.nth(1).getByRole('link', { name: 'Explore careers' });
+  await careers.focus();
+  await expect(careers).toBeFocused();
+  await careers.press('Enter');
+  await expect(page).toHaveURL(/\/careers\/$/);
 });

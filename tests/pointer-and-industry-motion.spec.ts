@@ -10,6 +10,8 @@ test('cursor signal follows a mouse and respects reduced motion', async ({
   await page.mouse.move(160, 180);
   await expect(signal).toHaveAttribute('data-active', '');
   await expect(signal).toHaveAttribute('style', /translate3d\(160px, 180px/);
+  await page.mouse.move(280, 220);
+  await expect(signal).toHaveAttribute('style', /translate3d\(280px, 220px/);
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect(signal).toBeHidden();
 });

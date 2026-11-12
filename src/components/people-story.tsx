@@ -2,9 +2,15 @@
 
 import { useEffect, useState } from 'react';
 
-export function PeopleStory({ careers = false }: { careers?: boolean }) {
+export function PeopleStory({
+  careers = false,
+  variant = 'company',
+}: {
+  careers?: boolean;
+  variant?: 'company' | 'why';
+}) {
   const [allowMotion, setAllowMotion] = useState(false);
-  const asset = careers ? '/career-growth' : '/engineering-team';
+  const asset = careers ? '/career-growth' : `/${variant}-collaboration`;
 
   useEffect(() => {
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)');

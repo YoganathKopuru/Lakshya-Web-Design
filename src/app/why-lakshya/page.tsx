@@ -1,5 +1,5 @@
-import { AudienceCard } from '@/components/audience-card';
 import Link from 'next/link';
+import { ArrowUpRight } from 'lucide-react';
 import { pageMetadata } from '@/lib/site-metadata';
 import { ContactBand } from '@/components/chrome';
 import { PeopleStory } from '@/components/people-story';
@@ -53,22 +53,32 @@ export default function WhyLakshya() {
           conversation that move your next chapter forward.
         </p>
       </section>
-      <section className="section wrap audience-grid">
-        {audiences.map(([label, title, body, cta, href]) => (
-          <AudienceCard key={label}>
-            <summary>
-              <span className="eyebrow">{label}</span>
-              <h2>{title}</h2>
-              <span>Explore your path +</span>
-            </summary>
-            <p>{body}</p>
-            <Link className="text-link" href={href}>
-              {cta} ↗
-            </Link>
-          </AudienceCard>
-        ))}
+      <section
+        className="section wrap audience-paths"
+        aria-labelledby="audience-heading"
+      >
+        <div className="audience-intro">
+          <h2 id="audience-heading">What brings you here?</h2>
+          <p>Find a starting point for your project, career or partnership.</p>
+        </div>
+        <ul className="audience-routes">
+          {audiences.map(([label, title, body, cta, href]) => (
+            <li key={label} className="audience-route">
+              <div>
+                <span className="eyebrow">{label}</span>
+                <h3>{title}</h3>
+              </div>
+              <div>
+                <p>{body}</p>
+                <Link className="text-link" href={href}>
+                  {cta} <ArrowUpRight size={16} aria-hidden="true" />
+                </Link>
+              </div>
+            </li>
+          ))}
+        </ul>
       </section>
-      <PeopleStory />
+      <PeopleStory variant="why" />
       <ContactBand />
     </main>
   );
