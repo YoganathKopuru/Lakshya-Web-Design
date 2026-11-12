@@ -8,6 +8,9 @@ export function ServiceExperience({ serviceSlug }: { serviceSlug: string }) {
   const [step, setStep] = useState(0);
   const [playing, setPlaying] = useState(false);
   const panel = useRef<HTMLElement>(null);
+  const started = useRef(false);
+  const instantStart =
+    serviceSlug === 'ai-data' || serviceSlug === 'semiconductor-vlsi';
   useEffect(() => {
     const media = matchMedia('(prefers-reduced-motion: reduce)');
     let visible = false;
@@ -31,12 +34,20 @@ export function ServiceExperience({ serviceSlug }: { serviceSlug: string }) {
   }, []);
   useEffect(() => {
     if (!playing) return;
-    const timer = setInterval(
-      () => setStep((s) => (s + 1) % config.steps.length),
-      3200,
-    );
-    return () => clearInterval(timer);
-  }, [playing, config.steps.length]);
+    const advance = () => setStep((s) => (s + 1) % config.steps.length);
+    const opening =
+      instantStart && !started.current
+        ? setTimeout(() => {
+            started.current = true;
+            advance();
+          }, 180)
+        : undefined;
+    const timer = setInterval(advance, 3200);
+    return () => {
+      clearTimeout(opening);
+      clearInterval(timer);
+    };
+  }, [playing, config.steps.length, instantStart]);
   return (
     <section
       ref={panel}

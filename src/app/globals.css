@@ -2416,6 +2416,60 @@ textarea:focus-visible {
   }
 }
 /* Contextual motion scenes */
+.cursor-signal {
+  position: fixed;
+  inset: 0 auto auto 0;
+  z-index: 100;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition:
+    transform 140ms ease-out,
+    opacity 220ms ease;
+}
+.cursor-signal::after {
+  content: '';
+  position: absolute;
+  inset: -13px;
+  border: 1px solid #28ab9499;
+  border-radius: 50%;
+  background: radial-gradient(circle, #40d6b629, transparent 72%);
+}
+.cursor-signal[data-active] {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce),
+  (any-pointer: coarse) and (not (any-pointer: fine)) {
+  .cursor-signal {
+    display: none;
+  }
+}
+.industry-grid .industry-card {
+  padding-right: 30%;
+}
+.industry-video {
+  position: absolute;
+  inset: 0 0 0 24%;
+  z-index: 0;
+  opacity: 0.55;
+  mask-image: linear-gradient(90deg, transparent 10%, #000 88%);
+}
+.industry-video video,
+.industry-video img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+@media (max-width: 600px) {
+  .industry-grid .industry-card {
+    padding-right: 24px;
+  }
+  .industry-video {
+    opacity: 0.25;
+  }
+}
 .industry-card {
   isolation: isolate;
   min-height: 290px;

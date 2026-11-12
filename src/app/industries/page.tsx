@@ -1,4 +1,4 @@
-import { IndustryScene } from '@/components/industry-scene';
+import { IndustryVideo } from '@/components/industry-video';
 import { pageMetadata } from '@/lib/site-metadata';
 import type { Metadata } from 'next';
 import Link from 'next/link';
@@ -15,6 +15,7 @@ const industries = [
   {
     name: 'Manufacturing',
     icon: Factory,
+    asset: '/industry-factory',
     description:
       'Connect operations with ERP, inventory workflows and business applications.',
     service: 'enterprise-platforms',
@@ -22,6 +23,7 @@ const industries = [
   {
     name: 'Healthcare',
     icon: HeartPulse,
+    asset: '/industry-health',
     description:
       'Bring operational information together with monitoring systems and dashboards.',
     service: 'software-engineering',
@@ -29,6 +31,7 @@ const industries = [
   {
     name: 'Public sector',
     icon: Landmark,
+    asset: '/industry-civic',
     description:
       'Simplify internal processes with role-based workflows, automation and auditing.',
     service: 'software-engineering',
@@ -36,6 +39,7 @@ const industries = [
   {
     name: 'Enterprise & business services',
     icon: Building2,
+    asset: '/engineering-team',
     description:
       'Support people and operations with HRMS, payroll, CRM and cloud services.',
     service: 'enterprise-platforms',
@@ -57,9 +61,9 @@ export default function Industries() {
         </p>
       </section>
       <section className="section wrap industry-grid">
-        {industries.map(({ name, icon: Icon, description, service }, index) => (
+        {industries.map(({ name, icon: Icon, description, service, asset }) => (
           <article className="industry-card" key={name}>
-            <IndustryScene type={index} />
+            <IndustryVideo asset={asset} />
             <Icon size={30} strokeWidth={1.3} />
             <h3>{name}</h3>
             <p>{description}</p>

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { siteUrl, allowIndexing } from '@/lib/site-metadata';
 import { Header, Footer } from '@/components/chrome';
+import { CursorSignal } from '@/components/cursor-signal';
 
 export const metadata: Metadata = {
   metadataBase: siteUrl,
@@ -25,6 +26,7 @@ export default function RootLayout({
         <Header />
         {children}
         <Footer />
+        <CursorSignal />
       </body>
     </html>
   );
