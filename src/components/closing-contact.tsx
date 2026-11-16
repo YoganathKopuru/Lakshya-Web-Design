@@ -1,9 +1,8 @@
 import Link from 'next/link';
-import { ArrowUpRight, Sparkles, Code2, Layers3, Mail } from 'lucide-react';
+import { ArrowUpRight, Code2, Layers3, Mail } from 'lucide-react';
 import styles from './closing-contact.module.css';
 
 const startingPoints = [
-  { label: 'Discuss a project', href: '/contact/', icon: Sparkles },
   { label: 'Explore careers', href: '/careers/', icon: Code2 },
   {
     label: 'Discuss a partnership',
@@ -42,9 +41,6 @@ export function ClosingContact() {
           </p>
         </div>
         <div className={styles.action} data-reveal-part>
-          <span className={styles.actionLabel}>
-            TURN POSSIBILITY INTO A PLAN
-          </span>
           <Link className={styles.primary} href="/contact/">
             <span>Start a conversation</span>
             <span className={styles.arrow}>

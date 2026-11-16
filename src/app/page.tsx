@@ -7,18 +7,13 @@ import { ContactBand } from '@/components/chrome';
 import { DeliveryExperience } from '@/components/delivery-experience';
 import { CareersInvitation } from '@/components/careers-invitation';
 import { AiOrbit } from '@/components/ai-orbit';
-import { EmployeeVoices } from '@/components/employee-voices';
-import { CapabilityMarquee } from '@/components/capability-marquee';
 import { ClientShowcase } from '@/components/client-showcase';
 import { DeliveryJourney } from '@/components/delivery-journey';
-import { SolutionChapters } from '@/components/solution-chapters';
 
 export default function Home() {
   return (
     <main id="main">
       <HomeHero />
-      <SolutionChapters />
-      <CapabilityMarquee />
       <section className="section wrap" id="expertise">
         <div className="section-head" data-reveal>
           <div>
@@ -55,10 +50,6 @@ export default function Home() {
               your everyday.
             </h2>
             <p data-reveal-part>
-              Put your knowledge to work. Connect your workflows. Give your
-              people room to do more.
-            </p>
-            <p data-reveal-part>
               We help shape practical AI use cases—from enterprise search and
               document intelligence to agentic automation—with a clear path from
               exploration to integration.
@@ -89,7 +80,6 @@ export default function Home() {
       <DeliveryExperience />
       <DeliveryJourney />
       <CareersInvitation />
-      <EmployeeVoices />
       <ContactBand />
     </main>
   );

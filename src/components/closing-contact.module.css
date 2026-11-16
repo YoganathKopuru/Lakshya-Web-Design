@@ -74,12 +74,6 @@
   width: 100%;
   justify-self: end;
 }
-.actionLabel {
-  font-size: 12px;
-  letter-spacing: 1.5px;
-  color: #94bbb9;
-  margin-bottom: 12px;
-}
 .primary {
   display: flex;
   align-items: center;
@@ -217,9 +211,6 @@
   .paths a {
     font-size: 12px;
   }
-  .actionLabel {
-    font-size: 12px;
-  }
   .primary > span:first-child {
     font-size: 12px;
   }
@@ -241,9 +232,6 @@
   .action {
     justify-self: start;
     max-width: 420px;
-  }
-  .actionLabel {
-    font-size: 12px;
   }
   .primary {
     min-height: 69px;

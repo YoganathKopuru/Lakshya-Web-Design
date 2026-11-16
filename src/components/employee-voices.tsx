@@ -4,11 +4,7 @@ import styles from './employee-voices.module.css';
 
 function Stars({ rating }: { rating: number }) {
   return (
-    <span
-      className={styles.stars}
-      role="img"
-      aria-label={`${rating} out of 5 stars`}
-    >
+    <span className={styles.stars} aria-hidden="true">
       <span aria-hidden="true">★★★★★</span>
       <span aria-hidden="true" style={{ width: `${(rating / 5) * 100}%` }}>
         ★★★★★
@@ -39,7 +35,6 @@ export function EmployeeVoices() {
           href={snapshot.sourceUrl}
           target="_blank"
           rel="noreferrer"
-          aria-label="Read Lakshya employee reviews on Glassdoor"
         >
           <div className={styles.ratingTop}>
             <span>EMPLOYEE RATING ON GLASSDOOR</span>
@@ -82,13 +77,8 @@ export function EmployeeVoices() {
         ))}
       </div>
       <p className={styles.sourceNote}>
-        Excerpts from anonymous employee reviews.{' '}
-        <a href={snapshot.sourceUrl} target="_blank" rel="noreferrer">
-          Read the full range of perspectives on Glassdoor{' '}
-          <ArrowUpRight size={12} />
-        </a>
-        <br />
-        Publicly indexed listing, accessed{' '}
+        Excerpts from anonymous employee reviews. Publicly indexed listing,
+        accessed{' '}
         <time dateTime={snapshot.checkedAt}>{snapshot.checkedLabel}</time>. This
         is a snapshot; ratings may have changed.
       </p>

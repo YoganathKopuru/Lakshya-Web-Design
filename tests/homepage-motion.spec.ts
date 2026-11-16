@@ -1,25 +1,17 @@
 import { test, expect } from '@playwright/test';
 
-test('capability strip moves left and exposes all eight service links', async ({
+test('homepage expertise gives each service one direct route', async ({
   page,
 }) => {
-  await page.goto('/');
-  const strip = page.getByRole('region', { name: 'Capabilities at Lakshya' });
-  await strip.scrollIntoViewIfNeeded();
-  await page.mouse.move(0, 0);
-  await expect(strip.getByRole('link')).toHaveCount(8);
-  const track = strip.locator('[data-capability-track]');
-  const x = () =>
-    track.evaluate(
-      (el) => new DOMMatrixReadOnly(getComputedStyle(el).transform).m41,
-    );
-  const initial = await x();
-  await expect.poll(x).toBeLessThan(initial - 5);
-  await page.emulateMedia({ reducedMotion: 'reduce' });
-  await expect
-    .poll(() => track.evaluate((el) => getComputedStyle(el).animationName))
-    .toBe('none');
-  await expect(strip.getByRole('link')).toHaveCount(8);
+  await page.goto('/#expertise');
+  const links = page.locator('#expertise').getByRole('link');
+  await expect(links).toHaveCount(8);
+  const urls = await links.evaluateAll((items) =>
+    items.map((item) => item.getAttribute('href')),
+  );
+  expect(new Set(urls).size).toBe(8);
+  await links.filter({ hasText: 'Embedded Systems & IoT' }).click();
+  await expect(page).toHaveURL(/\/services\/embedded-iot\/$/);
 });
 
 test('AI signals remain on their rails as they move, without a pause control', async ({

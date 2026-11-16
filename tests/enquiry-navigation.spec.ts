@@ -95,3 +95,20 @@ test('service diagrams autoplay without controls and respect reduced motion', as
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect(panel).toHaveAttribute('data-playing', 'false');
 });
+
+test('contact pairs the office map with a direct directions link', async ({
+  page,
+}) => {
+  await page.route('https://maps.google.com/**', (route) =>
+    route.fulfill({ body: 'Map' }),
+  );
+  await page.goto('/contact/');
+  const office = page.getByRole('region', { name: 'Find us in Madhapur.' });
+  await expect(office.getByText(/Plot #37 & 38/)).toBeVisible();
+  const map = office.locator('iframe[title]');
+  await expect(map).toHaveAttribute('loading', 'lazy');
+  await expect(map).toHaveAttribute('src', /17\.4416029%2C78\.3825443/);
+  await expect(
+    office.getByRole('link', { name: 'Get directions' }),
+  ).toHaveAttribute('href', 'https://maps.app.goo.gl/HRKtQG2ZDugDw7hb6');
+});

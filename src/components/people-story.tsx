@@ -3,16 +3,49 @@
 import { useEffect, useState } from 'react';
 import { useVisibleVideo } from './use-visible-video';
 
+const stories = {
+  company: {
+    asset: '/company-collaboration',
+    eyebrow: 'CONNECTED BY CURIOSITY',
+    heading: 'Different disciplines.\nA shared ambition.',
+    description:
+      'Software engineers, specialists in connected systems and business teams bring different perspectives to the same project.',
+  },
+  why: {
+    asset: '/why-collaboration',
+    eyebrow: 'BEFORE WE MEET',
+    heading: 'A practical first conversation.',
+    description:
+      'Bring a challenge your team is facing. We can use it to discuss where to start.',
+    points: [
+      'What needs to work better, and who uses it today?',
+      'What systems, deadlines or dependencies should we plan around?',
+      'What outcome would make the project worthwhile?',
+    ],
+  },
+  careers: {
+    asset: '/career-growth',
+    eyebrow: 'YOUR POTENTIAL. YOUR DIRECTION.',
+    heading: 'Grow through the work.\nFind your direction.',
+    description:
+      'From software and data to connected systems, start a conversation about the work you want to do and the skills you want to develop.',
+    points: [
+      'Build depth in a technical discipline.',
+      'Learn how your work connects to a wider delivery team.',
+      'Discuss role expectations and development opportunities with HR.',
+    ],
+  },
+};
+
 export function PeopleStory({
-  careers = false,
   variant = 'company',
 }: {
-  careers?: boolean;
-  variant?: 'company' | 'why';
+  variant?: keyof typeof stories;
 }) {
   const [allowMotion, setAllowMotion] = useState(false);
   const video = useVisibleVideo(allowMotion);
-  const asset = careers ? '/career-growth' : `/${variant}-collaboration`;
+  const story = stories[variant];
+  const { asset, eyebrow, heading, description } = story;
 
   useEffect(() => {
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -48,38 +81,16 @@ export function PeopleStory({
         <figcaption>Stock footage</figcaption>
       </figure>
       <div>
-        <span className="eyebrow">
-          {careers
-            ? 'YOUR POTENTIAL. YOUR DIRECTION.'
-            : 'CONNECTED BY CURIOSITY'}
-        </span>
-        <h2>
-          {careers
-            ? 'Grow through the work.\nFind your direction.'
-            : 'Different disciplines.\nA shared ambition.'}
-        </h2>
-        <p>
-          {careers
-            ? 'Explore where your strengths meet real engineering challenges. From software and data to connected systems, start a conversation about the work you want to do and the skills you want to develop.'
-            : 'Good technology starts with people who understand the problem. We connect software, engineering and business perspectives to shape solutions around the way your organization works.'}
-        </p>
-        <ul>
-          <li>
-            {careers
-              ? 'Build depth in a technical discipline.'
-              : 'Start with your priorities and operational context.'}
-          </li>
-          <li>
-            {careers
-              ? 'Learn how your work connects to a wider delivery team.'
-              : 'Bring design, engineering and implementation together.'}
-          </li>
-          <li>
-            {careers
-              ? 'Discuss role expectations and development opportunities with HR.'
-              : 'Plan for adoption, support and continued improvement.'}
-          </li>
-        </ul>
+        <span className="eyebrow">{eyebrow}</span>
+        <h2>{heading}</h2>
+        <p>{description}</p>
+        {'points' in story && (
+          <ul>
+            {story.points.map((point) => (
+              <li key={point}>{point}</li>
+            ))}
+          </ul>
+        )}
       </div>
     </section>
   );

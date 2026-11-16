@@ -491,7 +491,7 @@ textarea:focus-visible {
 }
 .service-card-top > span {
   font-size: 9px;
-  color: #8b969b;
+  color: #56665f;
 }
 .service-card h3 {
   font-size: 19px;
@@ -516,7 +516,7 @@ textarea:focus-visible {
 }
 .card-bottom > span {
   font-size: 9px;
-  color: #65746c;
+  color: #56665f;
 }
 .ai-feature {
   background: #101b34;
@@ -756,7 +756,7 @@ textarea:focus-visible {
 }
 .content-note {
   font-size: 10px;
-  color: #88918e;
+  color: #56665f;
   margin-top: 28px;
 }
 .approach-section {
@@ -911,7 +911,7 @@ textarea:focus-visible {
   border-top: 1px solid #d8dfd8;
   padding-top: 22px;
   padding-bottom: 22px;
-  color: #89928a;
+  color: #56665f;
   font-size: 9px;
 }
 .page-hero {
@@ -934,7 +934,7 @@ textarea:focus-visible {
   gap: 9px;
   align-items: center;
   font-size: 11px;
-  color: #738079;
+  color: #56665f;
   margin-bottom: 35px;
 }
 .breadcrumb a:hover {
@@ -1209,7 +1209,7 @@ textarea:focus-visible {
 }
 .form-note {
   font-size: 10px;
-  color: #7c8780;
+  color: #56665f;
   margin: 20px 0;
 }
 .form-status {
@@ -1220,24 +1220,32 @@ textarea:focus-visible {
 }
 .map-panel {
   background: #e9eee7;
-  padding: 45px;
+  border: 1px solid #d4dfd4;
+  border-radius: 14px;
+  margin-top: 50px;
+  overflow: hidden;
+}
+.map-info {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 25px;
-  border: 1px solid #d4dfd4;
-  margin-top: 50px;
+  gap: 20px;
+  padding: clamp(20px, 3vw, 36px);
 }
-.map-panel h3 {
+.map-info h2 {
+  font-size: clamp(23px, 3vw, 32px);
   margin-bottom: 8px;
 }
-.map-panel p {
-  font-size: 12px;
+.map-info p {
+  font-size: 13px;
 }
-.map-panel > svg {
-  color: var(--teal);
-  width: 50px;
-  height: 50px;
+.office-map {
+  display: block;
+  width: 100%;
+  height: clamp(300px, 38vw, 460px);
+  border: 0;
+  border-top: 1px solid #d4dfd4;
 }
 .not-found {
   text-align: center;
@@ -1611,9 +1619,6 @@ textarea:focus-visible {
   }
   .field.full {
     grid-column: auto;
-  }
-  .map-panel {
-    padding: 28px;
   }
   .careers-layout {
     gap: 35px;
@@ -2001,20 +2006,6 @@ textarea:focus-visible {
   }
   .map-panel {
     margin-top: 30px;
-    padding: 25px;
-    align-items: flex-start;
-    flex-wrap: wrap;
-  }
-  .map-panel > svg {
-    width: 32px;
-    height: 32px;
-  }
-  .map-panel > div {
-    flex: 1;
-    min-width: 180px;
-  }
-  .map-panel .button {
-    margin-left: 0;
   }
   .desktop-br {
     display: none;
@@ -2135,7 +2126,7 @@ textarea:focus-visible {
 .why-cards span,
 .standards-number {
   font-size: 10px;
-  color: #008172;
+  color: #096e62;
   letter-spacing: 0.14em;
   font-weight: 700;
 }

@@ -1,3 +1,4 @@
+import { EmployeeVoices } from '@/components/employee-voices';
 import { PeopleStory } from '@/components/people-story';
 import { pageMetadata } from '@/lib/site-metadata';
 import type { Metadata } from 'next';
@@ -119,7 +120,8 @@ export default function Careers() {
           </article>
         </div>
       </section>
-      <PeopleStory careers />
+      <PeopleStory variant="careers" />
+      <EmployeeVoices />
       <ContactBand />
     </main>
   );

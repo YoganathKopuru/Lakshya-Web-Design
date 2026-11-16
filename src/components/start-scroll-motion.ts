@@ -1,5 +1,6 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { mountEarthGlobe } from './earth-globe';
 
 function revealItems(target: HTMLElement) {
   const parts = target.querySelectorAll('[data-reveal-part]');
@@ -69,6 +70,8 @@ function countMetric(metric: HTMLElement) {
 
 export function startScrollMotion(root: HTMLElement) {
   gsap.registerPlugin(ScrollTrigger);
+  const canvas = root.querySelector<HTMLCanvasElement>('[data-scroll-globe]');
+  const globe = canvas && mountEarthGlobe(canvas);
   const context = gsap.context(() => {
     const progress = document.querySelector('[data-scroll-progress]');
     if (progress) {
@@ -96,17 +99,17 @@ export function startScrollMotion(root: HTMLElement) {
         },
       });
     }
-    const aperture = root.querySelector('[data-hero-aperture]');
-    if (aperture && hero && matchMedia('(min-width: 900px)').matches) {
-      gsap.to(aperture, {
-        scale: 2.9,
-        opacity: 0,
-        ease: 'power1.out',
+    if (globe && hero) {
+      const rotation = { longitude: 1.42 };
+      gsap.to(rotation, {
+        longitude: 3.7,
+        ease: 'none',
+        onUpdate: () => globe.draw(rotation.longitude),
         scrollTrigger: {
           trigger: hero,
           start: 'clamp(top 100px)',
-          end: '+=340',
-          scrub: 0.25,
+          end: 'bottom top',
+          scrub: 0.2,
         },
       });
     }
@@ -156,6 +159,7 @@ export function startScrollMotion(root: HTMLElement) {
   return () => {
     observer.disconnect();
     context.revert();
+    globe?.dispose();
     root
       .querySelectorAll<HTMLElement>('[data-metric-display]')
       .forEach((display) => {

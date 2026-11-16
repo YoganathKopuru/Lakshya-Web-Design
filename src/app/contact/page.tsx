@@ -1,6 +1,5 @@
 import { pageMetadata } from '@/lib/site-metadata';
-import type { Metadata } from 'next';
-import { ArrowUpRight, MapPin } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { office } from '@/data/content';
 import { EnquiryForm } from '@/components/enquiry-form';
 
@@ -38,40 +37,34 @@ export default function Contact() {
                 hr@lakshya-soft.com <ArrowUpRight size={16} />
               </a>
             </div>
-            <div>
-              <h3>{office.name}, India</h3>
-              <p>
-                {office.building}
-                <br />
-                {office.address}
-              </p>
-              <a
-                className="text-link"
-                href={office.maps}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Open in Google Maps <ArrowUpRight size={16} />
-              </a>
-            </div>
           </div>
           <EnquiryForm />
         </div>
-        <div className="map-panel">
-          <MapPin strokeWidth={1.2} />
-          <div>
-            <h3>Find us in Madhapur.</h3>
-            <p>{office.building} · Hyderabad, Telangana</p>
+        <section className="map-panel" aria-labelledby="office-heading">
+          <div className="map-info">
+            <div>
+              <h2 id="office-heading">Find us in Madhapur.</h2>
+              <p>{office.building}</p>
+              <p>{office.address}</p>
+            </div>
+            <a
+              className="button button-dark"
+              href={office.maps}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Get directions <ArrowUpRight size={16} />
+            </a>
           </div>
-          <a
-            className="button button-dark"
-            href={office.maps}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Get directions <ArrowUpRight size={16} />
-          </a>
-        </div>
+          <iframe
+            className="office-map"
+            title="Google Maps location of Lakshya’s Madhapur office"
+            src={`https://maps.google.com/maps?q=${office.coordinates.latitude}%2C${office.coordinates.longitude}&z=17&output=embed`}
+            loading="lazy"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          />
+        </section>
       </section>
     </main>
   );
