@@ -70,6 +70,18 @@ function countMetric(metric: HTMLElement) {
 export function startScrollMotion(root: HTMLElement) {
   gsap.registerPlugin(ScrollTrigger);
   const context = gsap.context(() => {
+    const progress = document.querySelector('[data-scroll-progress]');
+    if (progress) {
+      gsap.fromTo(
+        progress,
+        { scaleX: 0 },
+        {
+          scaleX: 1,
+          ease: 'none',
+          scrollTrigger: { start: 0, end: 'max', scrub: 0.2 },
+        },
+      );
+    }
     const media = root.querySelector('[data-hero-media]');
     const hero = root.querySelector('[data-hero]');
     if (media && hero) {

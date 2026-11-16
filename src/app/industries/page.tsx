@@ -60,9 +60,9 @@ export default function Industries() {
           and build around the people who use your systems.
         </p>
       </section>
-      <section className="section wrap industry-grid">
+      <section className="section wrap industry-grid" data-reveal-grid>
         {industries.map(({ name, icon: Icon, description, service, asset }) => (
-          <article className="industry-card" key={name}>
+          <article className="industry-card" key={name} data-reveal>
             <IndustryVideo asset={asset} />
             <Icon size={30} strokeWidth={1.3} />
             <h3>{name}</h3>

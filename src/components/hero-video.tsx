@@ -2,10 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import styles from './home-hero.module.css';
+import { useVisibleVideo } from './use-visible-video';
 
 export function HeroVideo() {
   const [enabled, setEnabled] = useState(false);
   const [playing, setPlaying] = useState(false);
+  const video = useVisibleVideo(enabled);
 
   useEffect(() => {
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -22,10 +24,11 @@ export function HeroVideo() {
 
   return (
     <video
+      ref={video}
       className={styles.video}
       data-ready={playing}
       src="/hero-motion.mp4"
-      autoPlay
+      preload="none"
       muted
       playsInline
       loop

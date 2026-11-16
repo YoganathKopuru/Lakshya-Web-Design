@@ -118,10 +118,9 @@
   overflow: hidden;
   height: 100%;
   padding: 22px;
-  background: linear-gradient(145deg, #ffffffd9, #dcece5bd);
+  background: linear-gradient(145deg, #fcfefd, #deede7);
   border: 1px solid #b3cec3;
   border-radius: 12px;
-  backdrop-filter: blur(12px);
   transition:
     border-color 0.25s,
     box-shadow 0.25s;

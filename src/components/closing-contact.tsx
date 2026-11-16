@@ -14,7 +14,11 @@ const startingPoints = [
 
 export function ClosingContact() {
   return (
-    <section className={`wrap ${styles.band}`} id="start-a-conversation">
+    <section
+      className={`wrap ${styles.band}`}
+      id="start-a-conversation"
+      data-reveal
+    >
       <div className={styles.ambient} aria-hidden="true">
         <svg viewBox="0 0 900 420" fill="none">
           <path d="M150 410C230 410 270 80 580 80S820 250 950-20" />
@@ -25,7 +29,7 @@ export function ClosingContact() {
         </svg>
       </div>
       <div className={styles.top}>
-        <div className={styles.copy}>
+        <div className={styles.copy} data-reveal-part>
           <span className={styles.eyebrow}>YOUR NEXT CHAPTER</span>
           <h2>
             Have a challenge?
@@ -37,7 +41,7 @@ export function ClosingContact() {
             <br />A conversation is a good place to start.
           </p>
         </div>
-        <div className={styles.action}>
+        <div className={styles.action} data-reveal-part>
           <span className={styles.actionLabel}>
             TURN POSSIBILITY INTO A PLAN
           </span>
@@ -53,7 +57,7 @@ export function ClosingContact() {
           </a>
         </div>
       </div>
-      <div className={styles.paths}>
+      <div className={styles.paths} data-reveal-part>
         <span>What are you exploring?</span>
         <div>
           {startingPoints.map(({ label, href, icon: Icon }) => (

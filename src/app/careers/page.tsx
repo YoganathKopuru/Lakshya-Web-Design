@@ -20,7 +20,7 @@ export default function Careers() {
         </p>
       </section>
       <section className="section wrap careers-layout">
-        <div className="empty-jobs">
+        <div className="empty-jobs" data-reveal>
           <BriefcaseBusiness size={34} strokeWidth={1.3} />
           <h2>Let’s find your next opportunity.</h2>
           <p>
@@ -42,7 +42,7 @@ export default function Careers() {
             team.
           </p>
         </div>
-        <div className="hiring-steps">
+        <div className="hiring-steps" data-reveal>
           <span className="eyebrow">FIND YOUR FIT</span>
           <h2>
             Many disciplines.
@@ -92,8 +92,8 @@ export default function Careers() {
             shared commitment to their work.
           </p>
         </div>
-        <div className="why-cards">
-          <article>
+        <div className="why-cards" data-reveal-grid>
+          <article data-reveal>
             <span>01 / THINK</span>
             <h3>Room to imagine</h3>
             <p>
@@ -101,7 +101,7 @@ export default function Careers() {
               technology challenges.
             </p>
           </article>
-          <article>
+          <article data-reveal>
             <span>02 / OWN</span>
             <h3>Make your mark</h3>
             <p>
@@ -109,7 +109,7 @@ export default function Careers() {
               through delivery.
             </p>
           </article>
-          <article>
+          <article data-reveal>
             <span>03 / CONNECT</span>
             <h3>Grow together</h3>
             <p>

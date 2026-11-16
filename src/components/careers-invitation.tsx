@@ -4,8 +4,12 @@ import styles from './careers-invitation.module.css';
 
 export function CareersInvitation() {
   return (
-    <section className={`wrap ${styles.banner}`} id="your-next-chapter">
-      <div className={styles.copy}>
+    <section
+      className={`wrap ${styles.banner}`}
+      id="your-next-chapter"
+      data-reveal
+    >
+      <div className={styles.copy} data-reveal-part>
         <span className="eyebrow">GOOD PEOPLE. MEANINGFUL WORK.</span>
         <h2>
           Your next chapter
@@ -24,7 +28,7 @@ export function CareersInvitation() {
           </span>
         </Link>
       </div>
-      <div className={styles.art} aria-hidden="true">
+      <div className={styles.art} aria-hidden="true" data-reveal-part>
         <div className={styles.glow} />
         <svg viewBox="0 0 480 260" fill="none">
           <defs>

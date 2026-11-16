@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useVisibleVideo } from './use-visible-video';
 
 export function PeopleStory({
   careers = false,
@@ -10,6 +11,7 @@ export function PeopleStory({
   variant?: 'company' | 'why';
 }) {
   const [allowMotion, setAllowMotion] = useState(false);
+  const video = useVisibleVideo(allowMotion);
   const asset = careers ? '/career-growth' : `/${variant}-collaboration`;
 
   useEffect(() => {
@@ -25,10 +27,10 @@ export function PeopleStory({
       <figure className="people-media" data-editorial-zoom>
         {allowMotion ? (
           <video
+            ref={video}
             src={asset + '.mp4'}
             poster={asset + '.webp'}
-            preload="metadata"
-            autoPlay
+            preload="none"
             muted
             loop
             playsInline

@@ -39,7 +39,7 @@ export function DeliveryJourney() {
   return (
     <section className={styles.section} id="approach">
       <div className="wrap">
-        <div className={styles.heading}>
+        <div className={styles.heading} data-reveal>
           <div>
             <span className="eyebrow">03 — THE LAKSHYA APPROACH</span>
             <h2>
@@ -58,9 +58,9 @@ export function DeliveryJourney() {
             </Link>
           </div>
         </div>
-        <ol className={styles.stages}>
+        <ol className={styles.stages} data-reveal-grid>
           {stages.map(({ name, detail, Icon }, i) => (
-            <li key={name}>
+            <li key={name} data-reveal>
               <details className={styles.card}>
                 <summary className={styles.summary}>
                   <div className={styles.top}>

@@ -16,7 +16,7 @@ export function ClientShowcase() {
   return (
     <section className={styles.section}>
       <div className="wrap">
-        <div className={styles.heading}>
+        <div className={styles.heading} data-reveal>
           <div>
             <span className="eyebrow">WORKING TOGETHER</span>
             <h2>

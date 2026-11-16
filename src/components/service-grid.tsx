@@ -23,12 +23,13 @@ const icons = {
 };
 export function ServiceGrid() {
   return (
-    <div className="service-grid">
+    <div className="service-grid" data-reveal-grid>
       {services.map((s, i) => {
         const Icon = icons[s.icon];
         return (
           <Link
             className="service-card"
+            data-reveal
             href={`/services/${s.slug}/`}
             key={s.slug}
           >

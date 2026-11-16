@@ -29,7 +29,7 @@ export default function Company() {
         </p>
       </section>
       <section className="section wrap">
-        <div className="detail-layout">
+        <div className="detail-layout" data-reveal>
           <div>
             <span className="eyebrow">TECHNOLOGY, WITH PURPOSE</span>
             <h2>
@@ -55,7 +55,7 @@ export default function Company() {
             </Link>
           </div>
         </div>
-        <div className="company-values">
+        <div className="company-values" data-reveal-grid>
           {[
             [
               'Understand first',
@@ -70,7 +70,7 @@ export default function Company() {
               'Plan for adoption, maintainability and the next stage of your business.',
             ],
           ].map(([title, text]) => (
-            <div key={title}>
+            <div key={title} data-reveal>
               <h3>{title}</h3>
               <p>{text}</p>
             </div>

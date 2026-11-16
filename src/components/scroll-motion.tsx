@@ -8,8 +8,7 @@ export function ScrollMotion() {
 
   useEffect(() => {
     const root = document.querySelector<HTMLElement>('main');
-    if (!root?.querySelector('[data-reveal], [data-hero-media], [data-metric]'))
-      return;
+    if (!root) return;
 
     const preference = matchMedia('(prefers-reduced-motion: reduce)');
     let disposed = false;
@@ -36,5 +35,11 @@ export function ScrollMotion() {
     };
   }, [pathname]);
 
-  return null;
+  return (
+    <div
+      className="page-scroll-progress"
+      data-scroll-progress
+      aria-hidden="true"
+    />
+  );
 }

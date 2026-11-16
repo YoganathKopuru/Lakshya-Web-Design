@@ -57,13 +57,13 @@ export default function WhyLakshya() {
         className="section wrap audience-paths"
         aria-labelledby="audience-heading"
       >
-        <div className="audience-intro">
+        <div className="audience-intro" data-reveal>
           <h2 id="audience-heading">What brings you here?</h2>
           <p>Find a starting point for your project, career or partnership.</p>
         </div>
         <ul className="audience-routes">
           {audiences.map(([label, title, body, cta, href]) => (
-            <li key={label} className="audience-route">
+            <li key={label} className="audience-route" data-reveal>
               <div>
                 <span className="eyebrow">{label}</span>
                 <h3>{title}</h3>
