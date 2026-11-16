@@ -505,7 +505,14 @@ textarea:focus-visible {
 .ai-feature {
   background: #101b34;
   color: white;
-  overflow: hidden;
+  overflow: clip;
+}
+@media (min-width: 1024px) and (min-height: 700px) and (prefers-reduced-motion: no-preference) {
+  .ai-sticky {
+    position: sticky;
+    top: 120px;
+    align-self: start;
+  }
 }
 .ai-feature-inner {
   display: grid;
@@ -1050,6 +1057,14 @@ textarea:focus-visible {
 .work-row .project-visual {
   margin: 0;
   height: 320px;
+}
+.work-media {
+  min-width: 0;
+  overflow: hidden;
+}
+[data-reveal]:focus-within,
+[data-reveal]:focus-within [data-reveal-part] {
+  opacity: 1 !important;
 }
 .work-row h2 {
   font-size: 33px;

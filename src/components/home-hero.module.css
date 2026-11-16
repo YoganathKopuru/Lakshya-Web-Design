@@ -75,6 +75,64 @@
   color: #abe3d1;
   font-style: normal;
 }
+.mask {
+  display: block;
+  overflow: clip;
+  overflow-clip-margin: 2px;
+}
+.mask > * {
+  display: block;
+}
+.scrollLine {
+  position: relative;
+  width: 1px;
+  height: 16px;
+  background: #a5bebf4d;
+  overflow: hidden;
+}
+.scrollLine::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #b9e8d7;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .mask > * {
+    animation: hero-reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .mask:nth-of-type(2) > * {
+    animation-delay: 0.12s;
+  }
+  .mask:nth-of-type(3) > *,
+  .description .mask > * {
+    animation-delay: 0.24s;
+  }
+  .description .mask:nth-of-type(2) > * {
+    animation-delay: 0.36s;
+  }
+  .scrollLine::after {
+    animation: scroll-line 1.5s ease-in-out 3;
+  }
+}
+@keyframes hero-reveal {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes scroll-line {
+  0% {
+    transform: translateY(-100%);
+  }
+  85%,
+  100% {
+    transform: translateY(100%);
+  }
+}
 .description {
   color: #bdcbd6;
   font-size: 16px;

@@ -26,15 +26,16 @@ export function DeliveryExperience() {
           Explore our work <ArrowUpRight size={18} />
         </Link>
       </div>
-      <div className={styles.grid}>
+      <div className={styles.grid} data-reveal-grid>
         {projectAreas.map((project, index) => (
           <Link
             className={styles.card}
             href={`/work/#${project.type}`}
             key={project.type}
             aria-labelledby={`delivery-${project.type}`}
+            data-reveal
           >
-            <div className={styles.visual}>
+            <div className={styles.visual} data-editorial-zoom>
               <ProjectVisual type={project.type} />
               <span className={styles.scan} aria-hidden="true" />
               <div className={styles.visualTop} aria-hidden="true">

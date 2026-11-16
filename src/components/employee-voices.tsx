@@ -56,9 +56,9 @@ export function EmployeeVoices() {
         </a>
       </div>
       <div className={styles.selectionLabel}>SELECTED POSITIVE EXCERPTS</div>
-      <div className={styles.grid}>
+      <div className={styles.grid} data-reveal-grid>
         {snapshot.reviews.map((review) => (
-          <article className={styles.card} key={review.url}>
+          <article className={styles.card} key={review.url} data-reveal>
             <div className={styles.cardTop}>
               <Stars rating={review.rating} />
               <span>{review.rating.toFixed(1)} / 5</span>

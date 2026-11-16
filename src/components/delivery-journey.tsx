@@ -1,4 +1,3 @@
-import { ShuffleNumber } from './shuffle-number';
 import Link from 'next/link';
 import {
   ArrowUpRight,
@@ -88,9 +87,14 @@ export function DeliveryJourney() {
           </div>
           <div className={styles.metrics}>
             {numbers.map(([value, label]) => (
-              <div key={label}>
-                <ShuffleNumber value={value} />
-                <span>{label}</span>
+              <div key={label} data-metric={value}>
+                <strong className={styles.metricValue}>
+                  <span className={styles.metricAccessible}>{value}</span>
+                  <span data-metric-display aria-hidden="true">
+                    {value}
+                  </span>
+                </strong>
+                <span data-metric-label>{label}</span>
               </div>
             ))}
           </div>

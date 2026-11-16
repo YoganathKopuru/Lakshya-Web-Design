@@ -41,8 +41,10 @@ export default function Work() {
       </section>
       <section className="section wrap work-list">
         {projectAreas.map((p) => (
-          <article className="work-row" id={p.type} key={p.type}>
-            <ProjectVisual type={p.type} />
+          <article className="work-row" id={p.type} key={p.type} data-reveal>
+            <div className="work-media" data-editorial-zoom>
+              <ProjectVisual type={p.type} />
+            </div>
             <div>
               <span className="eyebrow">{p.category}</span>
               <h2>{p.title}</h2>

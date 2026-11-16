@@ -31,7 +31,7 @@
 }
 .card:hover,
 .card:focus-visible {
-  transform: translateY(-6px);
+  transform: translateY(-4px);
   box-shadow: 0 18px 35px #102b3c12;
   border-color: #aacac0;
 }

@@ -57,6 +57,7 @@ export function ServicePlacards() {
       ref={grid}
       className={styles.grid}
       data-visible={visible}
+      data-reveal-grid
       onPointerLeave={() => setHovered(null)}
       onBlur={(event) => {
         if (!event.currentTarget.contains(event.relatedTarget))
@@ -71,7 +72,6 @@ export function ServicePlacards() {
           '--placard-primary': primary,
           '--placard-secondary': secondary,
           '--placard-tint': tint,
-          '--placard-delay': `${index * 70}ms`,
         } as CSSProperties;
         return (
           <Link
@@ -80,6 +80,7 @@ export function ServicePlacards() {
             style={variables}
             className={styles.card}
             data-active={isActive}
+            data-reveal="pillar"
             aria-labelledby={`expertise-title-${service.slug}`}
             onPointerEnter={(event) => {
               if (event.pointerType === 'mouse' || event.pointerType === 'pen')
@@ -92,16 +93,22 @@ export function ServicePlacards() {
             <span className={styles.watermark} aria-hidden="true">
               <Icon size={130} strokeWidth={0.6} />
             </span>
-            <div className={styles.top}>
+            <div className={styles.top} data-reveal-part>
               <Icon size={28} strokeWidth={1.4} />
               <span>0{index + 1}</span>
             </div>
             <div className={styles.content}>
-              <h3 id={`expertise-title-${service.slug}`}>{service.name}</h3>
-              <p>{service.description}</p>
+              <h3 id={`expertise-title-${service.slug}`} data-reveal-part>
+                {service.name}
+              </h3>
+              <p data-reveal-part>{service.description}</p>
               <div className={styles.reveal}>
                 <div className={styles.revealInner}>
-                  <div className={styles.scene} aria-hidden="true">
+                  <div
+                    className={styles.scene}
+                    aria-hidden="true"
+                    data-reveal-part
+                  >
                     <div className={styles.sceneHeader}>
                       <span className={styles.indicator} />
                       <span>{labels[index]}</span>

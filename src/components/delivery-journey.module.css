@@ -249,6 +249,19 @@
   color: #b7c9cc;
   margin-top: 6px;
 }
+.metrics .metricValue {
+  display: inline-grid;
+  font-variant-numeric: tabular-nums;
+}
+.metricValue span {
+  grid-area: 1 / 1;
+  font: inherit;
+  color: inherit;
+  margin: 0;
+}
+.metricAccessible {
+  opacity: 0;
+}
 @media (600px < width <= 850px) {
   .stages {
     grid-template-columns: repeat(2, 1fr);

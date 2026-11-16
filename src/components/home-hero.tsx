@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowDown, ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import styles from './home-hero.module.css';
 import { HeroVideo } from './hero-video';
 
@@ -26,8 +26,8 @@ const pathways = [
 
 export function HomeHero() {
   return (
-    <section className={styles.hero} aria-labelledby="home-heading">
-      <div className={styles.scene} aria-hidden="true">
+    <section className={styles.hero} aria-labelledby="home-heading" data-hero>
+      <div className={styles.scene} aria-hidden="true" data-hero-media>
         <img
           src="/hero-connected-earth-v2.webp"
           srcSet="/hero-connected-earth-960.webp 960w, /hero-connected-earth-v2.webp 1672w"
@@ -46,17 +46,26 @@ export function HomeHero() {
             <span /> TECHNOLOGY, WITH PURPOSE
           </p>
           <h1 id="home-heading">
-            Big ideas.
-            <br />
-            Real engineering.
-            <br />
-            <em>Lasting impact.</em>
+            <span className={styles.mask}>
+              <span>Big ideas.</span>
+            </span>{' '}
+            <span className={styles.mask}>
+              <span>Real engineering.</span>
+            </span>{' '}
+            <span className={styles.mask}>
+              <em>Lasting impact.</em>
+            </span>
           </h1>
           <p className={styles.description}>
-            From intelligent software to connected systems.
-            <br />
-            We bring technology and talent together to move your business
-            forward.
+            <span className={styles.mask}>
+              <span>From intelligent software to connected systems.</span>
+            </span>{' '}
+            <span className={styles.mask}>
+              <span>
+                We bring technology and talent together to move your business
+                forward.
+              </span>
+            </span>
           </p>
           <div className={styles.actions}>
             <Link className={styles.primary} href="/services/">
@@ -73,7 +82,8 @@ export function HomeHero() {
           <b>Limitless possibility.</b>
         </div>
         <a className={styles.discover} href="#expertise">
-          DISCOVER LAKSHYA <ArrowDown size={14} />
+          DISCOVER LAKSHYA{' '}
+          <span className={styles.scrollLine} aria-hidden="true" />
         </a>
       </div>
       <div className={styles.pathways}>

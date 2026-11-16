@@ -3,6 +3,7 @@ import './globals.css';
 import { siteUrl, allowIndexing } from '@/lib/site-metadata';
 import { Header, Footer } from '@/components/chrome';
 import { CursorSignal } from '@/components/cursor-signal';
+import { ScrollMotion } from '@/components/scroll-motion';
 
 export const metadata: Metadata = {
   metadataBase: siteUrl,
@@ -27,6 +28,7 @@ export default function RootLayout({
         {children}
         <Footer />
         <CursorSignal />
+        <ScrollMotion />
       </body>
     </html>
   );

@@ -18,16 +18,18 @@ export default function Home() {
       <HomeHero />
       <CapabilityMarquee />
       <section className="section wrap" id="expertise">
-        <div className="section-head">
+        <div className="section-head" data-reveal>
           <div>
-            <span className="eyebrow">01 — OUR EXPERTISE</span>
-            <h2>
+            <span className="eyebrow" data-reveal-part>
+              01 — OUR EXPERTISE
+            </span>
+            <h2 data-reveal-part>
               Big-picture thinking.
               <br />
               <span className="muted">Deep technical expertise.</span>
             </h2>
           </div>
-          <p>
+          <p data-reveal-part>
             One technology partner. A connected range of capabilities.
             <br />
             Built around where you are—and where you want to go.
@@ -38,24 +40,28 @@ export default function Home() {
       <ClientShowcase />
       <section className="ai-feature" id="ai-in-motion">
         <div className="wrap ai-feature-inner">
-          <AiOrbit />
-          <div className="ai-copy">
-            <span className="eyebrow">BEYOND THE BUZZWORDS</span>
-            <h2>
+          <div className="ai-sticky">
+            <AiOrbit />
+          </div>
+          <div className="ai-copy" data-reveal>
+            <span className="eyebrow" data-reveal-part>
+              BEYOND THE BUZZWORDS
+            </span>
+            <h2 data-reveal-part>
               Make AI part of
               <br />
               your everyday.
             </h2>
-            <p>
+            <p data-reveal-part>
               Put your knowledge to work. Connect your workflows. Give your
               people room to do more.
             </p>
-            <p>
+            <p data-reveal-part>
               We help shape practical AI use cases—from enterprise search and
               document intelligence to agentic automation—with a clear path from
               exploration to integration.
             </p>
-            <ol className="ai-outcomes">
+            <ol className="ai-outcomes" data-reveal-part>
               <li>
                 <span>01 / YOUR KNOWLEDGE</span>
                 <strong>Find the answer.</strong>

@@ -21,8 +21,8 @@ export function PeopleStory({
   }, []);
 
   return (
-    <section className="people-story wrap">
-      <figure className="people-media">
+    <section className="people-story wrap" data-reveal>
+      <figure className="people-media" data-editorial-zoom>
         {allowMotion ? (
           <video
             src={asset + '.mp4'}
