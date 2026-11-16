@@ -7,8 +7,13 @@ test('cursor signal follows a mouse and respects reduced motion', async ({
   test.skip(isMobile, 'A fine pointer is required');
   await page.goto('/industries/');
   const signal = page.locator('.cursor-signal');
-  await page.mouse.move(160, 180);
-  await expect(signal).toHaveAttribute('data-active', '');
+  await expect
+    .poll(async () => {
+      await page.mouse.move(159, 180);
+      await page.mouse.move(160, 180);
+      return signal.getAttribute('data-active');
+    })
+    .toBe('');
   await expect(signal).toHaveAttribute('style', /translate3d\(160px, 180px/);
   await page.mouse.move(280, 220);
   await expect(signal).toHaveAttribute('style', /translate3d\(280px, 220px/);

@@ -26,7 +26,7 @@ export function CursorSignal() {
       delete node.dataset.active;
     };
     const render = (time: number) => {
-      const elapsed = lastTime ? Math.min(time - lastTime, 50) : 16;
+      const elapsed = lastTime ? time - lastTime : 16;
       lastTime = time;
       const blend = 1 - Math.exp(-elapsed / 48);
       x += (targetX - x) * blend;
