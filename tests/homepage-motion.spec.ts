@@ -95,11 +95,23 @@ test('intro film loads muted and can be paused and replayed', async ({
 test('intro film keeps its still when the video cannot load', async ({
   page,
 }) => {
-  await page.route('**/lakshya-intro.mp4', (route) => route.abort());
-  await Promise.all([
-    page.waitForRequest('**/lakshya-intro.mp4'),
-    page.goto('/'),
-  ]);
+  let failRequest!: () => void;
+  const response = new Promise<void>((resolve) => {
+    failRequest = resolve;
+  });
+  const videoUrl = '**/lakshya-intro.mp4';
+  await page.route(videoUrl, async (route) => {
+    await response;
+    await route.abort();
+  });
+  const request = page.waitForRequest(videoUrl);
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  try {
+    await page.getByRole('button', { name: 'Play intro' }).click();
+    await request;
+  } finally {
+    failRequest();
+  }
   await expect(page.locator('[data-hero-media] img')).toBeVisible();
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
     'Software, AI & engineering.',

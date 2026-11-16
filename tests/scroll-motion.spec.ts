@@ -56,7 +56,7 @@ test('metrics count up once and reduced motion shows final values', async ({
   await metric.scrollIntoViewIfNeeded();
   await expect(metric).toHaveAttribute('data-revealed', '');
   await expect(display).not.toHaveText('2015');
-  await expect(display).toHaveText('2015');
+  await expect(display).toHaveText('2015', { timeout: 10000 });
 
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.reload();

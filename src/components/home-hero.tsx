@@ -27,7 +27,7 @@ export function HomeHero() {
   function togglePlayback() {
     const media = video.current;
     if (!media) return;
-    if (media.paused) {
+    if (!playing) {
       setPaused(false);
       void media.play().catch(() => setPlaying(false));
     } else {
