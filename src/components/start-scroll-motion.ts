@@ -96,6 +96,20 @@ export function startScrollMotion(root: HTMLElement) {
         },
       });
     }
+    const aperture = root.querySelector('[data-hero-aperture]');
+    if (aperture && hero && matchMedia('(min-width: 900px)').matches) {
+      gsap.to(aperture, {
+        scale: 2.9,
+        opacity: 0,
+        ease: 'power1.out',
+        scrollTrigger: {
+          trigger: hero,
+          start: 'clamp(top 100px)',
+          end: '+=340',
+          scrub: 0.25,
+        },
+      });
+    }
   }, root);
 
   const targets = Array.from(

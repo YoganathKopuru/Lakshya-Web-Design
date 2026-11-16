@@ -3,10 +3,10 @@ import { expect, test } from '@playwright/test';
 test('the hero scroll cue lands below the sticky header', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('link', { name: 'Discover Lakshya' }).click();
-  await expect(page).toHaveURL(/#expertise$/);
+  await expect(page).toHaveURL(/#solutions$/);
   await expect
     .poll(() =>
-      page.locator('#expertise').evaluate((section) => {
+      page.locator('#solutions').evaluate((section) => {
         const header = document.querySelector('.site-header');
         const gap =
           section.getBoundingClientRect().top -
@@ -28,6 +28,12 @@ test('hero zooms with scroll and editorial cards reveal once', async ({
   );
   await page.evaluate(() => window.scrollTo({ top: 480, behavior: 'instant' }));
   await expect(media).toHaveCSS('transform', 'matrix(1.08, 0, 0, 1.08, 0, 0)');
+  if (page.viewportSize()!.width >= 900) {
+    await expect(page.locator('[data-hero-aperture]')).toHaveCSS(
+      'opacity',
+      '0',
+    );
+  }
   const progress = page.locator('[data-scroll-progress]');
   await expect(progress).not.toHaveCSS('transform', 'matrix(0, 0, 0, 1, 0, 0)');
 
@@ -45,6 +51,24 @@ test('hero zooms with scroll and editorial cards reveal once', async ({
   await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
   await card.scrollIntoViewIfNeeded();
   await expect(card).toHaveCSS('opacity', '1');
+});
+
+test('solution cards open in place and preserve the service links', async ({
+  page,
+}) => {
+  await page.goto('/#solutions');
+  const cards = page.locator('#solutions details');
+  await expect(cards).toHaveCount(3);
+  await cards.nth(0).locator('summary').press('Enter');
+  await expect(cards.nth(0)).toHaveAttribute('open', '');
+  const service = cards.nth(1);
+  await service.locator('summary').click();
+  await expect(cards.nth(0)).not.toHaveAttribute('open');
+  await expect(service).toHaveAttribute('open', '');
+  await service
+    .getByRole('link', { name: 'Explore Embedded Systems & IoT' })
+    .click();
+  await expect(page).toHaveURL(/\/services\/embedded-iot\/$/);
 });
 
 test('metrics count up once and reduced motion shows final values', async ({

@@ -11,11 +11,13 @@ import { EmployeeVoices } from '@/components/employee-voices';
 import { CapabilityMarquee } from '@/components/capability-marquee';
 import { ClientShowcase } from '@/components/client-showcase';
 import { DeliveryJourney } from '@/components/delivery-journey';
+import { SolutionChapters } from '@/components/solution-chapters';
 
 export default function Home() {
   return (
     <main id="main">
       <HomeHero />
+      <SolutionChapters />
       <CapabilityMarquee />
       <section className="section wrap" id="expertise">
         <div className="section-head" data-reveal>

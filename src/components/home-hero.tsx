@@ -3,27 +3,6 @@ import { ArrowUpRight } from 'lucide-react';
 import styles from './home-hero.module.css';
 import { HeroVideo } from './hero-video';
 
-const pathways = [
-  {
-    number: '01',
-    title: 'Build what’s next',
-    detail: 'Software, AI & enterprise platforms',
-    href: '/services/software-engineering/',
-  },
-  {
-    number: '02',
-    title: 'Engineer the connection',
-    detail: 'Silicon, embedded systems & IoT',
-    href: '/services/embedded-iot/',
-  },
-  {
-    number: '03',
-    title: 'Bring the right people',
-    detail: 'Specialist talent & delivery teams',
-    href: '/services/talent-solutions/',
-  },
-];
-
 export function HomeHero() {
   return (
     <section className={styles.hero} aria-labelledby="home-heading" data-hero>
@@ -38,6 +17,7 @@ export function HomeHero() {
           fetchPriority="high"
         />
         <HeroVideo />
+        <div className={styles.aperture} data-hero-aperture />
         <div className={styles.veil} />
       </div>
       <div className={`wrap ${styles.content}`}>
@@ -81,24 +61,10 @@ export function HomeHero() {
           <br />
           <b>Limitless possibility.</b>
         </div>
-        <a className={styles.discover} href="#expertise">
+        <a className={styles.discover} href="#solutions">
           DISCOVER LAKSHYA{' '}
           <span className={styles.scrollLine} aria-hidden="true" />
         </a>
-      </div>
-      <div className={styles.pathways}>
-        <div className={`wrap ${styles.pathwayGrid}`}>
-          {pathways.map((path) => (
-            <Link key={path.number} href={path.href} className={styles.pathway}>
-              <span className={styles.number}>{path.number}</span>
-              <span>
-                <strong>{path.title}</strong>
-                <small>{path.detail}</small>
-              </span>
-              <ArrowUpRight size={20} />
-            </Link>
-          ))}
-        </div>
       </div>
     </section>
   );

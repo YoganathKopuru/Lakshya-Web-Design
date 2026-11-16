@@ -18,6 +18,24 @@
   object-fit: cover;
   object-position: 65% center;
 }
+.aperture {
+  display: none;
+}
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+  .aperture {
+    display: block;
+    position: absolute;
+    top: 49%;
+    left: 72%;
+    width: clamp(385px, 43vw, 625px);
+    aspect-ratio: 1;
+    translate: -50% -50%;
+    border: 1px solid #9ee6d44d;
+    border-radius: 50%;
+    box-shadow: 0 0 0 100vmax #071627d9;
+    pointer-events: none;
+  }
+}
 .video {
   position: absolute;
   inset: 0;
@@ -208,90 +226,11 @@
   font-size: 8px;
   letter-spacing: 2px;
 }
-.pathways {
-  border-top: 1px solid #a6d3c629;
-  background: #081b29d9;
-}
-.pathwayGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-}
-.pathway {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  padding: 29px 26px;
-  border-right: 1px solid #a6d3c629;
-  transition: background 0.25s;
-}
-.pathway:first-child {
-  padding-left: 0;
-}
-.pathway:last-child {
-  border-right: 0;
-}
-.pathway:hover {
-  background: #a6e3c60a;
-}
-.number {
-  color: #81b7b6;
-  font: 10px monospace;
-  align-self: flex-start;
-  padding-top: 5px;
-}
-.pathway strong {
-  display: block;
-  color: #f1f7f5;
-  font-size: 17px;
-  font-weight: 500;
-  letter-spacing: -0.4px;
-}
-.pathway small {
-  display: block;
-  color: #9ab4c2;
-  font-size: 11px;
-  margin-top: 6px;
-}
-.pathway svg {
-  margin-left: auto;
-  flex-shrink: 0;
-  color: #b9e8d7;
-  transition: transform 0.2s;
-}
-.pathway:hover svg {
-  transform: translate(3px, -3px);
-}
-@keyframes drift {
-  from {
-    transform: scale(1);
-  }
-  to {
-    transform: scale(1.045);
-  }
-}
-@media (min-width: 761px) {
-  .scene img,
-  .video {
-    animation-iteration-count: 1;
-    animation-duration: 5s;
-    animation-fill-mode: forwards;
-  }
-}
 @media (max-width: 1000px) {
   .content {
     min-height: 590px;
   }
   .coordinate {
-    display: none;
-  }
-  .pathway {
-    padding: 24px 16px;
-    gap: 10px;
-  }
-  .pathway strong {
-    font-size: 15px;
-  }
-  .number {
     display: none;
   }
 }
@@ -323,25 +262,6 @@
     font-size: 8px;
     letter-spacing: 2px;
   }
-  .pathwayGrid {
-    grid-template-columns: 1fr;
-  }
-  .pathway,
-  .pathway:first-child {
-    border-right: 0;
-    border-bottom: 1px solid #a6d3c629;
-    padding: 20px 0;
-  }
-  .pathway:last-child {
-    border-bottom: 0;
-  }
-  .number {
-    display: block;
-    margin-right: 10px;
-  }
-  .pathway strong {
-    font-size: 17px;
-  }
   .actions {
     gap: 18px;
   }
@@ -350,9 +270,7 @@
   .scene img {
     animation: none;
   }
-  .primary,
-  .pathway,
-  .pathway svg {
+  .primary {
     transition: none;
   }
 }
