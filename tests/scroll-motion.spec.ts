@@ -64,8 +64,10 @@ test('metrics count up once and reduced motion shows final values', async ({
   await expect(display).toHaveText('2015');
   await expect(metric).not.toHaveAttribute('data-revealed');
   await expect(page.locator('[data-scroll-progress]')).toBeHidden();
-  await expect(page.locator('[data-scroll-globe]')).not.toHaveAttribute(
-    'data-globe-ready',
+  await expect(page.locator('video#intro-film')).toHaveCount(0);
+  await expect(page.locator('[data-hero-media] img')).toHaveAttribute(
+    'src',
+    '/lakshya-intro.webp',
   );
   await expect(page.locator('[data-hero-media]')).toHaveCSS(
     'transform',

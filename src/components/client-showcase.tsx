@@ -1,67 +1,80 @@
+'use client';
+
 import Link from 'next/link';
+import { Pause, Play } from 'lucide-react';
+import { useState } from 'react';
 import styles from './client-showcase.module.css';
+
 const clients = [
-  ['AMD', '/images/clients/AMD-Symbol.webp'],
-  ['Atos', '/images/clients/Logo-Atos.webp'],
-  ['Metso', '/images/clients/metso_logo_0.webp'],
-  ['Allstate', '/images/clients/OIP%201.webp'],
-  ['PayPal', '/images/clients/OIP.webp'],
-  ['Qualcomm', '/images/clients/qualcomm-logo-3.webp'],
-  ['Broadcom', '/images/clients/R%201.webp'],
-  ['Deloitte', '/images/clients/R.webp'],
-  ['Synopsys', ''],
+  'AMD',
+  'Atos',
+  'Metso',
+  'Allstate',
+  'PayPal',
+  'Qualcomm',
+  'Broadcom',
+  'Deloitte',
+  'Synopsys',
 ];
 
 export function ClientShowcase() {
+  const [paused, setPaused] = useState(false);
+
   return (
-    <section className={styles.section}>
+    <section className={styles.section} aria-labelledby="client-heading">
       <div className="wrap">
         <div className={styles.heading} data-reveal>
-          <div>
-            <span className="eyebrow">WORKING TOGETHER</span>
-            <h2>
-              Connections that
-              <br />
-              move ideas forward.
-            </h2>
-          </div>
+          <span className={styles.kicker}>Working together</span>
+          <h2 id="client-heading">Connections that move ideas forward.</h2>
           <p>Organizations featured on the original Lakshya client showcase.</p>
         </div>
         <div
           className={styles.viewport}
           aria-label="Client showcase"
-          tabIndex={0}
+          role="region"
+          id="client-logos"
+          data-paused={paused || undefined}
         >
           <div className={styles.track}>
             {[false, true].map((duplicate) => (
-              <div
+              <ul
                 className={styles.group}
                 aria-hidden={duplicate || undefined}
                 key={String(duplicate)}
+                role="list"
               >
-                {clients.map(([name, src]) => (
-                  <div className={styles.card} key={name}>
-                    {src ? (
-                      <img
-                        src={src}
-                        alt={duplicate ? '' : name}
-                        width={170}
-                        height={76}
-                      />
-                    ) : (
-                      <span className={styles.wordmark}>{name}</span>
-                    )}
-                  </div>
+                {clients.map((name) => (
+                  <li className={styles.item} key={name}>
+                    <img
+                      src={`/images/clients/white/${name.toLowerCase()}.png`}
+                      alt={duplicate ? '' : name}
+                      width={400}
+                      height={176}
+                      decoding="async"
+                    />
+                  </li>
                 ))}
-              </div>
+              </ul>
             ))}
           </div>
         </div>
-        <div className="trust-followup">
-          <span>Quality, security and dependable delivery.</span>
+        <div className={styles.followup}>
           <Link href="/services/quality-managed-services/">
             Explore our quality framework ↗
           </Link>
+          <button
+            type="button"
+            className={styles.control}
+            aria-controls="client-logos"
+            onClick={() => setPaused(!paused)}
+          >
+            {paused ? (
+              <Play size={14} aria-hidden="true" />
+            ) : (
+              <Pause size={14} aria-hidden="true" />
+            )}
+            {paused ? 'Play logo strip' : 'Pause logo strip'}
+          </button>
         </div>
       </div>
     </section>

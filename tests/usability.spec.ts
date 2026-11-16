@@ -54,10 +54,28 @@ test('client logo loop exposes each brand once and respects reduced motion', asy
   await page.goto('/');
   const wall = page.locator('[aria-label="Client showcase"]');
   await wall.scrollIntoViewIfNeeded();
-  await expect(wall.getByRole('img')).toHaveCount(8);
+  await expect(wall.getByRole('img')).toHaveCount(9);
+  const names = wall.getByRole('img');
+  await expect(names.last()).toHaveAttribute(
+    'src',
+    '/images/clients/white/synopsys.png',
+  );
+  expect(
+    await names.evaluateAll((images) =>
+      images.every(
+        (image) =>
+          image instanceof HTMLImageElement &&
+          image.complete &&
+          image.naturalWidth > 0 &&
+          image.src.endsWith('.png'),
+      ),
+    ),
+  ).toBe(true);
   const track = wall.locator(':scope > div');
   await expect(track).toHaveCSS('animation-timing-function', 'linear');
   await expect(track).toHaveCSS('animation-iteration-count', 'infinite');
+  await page.getByRole('button', { name: 'Pause logo strip' }).click();
+  await expect(track).toHaveCSS('animation-play-state', 'paused');
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect(track).toHaveCSS('animation-name', 'none');
 });

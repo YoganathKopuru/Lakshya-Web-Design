@@ -65,3 +65,44 @@ test('AI signals remain on their rails as they move, without a pause control', a
   );
   await expect(section.locator('animateMotion')).toHaveCount(0);
 });
+
+test('intro film loads muted and can be paused and replayed', async ({
+  page,
+  browserName,
+}) => {
+  test.skip(
+    browserName !== 'chromium',
+    'Video decoding depends on the browser test runtime',
+  );
+  await page.goto('/');
+  const video = page.locator('video#intro-film');
+  await expect(video).toHaveJSProperty('muted', true);
+  await expect(video).toHaveJSProperty('loop', true);
+  await expect(video).toHaveAttribute('playsinline', '');
+  await expect
+    .poll(() =>
+      video.evaluate((element: HTMLVideoElement) => element.currentTime),
+    )
+    .toBeGreaterThan(0.1);
+  await page.getByRole('button', { name: 'Pause intro' }).click();
+  await expect(video).toHaveJSProperty('paused', true);
+  await page.getByRole('button', { name: 'Play intro' }).click();
+  await expect(video).toHaveJSProperty('paused', false);
+  await page.locator('#approach').scrollIntoViewIfNeeded();
+  await expect(video).toHaveJSProperty('paused', true);
+});
+
+test('intro film keeps its still when the video cannot load', async ({
+  page,
+}) => {
+  await page.route('**/lakshya-intro.mp4', (route) => route.abort());
+  await Promise.all([
+    page.waitForRequest('**/lakshya-intro.mp4'),
+    page.goto('/'),
+  ]);
+  await expect(page.locator('[data-hero-media] img')).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+    'Software, AI & engineering.',
+  );
+  await expect(page.locator('video#intro-film')).toHaveCount(0);
+});
