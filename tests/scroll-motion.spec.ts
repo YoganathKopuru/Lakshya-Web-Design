@@ -1,22 +1,5 @@
 import { expect, test } from '@playwright/test';
 
-test('the hero scroll cue lands below the sticky header', async ({ page }) => {
-  await page.goto('/');
-  await page.getByRole('link', { name: 'Discover Lakshya' }).click();
-  await expect(page).toHaveURL(/#expertise$/);
-  await expect
-    .poll(() =>
-      page.locator('#expertise').evaluate((section) => {
-        const header = document.querySelector('.site-header');
-        const gap =
-          section.getBoundingClientRect().top -
-          (header?.getBoundingClientRect().bottom ?? 0);
-        return gap >= 10 && gap <= 24;
-      }),
-    )
-    .toBe(true);
-});
-
 test('hero zooms with scroll and editorial cards reveal once', async ({
   page,
 }) => {

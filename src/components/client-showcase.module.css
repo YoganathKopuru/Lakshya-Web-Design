@@ -30,28 +30,27 @@
   font-size: 14px;
 }
 .viewport {
-  overflow: hidden;
-  mask-image: linear-gradient(
-    to right,
-    transparent,
-    black 5%,
-    black 95%,
-    transparent
-  );
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+  scrollbar-color: #b9e8d77a transparent;
 }
 .track {
   display: flex;
   width: max-content;
-  animation: slide 46s linear infinite;
 }
 .group {
   display: flex;
   gap: clamp(16px, 3vw, 44px);
   margin: 0;
-  padding: 0 clamp(16px, 3vw, 44px) 0 0;
+  padding: 0;
   list-style: none;
 }
+.group + .group {
+  display: none;
+}
 .item {
+  scroll-snap-align: start;
   display: grid;
   width: clamp(122px, 13vw, 186px);
   place-items: center;
@@ -61,22 +60,12 @@
   width: 100%;
   height: auto;
 }
-.viewport:hover .track,
-.viewport[data-paused] .track {
-  animation-play-state: paused;
-}
 .followup {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px 18px;
   border-top: 1px solid #b9e8d747;
   margin-top: clamp(28px, 5vw, 56px);
   padding-top: 13px;
 }
-.followup a,
-.control {
+.followup a {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
@@ -85,18 +74,37 @@
   font-size: 13px;
   font-weight: 550;
 }
-.followup a:hover,
-.control:hover {
+.followup a:hover {
   color: #fff;
 }
-.control {
-  border: 0;
-  padding: 0;
-  background: transparent;
-}
-.followup :is(a, button):focus-visible {
+.viewport:focus-visible,
+.followup a:focus-visible {
   outline: 2px solid #c9efdb;
   outline-offset: 4px;
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .viewport:not(:focus-visible) {
+    overflow: clip;
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 5%,
+      black 95%,
+      transparent
+    );
+  }
+  .viewport:not(:focus-visible) .track {
+    animation: slide 46s linear infinite;
+  }
+  .viewport:not(:focus-visible) .group {
+    padding-right: clamp(16px, 3vw, 44px);
+  }
+  .viewport:not(:focus-visible) .group + .group {
+    display: flex;
+  }
+  .viewport:hover .track {
+    animation-play-state: paused;
+  }
 }
 @keyframes slide {
   to {
@@ -106,11 +114,9 @@
 @media (prefers-reduced-motion: reduce) {
   .viewport {
     overflow: visible;
-    mask-image: none;
   }
   .track {
     width: auto;
-    animation: none;
   }
   .group {
     display: grid;
@@ -124,10 +130,6 @@
   }
   .item img {
     max-width: 164px;
-  }
-  .group:nth-child(2),
-  .control {
-    display: none;
   }
 }
 @media (prefers-reduced-motion: reduce) and (max-width: 650px) {

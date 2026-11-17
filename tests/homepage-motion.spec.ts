@@ -66,7 +66,7 @@ test('AI signals remain on their rails as they move, without a pause control', a
   await expect(section.locator('animateMotion')).toHaveCount(0);
 });
 
-test('intro film loads muted and can be paused and replayed', async ({
+test('intro film plays muted and pauses offscreen', async ({
   page,
   browserName,
 }) => {
@@ -84,10 +84,6 @@ test('intro film loads muted and can be paused and replayed', async ({
       video.evaluate((element: HTMLVideoElement) => element.currentTime),
     )
     .toBeGreaterThan(0.1);
-  await page.getByRole('button', { name: 'Pause intro' }).click();
-  await expect(video).toHaveJSProperty('paused', true);
-  await page.getByRole('button', { name: 'Play intro' }).click();
-  await expect(video).toHaveJSProperty('paused', false);
   await page.locator('#approach').scrollIntoViewIfNeeded();
   await expect(video).toHaveJSProperty('paused', true);
 });
@@ -106,31 +102,13 @@ test('intro film keeps its still when the video cannot load', async ({
   await expect(page.locator('video#intro-film')).toHaveCount(0);
 });
 
-test('the technology intro loads on demand and returns focus when closed', async ({
-  page,
-}) => {
-  await page.route('https://www.youtube-nocookie.com/embed/**', (route) =>
-    route.fulfill({
-      contentType: 'text/html',
-      body: '<title>Video player</title>',
-    }),
-  );
-  await page.emulateMedia({ reducedMotion: 'reduce' });
+test('the hero presents one project action', async ({ page }) => {
   await page.goto('/');
-  const player = page.getByTitle('Technology Background Template by Ziii Tech');
-  await expect(player).toHaveCount(0);
-  const trigger = page.getByRole('button', { name: 'Watch technology intro' });
-  await trigger.click();
-  await expect(player).toHaveAttribute(
-    'src',
-    /youtube-nocookie\.com\/embed\/P90X9xxm1gc/,
-  );
-  const close = page.getByRole('button', { name: 'Close video' });
-  await expect(close).toBeFocused();
+  const hero = page.locator('[data-hero]');
+  await expect(hero.getByRole('button')).toHaveCount(0);
+  await expect(hero.locator('iframe')).toHaveCount(0);
+  await expect(hero.getByRole('link')).toHaveCount(1);
   await expect(
-    page.getByRole('link', { name: 'Watch on YouTube' }),
-  ).toHaveAttribute('href', 'https://www.youtube.com/watch?v=P90X9xxm1gc');
-  await close.click();
-  await expect(player).toHaveCount(0);
-  await expect(trigger).toBeFocused();
+    hero.getByRole('link', { name: 'Discuss your project' }),
+  ).toHaveAttribute('href', '/contact/');
 });

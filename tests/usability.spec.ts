@@ -48,8 +48,9 @@ test('journey connectors follow the stage order at each layout breakpoint', asyn
   }
 });
 
-test('client logo loop exposes each brand once and respects reduced motion', async ({
+test('client logos remain browsable without playback controls', async ({
   page,
+  hasTouch,
 }) => {
   await page.goto('/');
   const wall = page.locator('[aria-label="Client showcase"]');
@@ -72,12 +73,30 @@ test('client logo loop exposes each brand once and respects reduced motion', asy
     ),
   ).toBe(true);
   const track = wall.locator(':scope > div');
-  await expect(track).toHaveCSS('animation-timing-function', 'linear');
-  await expect(track).toHaveCSS('animation-iteration-count', 'infinite');
-  await page.getByRole('button', { name: 'Pause logo strip' }).click();
-  await expect(track).toHaveCSS('animation-play-state', 'paused');
+  expect(await wall.evaluate((el) => el.scrollWidth > el.clientWidth)).toBe(
+    true,
+  );
+  await expect(page.getByRole('button', { name: /logo strip/i })).toHaveCount(
+    0,
+  );
+  if (hasTouch) {
+    await expect(track).toHaveCSS('animation-name', 'none');
+    await expect(wall).toHaveCSS('overflow-x', 'auto');
+  } else {
+    await expect(track).toHaveCSS('animation-iteration-count', 'infinite');
+    await wall.hover();
+    await expect(track).toHaveCSS('animation-play-state', 'paused');
+    await page
+      .getByRole('link', { name: /explore our quality framework/i })
+      .focus();
+    await page.keyboard.press('Shift+Tab');
+    await expect(wall).toBeFocused();
+    await expect(track).toHaveCSS('animation-name', 'none');
+    await expect(wall).toHaveCSS('overflow-x', 'auto');
+  }
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect(track).toHaveCSS('animation-name', 'none');
+  await expect(wall.getByRole('list')).toHaveCSS('display', 'grid');
 });
 test('audience routes are visible and keyboard accessible', async ({
   page,

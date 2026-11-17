@@ -1,8 +1,4 @@
-'use client';
-
 import Link from 'next/link';
-import { Pause, Play } from 'lucide-react';
-import { useState } from 'react';
 import styles from './client-showcase.module.css';
 
 const clients = [
@@ -18,8 +14,6 @@ const clients = [
 ];
 
 export function ClientShowcase() {
-  const [paused, setPaused] = useState(false);
-
   return (
     <section className={styles.section} aria-labelledby="client-heading">
       <div className="wrap">
@@ -32,8 +26,7 @@ export function ClientShowcase() {
           className={styles.viewport}
           aria-label="Client showcase"
           role="region"
-          id="client-logos"
-          data-paused={paused || undefined}
+          tabIndex={0}
         >
           <div className={styles.track}>
             {[false, true].map((duplicate) => (
@@ -62,19 +55,6 @@ export function ClientShowcase() {
           <Link href="/services/quality-managed-services/">
             Explore our quality framework ↗
           </Link>
-          <button
-            type="button"
-            className={styles.control}
-            aria-controls="client-logos"
-            onClick={() => setPaused(!paused)}
-          >
-            {paused ? (
-              <Play size={14} aria-hidden="true" />
-            ) : (
-              <Pause size={14} aria-hidden="true" />
-            )}
-            {paused ? 'Play logo strip' : 'Pause logo strip'}
-          </button>
         </div>
       </div>
     </section>
