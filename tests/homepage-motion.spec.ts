@@ -105,3 +105,32 @@ test('intro film keeps its still when the video cannot load', async ({
   );
   await expect(page.locator('video#intro-film')).toHaveCount(0);
 });
+
+test('the technology intro loads on demand and returns focus when closed', async ({
+  page,
+}) => {
+  await page.route('https://www.youtube-nocookie.com/embed/**', (route) =>
+    route.fulfill({
+      contentType: 'text/html',
+      body: '<title>Video player</title>',
+    }),
+  );
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/');
+  const player = page.getByTitle('Technology Background Template by Ziii Tech');
+  await expect(player).toHaveCount(0);
+  const trigger = page.getByRole('button', { name: 'Watch technology intro' });
+  await trigger.click();
+  await expect(player).toHaveAttribute(
+    'src',
+    /youtube-nocookie\.com\/embed\/P90X9xxm1gc/,
+  );
+  const close = page.getByRole('button', { name: 'Close video' });
+  await expect(close).toBeFocused();
+  await expect(
+    page.getByRole('link', { name: 'Watch on YouTube' }),
+  ).toHaveAttribute('href', 'https://www.youtube.com/watch?v=P90X9xxm1gc');
+  await close.click();
+  await expect(player).toHaveCount(0);
+  await expect(trigger).toBeFocused();
+});
