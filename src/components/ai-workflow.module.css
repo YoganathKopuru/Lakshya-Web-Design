@@ -1,6 +1,6 @@
 .section {
   background: #0e1d33;
-  color: #f2faf6;
+  color: #e6f3f6;
   padding: clamp(56px, 7vw, 108px) 0;
   isolation: isolate;
 }
@@ -25,7 +25,7 @@
   margin: 0;
 }
 .intro p {
-  color: #c9d9de;
+  color: #ccd8db;
 }
 .kicker,
 .recordHead {
@@ -36,7 +36,7 @@
   letter-spacing: 0.12em;
 }
 .kicker {
-  color: #a8ddce;
+  color: #a7ddd0;
 }
 .deck {
   list-style: none;
@@ -50,7 +50,7 @@
   grid-template-columns: 1fr 1fr;
   position: relative;
   background: #152e40;
-  border: 1px solid #57747b;
+  border: 1px solid #427884;
   border-radius: 16px;
   overflow: hidden;
 }
@@ -75,13 +75,13 @@
   margin: 20px 0 16px;
 }
 .copy p {
-  color: #d5e4e5;
+  color: #d7e3e6;
 }
 .link {
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
-  color: #e5fff3;
+  color: #dbf8f0;
   font-weight: 600;
   margin-top: 20px;
   text-decoration: underline;
@@ -90,29 +90,29 @@
 .desk {
   display: grid;
   place-items: center;
-  background-color: #b7dbd0;
+  background-color: #33bda51b;
   background-image:
-    linear-gradient(90deg, #30544d12 1px, transparent 1px),
-    linear-gradient(#30544d12 1px, transparent 1px);
+    linear-gradient(90deg, #33bda512 1px, transparent 1px),
+    linear-gradient(#33bda512 1px, transparent 1px);
   background-size: 22px 22px;
 }
 .record {
   width: 100%;
   max-width: 390px;
-  background: #fafbf6;
-  color: #142e36;
+  background: #7a7fe50c;
+  color: #bacad0;
   padding: clamp(22px, 3vw, 44px);
   border-top: 4px solid #147467;
   box-shadow:
-    5px 6px 0 #e1efe7,
-    8px 10px 0 #7ca89a,
-    0 14px 32px #173b3926;
+    5px 6px 0 #7a7fe523,
+    8px 10px 0 #33bda54a,
+    0 14px 32px #0201135b;
 }
 .recordHead {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: #37665f;
+  color: #4fc8b8;
 }
 .record h4 {
   font-size: clamp(23px, 2.5vw, 36px);
@@ -127,7 +127,7 @@
   justify-content: space-between;
   gap: 10px;
   padding: 10px 0;
-  border-top: 1px solid #bdcec7;
+  border-top: 1px solid #33bda534;
   font-size: 0.89rem;
 }
 .record dd {
@@ -136,7 +136,7 @@
   margin: 0;
 }
 .card:nth-child(n + 2) dd:last-child {
-  color: #215d52;
+  color: #53c8b2;
 }
 @media (min-width: 850px) and (min-height: 650px) and (prefers-reduced-motion: no-preference) {
   .card {

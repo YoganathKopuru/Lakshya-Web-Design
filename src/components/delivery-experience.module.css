@@ -7,8 +7,8 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
-  background: #fff;
-  border: 1px solid #dde5e0;
+  background: #7a7fe50a;
+  border: 1px solid #7a7fe527;
   border-radius: 5px;
   overflow: hidden;
   position: relative;
@@ -24,7 +24,7 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #120c5a, #077d63);
+  background: linear-gradient(90deg, #120c5a, #007c6b);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.5s;
@@ -32,8 +32,8 @@
 .card:hover,
 .card:focus-visible {
   transform: translateY(-4px);
-  box-shadow: 0 18px 35px #102b3c12;
-  border-color: #aacac0;
+  box-shadow: 0 18px 35px #0201132b;
+  border-color: #33bda538;
 }
 .card:hover::after,
 .card:focus-visible::after {
@@ -44,7 +44,7 @@
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  background: #e5eee9;
+  background: #7a7fe512;
 }
 .visual :global(.project-visual) {
   height: 100%;
@@ -62,15 +62,15 @@
   font-size: 7px;
   font-family: monospace;
   letter-spacing: 1.6px;
-  color: #1a4e50;
+  color: #4ac9ce;
   z-index: 2;
 }
 .signal {
   width: 5px;
   height: 5px;
-  background: #177967;
+  background: #157968;
   border-radius: 50%;
-  box-shadow: 0 0 0 4px #17796715;
+  box-shadow: 0 0 0 4px #02011332;
 }
 .scan {
   position: absolute;
@@ -78,7 +78,7 @@
   background: linear-gradient(
     110deg,
     transparent 25%,
-    #ffffff80 48%,
+    #ffffff4d 48%,
     transparent 70%
   );
   transform: translateX(-110%);
@@ -111,8 +111,8 @@
   padding: 5px 7px;
   font-size: 8px;
   letter-spacing: 0.4px;
-  color: #255c59;
-  background: #ffffffd9;
+  color: #49c7c1;
+  background: #0f0c34d9;
   backdrop-filter: blur(8px);
   border: 1px solid #1c655b20;
   border-radius: 3px;
@@ -165,9 +165,9 @@
   align-items: center;
   gap: 10px;
   margin-top: auto;
-  border-top: 1px solid #e6ece7;
+  border-top: 1px solid #7a7fe524;
   padding-top: 16px;
-  color: #0a776a;
+  color: #50c8b6;
 }
 .bottom > span:first-child {
   font-size: 10px;
@@ -187,7 +187,7 @@
 .card:hover .arrow,
 .card:focus-visible .arrow {
   background: #0a776a;
-  color: white;
+  color: #e6f3f6;
 }
 .card:hover .arrow > svg,
 .card:focus-visible .arrow > svg {
@@ -243,8 +243,8 @@
 }
 @keyframes workflow {
   50% {
-    background: #d7e7e4;
-    color: #0a776a;
+    background: #7a7fe515;
+    color: #50c8b6;
     transform: translateY(-5px);
   }
 }
@@ -263,7 +263,7 @@
 }
 @keyframes pulse {
   50% {
-    box-shadow: 0 0 0 7px #17796705;
+    box-shadow: 0 0 0 7px #0201130c;
   }
 }
 @keyframes arrow {

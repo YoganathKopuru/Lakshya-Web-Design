@@ -5,17 +5,17 @@
   overflow: hidden;
   padding: 51px 52px 28px;
   background: linear-gradient(115deg, #101450, #0c3e57 60%, #0a6861);
-  border: 1px solid #285c6529;
+  border: 1px solid #245c6629;
   border-radius: 6px;
-  color: #e6f6ee;
-  box-shadow: 0 15px 45px #102b4210;
+  color: #e6f3f6;
+  box-shadow: 0 15px 45px #02011326;
 }
 .ambient {
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: -1;
-  background: radial-gradient(ellipse at 75% 60%, #63d5b017, transparent 50%);
+  background: radial-gradient(ellipse at 75% 60%, #57d5bd0e, transparent 50%);
 }
 .ambient > svg {
   position: absolute;
@@ -29,12 +29,12 @@
     opacity 0.8s;
 }
 .ambient path {
-  stroke: #acd8c7;
+  stroke: #a9d8cc;
   stroke-width: 0.7;
   stroke-dasharray: 4 7;
 }
 .ambient circle {
-  fill: #dcf4df;
+  fill: #d3f5ec;
 }
 .band:hover .ambient > svg,
 .band:focus-within .ambient > svg {
@@ -52,14 +52,14 @@
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 2px;
-  color: #a3d4c5;
+  color: #a2d4c8;
 }
 .copy h2 {
   font-size: 39px;
   letter-spacing: -1.4px;
   line-height: 1.2;
   margin: 18px 0;
-  color: #edf9f2;
+  color: #e6f3f6;
 }
 .copy p {
   font-size: 12px;
@@ -81,11 +81,11 @@
   gap: 20px;
   padding: 14px 15px 14px 21px;
   min-height: 75px;
-  background: linear-gradient(110deg, #d8f4e0, #b1e6cf);
-  color: #123f37;
-  border: 1px solid #daf3e0;
+  background: linear-gradient(110deg, #33bda511, #33bda519);
+  color: #62d5bf;
+  border: 1px solid #33bda523;
   border-radius: 4px;
-  box-shadow: 0 8px 30px #021c2920;
+  box-shadow: 0 8px 30px #0201134d;
   transition:
     background 0.3s,
     transform 0.3s,
@@ -98,8 +98,8 @@
 }
 .primary:hover {
   transform: translateY(-3px);
-  background: #e4fbe9;
-  box-shadow: 0 12px 35px #021c2930;
+  background: #33bda50e;
+  box-shadow: 0 12px 35px #02011373;
 }
 .arrow {
   display: grid;
@@ -108,9 +108,9 @@
   flex-shrink: 0;
   width: 43px;
   height: 43px;
-  background: #0b6653;
+  background: #006657;
   border-radius: 50%;
-  color: #e4ffe9;
+  color: #d4faf0;
 }
 .primary:hover .arrow > svg,
 .primary:focus-visible .arrow > svg {
@@ -127,14 +127,14 @@
   transition: color 0.2s;
 }
 .email:hover {
-  color: white;
+  color: #e6f3f6;
 }
 .paths {
   display: flex;
   align-items: center;
   gap: 22px;
   position: relative;
-  border-top: 1px solid #aed8c629;
+  border-top: 1px solid #aad8cd29;
   margin-top: 35px;
   padding-top: 23px;
 }
@@ -155,11 +155,11 @@
   gap: 10px;
   padding: 9px 12px;
   min-height: 44px;
-  border: 1px solid #a9d4c337;
+  border: 1px solid #a6d4c937;
   border-radius: 4px;
-  background: #acd7bf05;
+  background: #a4d8cb03;
   font-size: 12px;
-  color: #d1e9dc;
+  color: #cee9e2;
   transition:
     background 0.25s,
     border-color 0.25s,
@@ -170,12 +170,12 @@
   opacity: 0.7;
 }
 .paths a:hover {
-  background: #bcf1d313;
-  border-color: #aedec580;
+  background: #b2f2e20b;
+  border-color: #a6dfd180;
   transform: translateY(-2px);
 }
 .band a:focus-visible {
-  outline: 2px solid #d6f3df;
+  outline: 2px solid #cff4ea;
   outline-offset: 4px;
 }
 @keyframes launch {
