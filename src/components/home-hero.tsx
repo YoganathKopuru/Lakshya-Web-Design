@@ -51,11 +51,9 @@ export function HomeHero() {
           />
         )}
         <div className={styles.veil} />
-        <div className={styles.aurora} />
-        <div className={styles.grid} />
       </div>
       <div className={`wrap ${styles.content}`}>
-        <div className={styles.intro} data-hero-content>
+        <div className={styles.intro}>
           <p className={styles.kicker}>Lakshya Software Technologies</p>
           <h1 id="home-heading">
             <span className={styles.mask}>
@@ -69,14 +67,10 @@ export function HomeHero() {
             For businesses modernizing operations, building connected products
             or expanding their technical teams.
           </p>
-          <Link className={styles.primary} href="/contact/" data-magnetic>
+          <Link className={styles.primary} href="/contact/">
             Discuss your project <ArrowUpRight size={18} aria-hidden="true" />
           </Link>
         </div>
-      </div>
-      <div className={styles.cue} aria-hidden="true">
-        <span>Scroll to explore</span>
-        <span className={styles.cueLine} />
       </div>
     </section>
   );

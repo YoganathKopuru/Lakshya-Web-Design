@@ -14,16 +14,16 @@ test('homepage expertise gives each service one direct route', async ({
   await expect(page).toHaveURL(/\/services\/embedded-iot\/$/);
 });
 
-test('procurement placards follow the order through buyer review', async ({
+test('AI placards connect enterprise knowledge to a reviewed support response', async ({
   page,
 }) => {
   await page.goto('/#ai-in-motion');
   const section = page.locator('#ai-in-motion');
   const cards = section.getByRole('listitem');
   await expect(cards).toHaveCount(3);
-  await expect(cards.first()).toContainText('Receiving log');
+  await expect(cards.first()).toContainText('Access guide');
   await cards.nth(1).scrollIntoViewIfNeeded();
-  await expect(cards.nth(1)).toContainText('2 units short');
+  await expect(cards.nth(1)).toContainText('Restore access');
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect(cards.first()).toHaveCSS('position', 'relative');
   await expect(cards.first().locator('[data-workflow-record]')).toHaveCSS(

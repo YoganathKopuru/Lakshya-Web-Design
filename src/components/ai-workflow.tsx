@@ -10,41 +10,41 @@ import styles from './ai-workflow.module.css';
 const stages = [
   {
     name: 'Retrieve',
-    title: 'Find the right records.',
+    title: 'Search your enterprise knowledge.',
     detail:
-      'Bring an order, its packing list and the receiving log into one view so the team can trace every figure.',
+      'Connect internal guides and technical documentation so a support engineer can find an answer and check its source.',
     icon: FileText,
-    artifact: 'Receiving file',
+    artifact: 'Knowledge search',
     rows: [
-      ['Purchase order', '24 units'],
-      ['Packing list', '24 units'],
-      ['Receiving log', '22 units'],
+      ['Question', 'How do I restore access?'],
+      ['Source', 'Access guide'],
+      ['Result', 'Recovery procedure'],
     ],
   },
   {
-    name: 'Compare',
-    title: 'Spot the discrepancy.',
+    name: 'Extract',
+    title: 'Turn documents into usable data.',
     detail:
-      'Extract quantities from each document and compare them. Surface the difference alongside the source that explains it.',
+      'Extract the application, issue and requested change from a support ticket. Flag missing details for review.',
     icon: GitCompareArrows,
-    artifact: 'Quantity check',
+    artifact: 'Document processing',
     rows: [
-      ['Expected', '24 units'],
-      ['Received', '22 units'],
-      ['Difference', '2 units short'],
+      ['Application', 'Employee portal'],
+      ['Issue', 'Sign-in failure'],
+      ['Requested change', 'Restore access'],
     ],
   },
   {
     name: 'Review',
-    title: 'Give the team a next step.',
+    title: 'Connect the answer to the workflow.',
     detail:
-      'Prepare an exception for the buyer with the records attached. The buyer reviews the evidence and decides how to follow up.',
+      'Draft a response using the ticket and the access guide. Route it to a support engineer to verify before replying.',
     icon: ClipboardCheck,
-    artifact: 'Buyer review',
+    artifact: 'Assisted workflow',
     rows: [
-      ['Assigned to', 'Purchasing'],
-      ['Evidence', 'Receiving log'],
-      ['Decision', 'Awaiting review'],
+      ['Assigned to', 'Support engineering'],
+      ['Evidence', 'Access guide'],
+      ['Response', 'Draft for review'],
     ],
   },
 ];
@@ -61,14 +61,14 @@ export function AiWorkflow() {
           <div>
             <span className={styles.kicker}>AI &amp; data engineering</span>
             <h2 id="workflow-title">
-              From a short shipment
+              Make AI part of
               <br />
-              to a clear next step.
+              your everyday.
             </h2>
           </div>
           <p>
-            An illustrative procurement workflow. Follow one order from source
-            documents to a decision your team can make.
+            See how enterprise search, document processing and assisted
+            workflows can work together on one example support request.
           </p>
         </header>
         <ol className={styles.deck}>
@@ -91,7 +91,7 @@ export function AiWorkflow() {
                   <div className={styles.record} data-workflow-record>
                     <div className={styles.recordHead}>
                       <Icon aria-hidden="true" size={26} />
-                      <span>Order 0418</span>
+                      <span>Support request</span>
                     </div>
                     <h4>{artifact}</h4>
                     <dl>
