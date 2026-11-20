@@ -18,12 +18,13 @@ import { DomainScene } from './service-scenes';
 import styles from './service-placards.module.css';
 
 const icons = [Sparkles, Code2, Layers3, Cloud, Cpu, Radio, ShieldCheck, Users];
-// The reference follows the logo spectrum across columns, repeated on row two.
+// The columns follow the logo spectrum (indigo -> blue -> teal), repeated on
+// row two: [light ink for text, saturated accent, deep wash for the active card].
 const palettes = [
-  ['#120C5A', '#112266', '#EBEEF7'],
-  ['#0E3B68', '#0B5269', '#EAF2F6'],
-  ['#0A6268', '#097065', '#E9F4F1'],
-  ['#097065', '#077D63', '#E5F4F0'],
+  ['#D3D4FF', '#4B45D1', '#1D1A8ACC'],
+  ['#C4DDF5', '#2F78B5', '#0D3D61CC'],
+  ['#B7E8EA', '#1B8E98', '#0A6268B3'],
+  ['#B2ECDC', '#1AA68C', '#0A796BB3'],
 ];
 const labels = [
   'AGENTIC RAG PIPELINE',

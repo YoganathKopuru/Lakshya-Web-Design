@@ -34,7 +34,7 @@ export function Header() {
       <div className="header-inner">
         <Link href="/" className="brand" aria-label="Lakshya home">
           <img
-            src="/logo.png"
+            src="/logo-reverse.png"
             alt="Lakshya Software Technologies"
             width="164"
             height="54"

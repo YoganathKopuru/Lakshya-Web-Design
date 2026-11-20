@@ -56,15 +56,17 @@ export default function Contact() {
               Get directions <ArrowUpRight size={16} />
             </a>
           </div>
-          <iframe
-            className="office-map"
-            title="Google Maps location of Lakshya’s Madhapur office"
-            src={`https://maps.google.com/maps?q=${office.coordinates.latitude}%2C${office.coordinates.longitude}&z=17&output=embed`}
-            loading="lazy"
-            referrerPolicy="strict-origin-when-cross-origin"
-            sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
-            allowFullScreen
-          />
+          <div className="office-map-frame">
+            <iframe
+              className="office-map"
+              title="Google Maps location of Lakshya’s Madhapur office"
+              src={`https://maps.google.com/maps?q=${office.coordinates.latitude}%2C${office.coordinates.longitude}&z=17&output=embed`}
+              loading="lazy"
+              referrerPolicy="strict-origin-when-cross-origin"
+              sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
+              allowFullScreen
+            />
+          </div>
         </section>
       </section>
     </main>

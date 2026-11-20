@@ -32,7 +32,7 @@
 .link > span {
   display: grid;
   place-items: center;
-  border: 1px solid #b6ccc1;
+  border: 1px solid #33bda535;
   border-radius: 50%;
   width: 34px;
   height: 34px;
@@ -45,7 +45,7 @@
 .link:hover > span,
 .link:focus-visible > span {
   background: #0a776a;
-  color: white;
+  color: #e6f3f6;
   border-color: #0a776a;
 }
 .link:hover svg,
@@ -55,7 +55,7 @@
 .art {
   position: relative;
   min-width: 0;
-  color: #0b5269;
+  color: #96b7c5;
 }
 .art > svg {
   width: 100%;
@@ -72,17 +72,17 @@
   font-family: monospace;
 }
 .art text[fill='white'] {
-  fill: white;
+  fill: #e6ecfa;
 }
 .art .stepLabel {
   font-size: 8px;
   letter-spacing: 1.7px;
-  fill: #627a73;
+  fill: #a3a9cd;
 }
 .glow {
   position: absolute;
   inset: 0 0 -25px;
-  background: radial-gradient(ellipse at 60% 55%, #d5ecdf80, transparent 70%);
+  background: radial-gradient(ellipse at 60% 55%, #d1ece54d, transparent 70%);
   filter: blur(12px);
   opacity: 0.7;
   transition:
@@ -95,7 +95,7 @@
   font-family: monospace;
   font-size: 8px;
   letter-spacing: 2px;
-  color: #8aa197;
+  color: #98b1ab;
   margin-top: 23px;
 }
 .route {

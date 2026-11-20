@@ -9,8 +9,8 @@
   isolation: isolate;
   border-radius: 5px;
   background: #071627;
-  box-shadow: 0 18px 40px #0c2e3b12;
-  border: 1px solid #173644;
+  box-shadow: 0 18px 40px #0201132b;
+  border: 1px solid #265367;
   container-type: inline-size;
 }
 .frame > img {
@@ -50,7 +50,7 @@
   font-size: 22px;
   font-weight: 300;
   letter-spacing: 0;
-  color: #c8efdb;
+  color: #c3efe4;
   line-height: 1;
 }
 .caption {
@@ -65,16 +65,16 @@
   font-size: clamp(10px, 2.4cqw, 17px);
   letter-spacing: -0.3px;
   line-height: 1.55;
-  text-shadow: 0 1px 8px #0008;
+  text-shadow: 0 1px 8px #020113b3;
 }
 .caption b {
-  color: #d7f0e4;
+  color: #d4f0e9;
   font-weight: 550;
 }
 .rule {
   display: block;
   width: 1px;
-  background: linear-gradient(#8cd3ba, #8cd3ba20);
+  background: linear-gradient(#33bda521, #87d3c213);
   flex-shrink: 0;
 }
 .corner {
@@ -93,8 +93,8 @@
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #a6e3c6;
-  box-shadow: 0 0 0 3px #a6e3c618;
+  background: #33bda51b;
+  box-shadow: 0 0 0 3px #9de4d313;
 }
 .sheen {
   position: absolute;
@@ -102,7 +102,7 @@
   background: linear-gradient(
     115deg,
     transparent 35%,
-    #d8ffeb10 48%,
+    #d4fff40a 48%,
     transparent 61%
   );
   transform: translateX(-65%);
