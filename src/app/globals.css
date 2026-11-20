@@ -1328,15 +1328,11 @@ textarea:focus-visible {
     font-size: 45px;
   }
 }
-@media (max-width: 800px) {
-  h2 {
-    font-size: 35px;
-  }
+@media (max-width: 880px) {
   :root {
     --header-height: 78px;
   }
-  .header-inner,
-  .wrap {
+  .header-inner {
     width: calc(100% - 48px);
   }
   .brand img {
@@ -1403,6 +1399,14 @@ textarea:focus-visible {
   }
   .menu-scrim {
     display: none;
+  }
+}
+@media (max-width: 800px) {
+  h2 {
+    font-size: 35px;
+  }
+  .wrap {
+    width: calc(100% - 48px);
   }
   .hero {
     padding-top: 38px;

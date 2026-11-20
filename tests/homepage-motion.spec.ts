@@ -14,56 +14,24 @@ test('homepage expertise gives each service one direct route', async ({
   await expect(page).toHaveURL(/\/services\/embedded-iot\/$/);
 });
 
-test('AI signals remain on their rails as they move, without a pause control', async ({
+test('procurement placards follow the order through buyer review', async ({
   page,
 }) => {
-  await page.goto('/');
+  await page.goto('/#ai-in-motion');
   const section = page.locator('#ai-in-motion');
-  await section.scrollIntoViewIfNeeded();
-  await expect(section.getByRole('button')).toHaveCount(0);
-  await expect(section.locator('[data-motion]')).toHaveAttribute(
-    'data-motion',
-    'running',
-  );
-  const positions = () =>
-    section.locator('[data-orbit]').evaluateAll((orbits) =>
-      orbits.map((orbit) => {
-        const rail = orbit.querySelector('[data-orbit-path]') as SVGPathElement;
-        const signal = orbit.querySelector(
-          '[data-orbit-signal]',
-        ) as SVGGElement;
-        const dot = new DOMPoint(0, 0).matrixTransform(signal.getScreenCTM()!);
-        const matrix = rail.getScreenCTM()!;
-        const length = rail.getTotalLength();
-        let distance = Infinity;
-        for (let i = 0; i <= 600; i++) {
-          const p = rail
-            .getPointAtLength((length * i) / 600)
-            .matrixTransform(matrix);
-          distance = Math.min(distance, Math.hypot(p.x - dot.x, p.y - dot.y));
-        }
-        return { x: dot.x, y: dot.y, distance };
-      }),
-    );
-  const start = await positions();
-  for (const dot of start) expect(dot.distance).toBeLessThan(2);
-  await expect
-    .poll(async () => {
-      const current = await positions();
-      return Math.min(
-        ...current.map((dot, i) =>
-          Math.hypot(dot.x - start[i].x, dot.y - start[i].y),
-        ),
-      );
-    })
-    .toBeGreaterThan(5);
-  for (const dot of await positions()) expect(dot.distance).toBeLessThan(2);
+  const cards = section.getByRole('listitem');
+  await expect(cards).toHaveCount(3);
+  await expect(cards.first()).toContainText('Receiving log');
+  await cards.nth(1).scrollIntoViewIfNeeded();
+  await expect(cards.nth(1)).toContainText('2 units short');
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await expect(section.locator('[data-motion]')).toHaveAttribute(
-    'data-motion',
-    'resting',
+  await expect(cards.first()).toHaveCSS('position', 'relative');
+  await expect(cards.first().locator('[data-workflow-record]')).toHaveCSS(
+    'transform',
+    'none',
   );
-  await expect(section.locator('animateMotion')).toHaveCount(0);
+  await section.getByRole('link', { name: 'Explore AI & data' }).click();
+  await expect(page).toHaveURL(/ai-data\/$/);
 });
 
 test('intro film plays muted and pauses offscreen', async ({

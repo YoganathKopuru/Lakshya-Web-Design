@@ -129,6 +129,27 @@ export function startScrollMotion(root: HTMLElement) {
         },
       );
     }
+    root
+      .querySelectorAll<HTMLElement>('[data-workflow-card]')
+      .forEach((card) => {
+        const record = card.querySelector('[data-workflow-record]');
+        if (!record) return;
+        gsap.fromTo(
+          record,
+          { y: 18, rotation: -2 },
+          {
+            y: 0,
+            rotation: 0,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: card,
+              start: 'top bottom',
+              end: 'top 42%',
+              scrub: 0.25,
+            },
+          },
+        );
+      });
     const media = root.querySelector('[data-hero-media]');
     const hero = root.querySelector('[data-hero]');
     if (media && hero) {
