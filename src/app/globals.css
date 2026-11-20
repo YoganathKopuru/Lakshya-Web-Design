@@ -1271,12 +1271,16 @@ textarea:focus-visible {
 .field select,
 .field textarea {
   background: #7a7fe50c;
-  border: 1px solid #7a7fe52a;
+  border: 1px solid #6870a7;
   border-radius: 2px;
   padding: 11px 12px;
   width: 100%;
   color: var(--ink);
   font-size: 12px;
+}
+.contact-form :is(input, textarea)::placeholder {
+  color: var(--muted);
+  opacity: 1;
 }
 .field textarea {
   min-height: 120px;
@@ -2182,7 +2186,7 @@ textarea:focus-visible {
 }
 
 .field-error {
-  color: #a02424;
+  color: #ffadad;
   font-size: 13px;
   line-height: 1.5;
 }
