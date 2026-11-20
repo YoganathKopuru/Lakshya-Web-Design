@@ -39,7 +39,10 @@ export function CursorSignal() {
       }
       node.style.transform = `translate3d(${x}px, ${y}px, 0)`;
       frame = settled ? 0 : requestAnimationFrame(render);
-      if (settled) lastTime = 0;
+      if (settled) {
+        lastTime = 0;
+        idle = setTimeout(hide, 550);
+      }
     };
     const follow = (event: PointerEvent) => {
       if (!preference.matches || event.pointerType !== 'mouse') return;
@@ -57,7 +60,6 @@ export function CursorSignal() {
         node.dataset.active = '';
       }
       if (!frame) frame = requestAnimationFrame(render);
-      idle = setTimeout(hide, 550);
     };
     const leave = (event: PointerEvent) => {
       if (!event.relatedTarget) hide();
