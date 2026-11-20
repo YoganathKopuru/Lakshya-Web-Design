@@ -13,7 +13,7 @@ pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-Open the local address printed by Next.js (normally `http://127.0.0.1:3000`). The project has no required `.env` values. Google Fonts are optional; system font fallbacks are included.
+Open the local address printed by Next.js (normally `http://127.0.0.1:3000`). The project has no required `.env` values. Manrope and DM Sans are served locally, with system font fallbacks.
 
 ## Common commands
 
@@ -41,6 +41,8 @@ Content changes belong in `src/data/` where possible. The eight service pages sh
 Use short, descriptive commits on `main` for direct work. Keep generated output, dependencies, local environment files and TypeScript build state out of Git (see `.gitignore`). Before pushing a change, run `pnpm typecheck` and `pnpm build`, then review `git status`.
 
 To contribute from a second machine, sign into GitHub with an account that has write access to this repository, clone it, and push your branch. Open a pull request when changes need review.
+
+See the [engineering portfolio design notes](design/engineering-portfolio.md) for visual references, asset licenses and the redesign rollback point.
 
 ## Site details
 

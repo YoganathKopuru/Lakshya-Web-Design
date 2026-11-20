@@ -4,12 +4,14 @@ import { ArrowUpRight, Copy } from 'lucide-react';
 import { services } from '@/data/content';
 type Draft = { url: string; text: string };
 export function EnquiryForm() {
+  const [ready, setReady] = useState(false);
   const [service, setService] = useState('');
   const [draft, setDraft] = useState<Draft | null>(null);
   const [copyStatus, setCopyStatus] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
   const fallback = useRef<HTMLTextAreaElement>(null);
   useEffect(() => {
+    setReady(true);
     const selected = new URLSearchParams(window.location.search).get('service');
     if (
       selected &&
@@ -23,11 +25,6 @@ export function EnquiryForm() {
       field instanceof HTMLInputElement ||
       field instanceof HTMLTextAreaElement
     )
-      field.setCustomValidity('');
-    if (
-      field instanceof HTMLInputElement ||
-      field instanceof HTMLTextAreaElement
-    )
       setErrors((previous) => ({ ...previous, [field.name]: '' }));
     setDraft(null);
     setCopyStatus('');
@@ -36,25 +33,23 @@ export function EnquiryForm() {
     event.preventDefault();
     const form = event.currentTarget;
     const validationErrors: Record<string, string> = {};
-    for (const name of ['name', 'company', 'message']) {
+    for (const name of ['name', 'email', 'company', 'message']) {
       const field = form.elements.namedItem(name) as
         HTMLInputElement | HTMLTextAreaElement;
-      field.setCustomValidity(
-        field.value.trim().length < (name === 'message' ? 10 : 1)
-          ? name === 'message'
-            ? 'Describe your project in at least 10 characters, excluding surrounding spaces.'
-            : `Please enter your ${name}.`
-          : '',
-      );
-    }
-    for (const name of ['name', 'company', 'message']) {
-      const field = form.elements.namedItem(name) as
-        HTMLInputElement | HTMLTextAreaElement;
-      if (field.validationMessage)
-        validationErrors[name] = field.validationMessage;
+      const text = field.value.trim();
+      if (name === 'email' && (!text || field.validity.typeMismatch))
+        validationErrors[name] = 'Enter a valid work email address.';
+      else if (name === 'message' && text.length < 10)
+        validationErrors[name] =
+          'Describe your project in at least 10 characters, excluding surrounding spaces.';
+      else if (!text) validationErrors[name] = `Please enter your ${name}.`;
     }
     setErrors(validationErrors);
-    if (!form.reportValidity()) return;
+    const invalid = Object.keys(validationErrors)[0];
+    if (invalid) {
+      (form.elements.namedItem(invalid) as HTMLElement).focus();
+      return;
+    }
     const data = new FormData(form);
     const value = (name: string) => String(data.get(name) || '').trim();
     const label =
@@ -85,7 +80,12 @@ export function EnquiryForm() {
     }
   }
   return (
-    <form className="contact-form" onSubmit={submit} onChange={invalidate}>
+    <form
+      noValidate
+      className="contact-form"
+      onSubmit={submit}
+      onChange={invalidate}
+    >
       <h2>What are you working on?</h2>
       <p>
         Share a little about your challenge. This form prepares an email for you
@@ -113,12 +113,19 @@ export function EnquiryForm() {
           Work email *
           <input
             name="email"
+            aria-invalid={Boolean(errors.email)}
+            aria-describedby={errors.email ? 'error-email' : undefined}
             required
             type="email"
             autoComplete="email"
             maxLength={254}
             placeholder="you@company.com"
           />
+          {errors.email && (
+            <span className="field-error" id="error-email">
+              {errors.email}
+            </span>
+          )}
         </label>
         <label className="field">
           Company *
@@ -185,7 +192,14 @@ export function EnquiryForm() {
         Your details stay in this form until you open your email app and send
         the message. Please avoid including sensitive information.
       </p>
-      <button type="submit" className="button button-dark">
+      <noscript>
+        <p>
+          Send your enquiry by email to{' '}
+          <a href="mailto:contact@lakshya-soft.com">contact@lakshya-soft.com</a>
+          .
+        </p>
+      </noscript>
+      <button disabled={!ready} type="submit" className="button button-dark">
         Prepare enquiry <ArrowUpRight size={17} />
       </button>
       {draft && (

@@ -13,6 +13,7 @@ function reveal(target: HTMLElement, delay: number) {
       { y: 30 },
       { y: 0, duration: 0.7, ease: 'expo.out', delay, clearProps: 'transform' },
     );
+    return;
   }
   gsap.fromTo(
     revealItems(target),
@@ -126,20 +127,13 @@ export function startScrollMotion(root: HTMLElement) {
     },
     { threshold: 0.15 },
   );
-  const belowFold = targets.filter(
-    (target) =>
-      target.hasAttribute('data-reveal') &&
-      target.dataset.revealed === undefined &&
-      target.getBoundingClientRect().top >= window.innerHeight,
-  );
-  context.add(() => {
-    belowFold.forEach((target) =>
-      gsap.set(revealItems(target), { y: 30, opacity: 0 }),
-    );
-  });
   targets.forEach((target) => observer.observe(target));
 
+  const size = new ResizeObserver(() => ScrollTrigger.refresh());
+  size.observe(root);
+
   return () => {
+    size.disconnect();
     observer.disconnect();
     context.revert();
     root

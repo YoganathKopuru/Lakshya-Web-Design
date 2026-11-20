@@ -1,6 +1,6 @@
 import { pageMetadata } from '@/lib/site-metadata';
 import Link from 'next/link';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowDownRight, ArrowUpRight } from 'lucide-react';
 import { HomeHero } from '@/components/home-hero';
 import { ServicePlacards } from '@/components/service-placards';
 import { ContactBand } from '@/components/chrome';
@@ -14,22 +14,30 @@ export default function Home() {
   return (
     <main id="main">
       <HomeHero />
+      <nav aria-label="On this page" className="chapter-nav">
+        <div className="wrap">
+          <a href="#expertise">
+            Our expertise <ArrowDownRight aria-hidden="true" />
+          </a>
+          <a href="#delivery">
+            Project experience <ArrowDownRight aria-hidden="true" />
+          </a>
+          <a href="#approach">
+            How we deliver <ArrowDownRight aria-hidden="true" />
+          </a>
+        </div>
+      </nav>
       <section className="section wrap" id="expertise">
         <div className="section-head" data-reveal>
           <div>
             <span className="eyebrow" data-reveal-part>
-              01 — OUR EXPERTISE
+              Our expertise
             </span>
-            <h2 data-reveal-part>
-              Big-picture thinking.
-              <br />
-              <span className="muted">Deep technical expertise.</span>
-            </h2>
+            <h2 data-reveal-part>Find your engineering team.</h2>
           </div>
           <p data-reveal-part>
-            One technology partner. A connected range of capabilities.
-            <br />
-            Built around where you are—and where you want to go.
+            Explore eight capabilities, from designing silicon to running the
+            software your business depends on.
           </p>
         </div>
         <ServicePlacards />

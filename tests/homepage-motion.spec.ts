@@ -84,6 +84,10 @@ test('intro film plays muted and pauses offscreen', async ({
       video.evaluate((element: HTMLVideoElement) => element.currentTime),
     )
     .toBeGreaterThan(0.1);
+  await page.getByRole('button', { name: 'Pause intro film' }).click();
+  await expect(video).toHaveJSProperty('paused', true);
+  await page.getByRole('button', { name: 'Resume intro film' }).click();
+  await expect(video).toHaveJSProperty('paused', false);
   await page.locator('#approach').scrollIntoViewIfNeeded();
   await expect(video).toHaveJSProperty('paused', true);
 });
@@ -105,10 +109,28 @@ test('intro film keeps its still when the video cannot load', async ({
 test('the hero presents one project action', async ({ page }) => {
   await page.goto('/');
   const hero = page.locator('[data-hero]');
-  await expect(hero.getByRole('button')).toHaveCount(0);
   await expect(hero.locator('iframe')).toHaveCount(0);
   await expect(hero.getByRole('link')).toHaveCount(1);
   await expect(
     hero.getByRole('link', { name: 'Discuss your project' }),
   ).toHaveAttribute('href', '/contact/');
+});
+
+test('service filters expose the matching links on both directories', async ({
+  page,
+}) => {
+  for (const path of ['/#expertise', '/services/']) {
+    await page.goto(path);
+    const group = page.getByRole('group', { name: 'Filter services' });
+    const hardware = group.getByRole('button', { name: 'Hardware & devices' });
+    await hardware.focus();
+    await hardware.press('Enter');
+    await expect(hardware).toHaveAttribute('aria-pressed', 'true');
+    await expect(group.getByRole('status')).toHaveText('2 services');
+    const cards = page.locator('[data-reveal-grid]').first().getByRole('link');
+    await expect(cards).toHaveCount(2);
+    await expect(cards.last()).toHaveAccessibleName('Embedded Systems & IoT');
+    await group.getByRole('button', { name: 'All services' }).click();
+    await expect(cards).toHaveCount(8);
+  }
 });

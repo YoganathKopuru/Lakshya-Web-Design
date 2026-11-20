@@ -1,141 +1,81 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useRef, useState, type CSSProperties } from 'react';
-import {
-  ArrowUpRight,
-  Sparkles,
-  Code2,
-  Layers3,
-  Cloud,
-  Cpu,
-  Radio,
-  ShieldCheck,
-  Users,
-} from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { ArrowUpRight } from 'lucide-react';
 import { services } from '@/data/content';
 import { DomainScene } from './service-scenes';
 import styles from './service-placards.module.css';
 
-const icons = [Sparkles, Code2, Layers3, Cloud, Cpu, Radio, ShieldCheck, Users];
-// The reference follows the logo spectrum across columns, repeated on row two.
-const palettes = [
-  ['#120C5A', '#112266', '#EBEEF7'],
-  ['#0E3B68', '#0B5269', '#EAF2F6'],
-  ['#0A6268', '#097065', '#E9F4F1'],
-  ['#097065', '#077D63', '#E5F4F0'],
-];
-const labels = [
-  'AGENTIC RAG PIPELINE',
-  'FULL-STACK COMPILER',
-  'ENTERPRISE BUS SYNC',
-  'CLOUD DELIVERY PIPELINE',
-  'SILICON DESIGN & VERIFICATION',
-  'MCU & RF TELEMETRY',
-  'SYSTEM ASSURANCE',
-  'TECHNICAL TEAM ASSEMBLY',
-];
+const practices = {
+  'ai-data': ['Digital platforms', 'Retrieval pipeline'],
+  'software-engineering': ['Digital platforms', 'Application stack'],
+  'enterprise-platforms': ['Digital platforms', 'System integration'],
+  'cloud-devops': ['Delivery & operations', 'Deployment pipeline'],
+  'semiconductor-vlsi': ['Hardware & devices', 'Silicon verification'],
+  'embedded-iot': ['Hardware & devices', 'Device telemetry'],
+  'quality-managed-services': ['Delivery & operations', 'System assurance'],
+  'talent-solutions': ['Delivery & operations', 'Team composition'],
+} as const;
+const filters = [
+  'All services',
+  'Digital platforms',
+  'Hardware & devices',
+  'Delivery & operations',
+] as const;
 
 export function ServicePlacards() {
-  const [hovered, setHovered] = useState<number | null>(null);
-  const [focused, setFocused] = useState<number | null>(null);
-  const [visible, setVisible] = useState(false);
-  const grid = useRef<HTMLDivElement>(null);
-  const active = focused ?? hovered ?? 0;
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => setVisible(entry.isIntersecting),
-      { threshold: 0.05 },
-    );
-    if (grid.current) observer.observe(grid.current);
-    return () => observer.disconnect();
-  }, []);
-
+  const [filter, setFilter] =
+    useState<(typeof filters)[number]>('All services');
+  const [interactive, setInteractive] = useState(false);
+  useEffect(() => setInteractive(true), []);
+  const matches = (slug: keyof typeof practices) =>
+    filter === 'All services' || practices[slug][0] === filter;
   return (
-    <div
-      ref={grid}
-      className={styles.grid}
-      data-visible={visible}
-      data-reveal-grid
-      onPointerLeave={() => setHovered(null)}
-      onBlur={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget))
-          setFocused(null);
-      }}
-    >
-      {services.map((service, index) => {
-        const Icon = icons[index];
-        const [primary, secondary, tint] = palettes[index % 4];
-        const isActive = index === active;
-        const variables = {
-          '--placard-primary': primary,
-          '--placard-secondary': secondary,
-          '--placard-tint': tint,
-        } as CSSProperties;
-        return (
+    <>
+      <div className={styles.filters} role="group" aria-label="Filter services">
+        {filters.map((item) => (
+          <button
+            key={item}
+            type="button"
+            disabled={!interactive}
+            aria-pressed={filter === item}
+            onClick={() => setFilter(item)}
+          >
+            {item}
+          </button>
+        ))}
+        <span className={styles.count} role="status">
+          {services.filter((s) => matches(s.slug)).length} services
+        </span>
+      </div>
+      <div className={styles.grid} data-reveal-grid>
+        {services.map((service, index) => (
           <Link
-            href={`/services/${service.slug}/`}
             key={service.slug}
-            style={variables}
+            href={`/services/${service.slug}/`}
+            hidden={!matches(service.slug)}
             className={styles.card}
-            data-active={isActive}
+            data-group={practices[service.slug][0]}
             data-reveal="pillar"
             aria-labelledby={`expertise-title-${service.slug}`}
-            onPointerEnter={(event) => {
-              if (event.pointerType === 'mouse' || event.pointerType === 'pen')
-                setHovered(index);
-            }}
-            onFocus={() => setFocused(index)}
           >
-            <span className={styles.sweep} aria-hidden="true" />
-            <span className={styles.accent} aria-hidden="true" />
-            <span className={styles.watermark} aria-hidden="true">
-              <Icon size={130} strokeWidth={0.6} />
-            </span>
-            <div className={styles.top} data-reveal-part>
-              <Icon size={28} strokeWidth={1.4} />
-              <span>0{index + 1}</span>
-            </div>
-            <div className={styles.content}>
-              <h3 id={`expertise-title-${service.slug}`} data-reveal-part>
-                {service.name}
-              </h3>
-              <p data-reveal-part>{service.description}</p>
-              <div className={styles.reveal}>
-                <div className={styles.revealInner}>
-                  <div
-                    className={styles.scene}
-                    aria-hidden="true"
-                    data-reveal-part
-                  >
-                    <div className={styles.sceneHeader}>
-                      <span className={styles.indicator} />
-                      <span>{labels[index]}</span>
-                      <span className={styles.demo}>CONCEPT</span>
-                    </div>
-                    <DomainScene index={index} />
-                  </div>
-                  <div className={styles.tags}>
-                    {service.areas.slice(0, 3).map((area) => (
-                      <span key={area}>{area}</span>
-                    ))}
-                  </div>
-                </div>
+            <div aria-hidden="true" className={styles.scene}>
+              <div className={styles.sceneHeader}>
+                <span>Concept</span>
+                {practices[service.slug][1]}
               </div>
+              <DomainScene index={index} />
             </div>
+            <h3 id={`expertise-title-${service.slug}`}>{service.name}</h3>
+            <p>{service.description}</p>
             <div className={styles.bottom}>
               <span>{service.tags[0]}</span>
-              <span className={styles.explore}>
-                <span>Explore</span>
-                <span className={styles.arrow}>
-                  <ArrowUpRight size={17} />
-                </span>
-              </span>
+              <ArrowUpRight size={18} aria-hidden="true" />
             </div>
           </Link>
-        );
-      })}
-    </div>
+        ))}
+      </div>
+    </>
   );
 }
