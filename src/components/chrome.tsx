@@ -59,6 +59,9 @@ export function Footer() {
         <span>© {new Date().getFullYear()} Lakshya Software Technologies.</span>
         <span>Built around people. Powered by technology.</span>
       </div>
+      <div className="footer-mega" aria-hidden="true">
+        <span data-footer-mega>lakshya</span>
+      </div>
     </footer>
   );
 }

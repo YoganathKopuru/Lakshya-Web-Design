@@ -9,6 +9,7 @@ import {
   CloudUpload,
   Headphones,
 } from 'lucide-react';
+import { FlowField } from './flow-field';
 import styles from './delivery-journey.module.css';
 
 const stages = [
@@ -80,10 +81,15 @@ export function DeliveryJourney() {
             </li>
           ))}
         </ol>
-        <div className={styles.snapshot}>
+        <div className={`${styles.snapshot} grain`} data-snapshot>
+          <FlowField className={styles.field} />
           <div className={styles.snapshotIntro}>
             <span>THE BIGGER PICTURE</span>
-            <h3>Experience in perspective.</h3>
+            <h3>
+              Experience
+              <br />
+              in perspective.
+            </h3>
           </div>
           <div className={styles.metrics}>
             {numbers.map(([value, label]) => (

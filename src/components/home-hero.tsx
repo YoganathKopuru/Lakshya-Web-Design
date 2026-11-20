@@ -24,7 +24,11 @@ export function HomeHero() {
 
   return (
     <section className={styles.hero} aria-labelledby="home-heading" data-hero>
-      <div className={styles.scene} aria-hidden="true" data-hero-media>
+      <div
+        className={`${styles.scene} grain`}
+        aria-hidden="true"
+        data-hero-media
+      >
         <img
           src={poster}
           width={1280}
@@ -70,6 +74,10 @@ export function HomeHero() {
           <Link className={styles.primary} href="/contact/">
             Discuss your project <ArrowUpRight size={18} aria-hidden="true" />
           </Link>
+        </div>
+        <div className={styles.cue} aria-hidden="true">
+          <span>Scroll</span>
+          <i />
         </div>
       </div>
     </section>
