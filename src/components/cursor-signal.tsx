@@ -24,6 +24,7 @@ export function CursorSignal() {
       lastTime = 0;
       clearTimeout(idle);
       delete node.dataset.active;
+      delete node.dataset.hover;
     };
     const render = (time: number) => {
       const elapsed = lastTime ? time - lastTime : 16;
@@ -44,6 +45,11 @@ export function CursorSignal() {
       if (!preference.matches || event.pointerType !== 'mouse') return;
       targetX = event.clientX;
       targetY = event.clientY;
+      const interactive = (event.target as Element | null)?.closest?.(
+        'a, button, summary, label, select, input, textarea, [role="button"]',
+      );
+      if (interactive) node.dataset.hover = '';
+      else delete node.dataset.hover;
       clearTimeout(idle);
       if (node.dataset.active === undefined) {
         x = targetX;

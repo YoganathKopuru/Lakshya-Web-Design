@@ -1,9 +1,46 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { SplitText } from 'gsap/SplitText';
+import { ScrambleTextPlugin } from 'gsap/ScrambleTextPlugin';
+import { startPremiumFx } from './premium-fx';
 
 function revealItems(target: HTMLElement) {
-  const parts = target.querySelectorAll('[data-reveal-part]');
-  return parts.length ? parts : target;
+  const parts = target.querySelectorAll<HTMLElement>('[data-reveal-part]');
+  return parts.length ? parts : [target];
+}
+
+/** Headings rise line by line from behind a mask. */
+function revealHeading(heading: HTMLElement, delay: number) {
+  gsap.set(heading, { opacity: 1, y: 0 });
+  const split = SplitText.create(heading, {
+    type: 'lines',
+    mask: 'lines',
+    linesClass: 'fx-line',
+  });
+  gsap.from(split.lines, {
+    yPercent: 110,
+    duration: 1.1,
+    ease: 'expo.out',
+    stagger: 0.1,
+    delay,
+    onComplete: () => {
+      split.revert();
+      gsap.set(heading, { clearProps: 'transform,opacity' });
+    },
+  });
+}
+
+/** Section labels decode into place like a terminal readout. */
+function decode(label: HTMLElement, delay: number) {
+  const text = label.textContent ?? '';
+  if (!text.trim()) return;
+  if (!label.hasAttribute('aria-label')) label.setAttribute('aria-label', text);
+  gsap.to(label, {
+    duration: 1.1,
+    delay: delay + 0.1,
+    ease: 'none',
+    scrambleText: { text, chars: '01/<>_—▪', speed: 0.5, revealDelay: 0.25 },
+  });
 }
 
 function reveal(target: HTMLElement, delay: number) {
@@ -14,19 +51,29 @@ function reveal(target: HTMLElement, delay: number) {
       { y: 0, duration: 0.7, ease: 'expo.out', delay, clearProps: 'transform' },
     );
   }
-  gsap.fromTo(
-    revealItems(target),
-    { y: 30, opacity: 0 },
-    {
-      y: 0,
-      opacity: 1,
-      duration: 0.7,
-      ease: 'expo.out',
-      delay,
-      stagger: 0.12,
-      clearProps: 'transform,opacity',
-    },
-  );
+  const all = Array.from(revealItems(target));
+  const within = (selector: string) =>
+    Array.from(target.querySelectorAll<HTMLElement>(selector)).concat(
+      target.matches(selector) ? [target] : [],
+    );
+  const headings = within('h2');
+  const items = all.filter((el) => !headings.includes(el));
+  headings.forEach((heading) => revealHeading(heading, delay));
+  within('.eyebrow').forEach((eyebrow) => decode(eyebrow, delay));
+  if (items.length)
+    gsap.fromTo(
+      items,
+      { y: 30, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.7,
+        ease: 'expo.out',
+        delay,
+        stagger: 0.12,
+        clearProps: 'transform,opacity',
+      },
+    );
   const media = target.querySelectorAll(
     '[data-editorial-zoom] > :is(img, video, .project-visual)',
   );
@@ -68,7 +115,7 @@ function countMetric(metric: HTMLElement) {
 }
 
 export function startScrollMotion(root: HTMLElement) {
-  gsap.registerPlugin(ScrollTrigger);
+  gsap.registerPlugin(ScrollTrigger, SplitText, ScrambleTextPlugin);
   const context = gsap.context(() => {
     const progress = document.querySelector('[data-scroll-progress]');
     if (progress) {
@@ -139,7 +186,10 @@ export function startScrollMotion(root: HTMLElement) {
   });
   targets.forEach((target) => observer.observe(target));
 
+  const stopFx = startPremiumFx(root);
+
   return () => {
+    stopFx();
     observer.disconnect();
     context.revert();
     root
