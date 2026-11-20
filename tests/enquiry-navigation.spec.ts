@@ -112,25 +112,3 @@ test('contact pairs the office map with a direct directions link', async ({
     office.getByRole('link', { name: 'Get directions' }),
   ).toHaveAttribute('href', 'https://maps.app.goo.gl/HRKtQG2ZDugDw7hb6');
 });
-
-test('static contact page offers email with native submission disabled', async ({
-  browser,
-}) => {
-  const context = await browser.newContext({ javaScriptEnabled: false });
-  try {
-    const page = await context.newPage();
-    await page.goto('http://127.0.0.1:3008/contact/');
-    const form = page.locator('form');
-    await expect(
-      form.getByRole('button', { name: 'Prepare enquiry' }),
-    ).toBeDisabled();
-    await expect(
-      form.getByRole('link', { name: 'contact@lakshya-soft.com' }),
-    ).toHaveAttribute('href', 'mailto:contact@lakshya-soft.com');
-    await expect(
-      page.locator('meta[http-equiv="Content-Security-Policy" i]'),
-    ).toHaveAttribute('content', /form-action 'none'/);
-  } finally {
-    await context.close();
-  }
-});

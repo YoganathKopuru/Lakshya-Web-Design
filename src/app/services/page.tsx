@@ -1,5 +1,6 @@
 import { pageMetadata } from '@/lib/site-metadata';
-import { ServicePlacards } from '@/components/service-placards';
+import type { Metadata } from 'next';
+import { ServiceGrid } from '@/components/service-grid';
 import { ContactBand } from '@/components/chrome';
 
 export default function Services() {
@@ -7,15 +8,18 @@ export default function Services() {
     <main id="main">
       <section className="page-hero wrap">
         <span className="eyebrow">OUR EXPERTISE</span>
-        <h1>Engineering services</h1>
+        <h1>
+          Connected capabilities.
+          <br />
+          <span className="muted">Countless possibilities.</span>
+        </h1>
         <p>
-          Explore eight practices across software, hardware and technical
-          operations. Choose a service to see the scope of work and discuss your
-          project.
+          From emerging AI to the systems your business relies on. Find the
+          expertise to move your next idea forward.
         </p>
       </section>
       <section className="section wrap">
-        <ServicePlacards />
+        <ServiceGrid />
       </section>
       <ContactBand />
     </main>

@@ -7,7 +7,6 @@ import { ScrollMotion } from '@/components/scroll-motion';
 
 export const metadata: Metadata = {
   metadataBase: siteUrl,
-  referrer: 'strict-origin-when-cross-origin',
   robots: { index: allowIndexing, follow: allowIndexing },
   title: {
     default: 'Lakshya | Technology, with purpose.',
@@ -21,12 +20,6 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" data-scroll-behavior="smooth">
-      <head>
-        <meta
-          httpEquiv="Content-Security-Policy"
-          content="base-uri 'none'; object-src 'none'; form-action 'none'"
-        />
-      </head>
       <body>
         <a className="skip-link" href="#main">
           Skip to content
