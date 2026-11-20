@@ -29,10 +29,21 @@ export function startPremiumFx(root: HTMLElement) {
         if (self.isActive) header.dataset.scrolled = '';
         else delete header.dataset.scrolled;
       },
+      // Step aside while reading down the page; return on any upward scroll.
+      // An open menu or keyboard focus inside the header keeps it visible.
+      onUpdate: (self) => {
+        const busy =
+          header.querySelector('.mega-menu, .nav.open') !== null ||
+          header.matches(':focus-within');
+        if (self.direction === 1 && self.scroll() > 520 && !busy)
+          header.dataset.tucked = '';
+        else if (self.direction === -1 || busy) delete header.dataset.tucked;
+      },
     });
     cleanups.push(() => {
       trigger.kill();
       delete header.dataset.scrolled;
+      delete header.dataset.tucked;
     });
   }
 

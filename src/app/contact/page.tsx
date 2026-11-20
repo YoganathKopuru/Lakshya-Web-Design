@@ -62,6 +62,7 @@ export default function Contact() {
             src={`https://maps.google.com/maps?q=${office.coordinates.latitude}%2C${office.coordinates.longitude}&z=17&output=embed`}
             loading="lazy"
             referrerPolicy="strict-origin-when-cross-origin"
+            sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
             allowFullScreen
           />
         </section>

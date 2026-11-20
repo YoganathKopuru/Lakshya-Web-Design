@@ -150,6 +150,67 @@ export function startScrollMotion(root: HTMLElement) {
           },
         );
       });
+    // The film tucks into a rounded card as the page moves on (Apple-style).
+    const heroCard = root.querySelector<HTMLElement>('[data-hero]');
+    if (heroCard) {
+      const side = () => Math.min(28, Math.max(10, window.innerWidth * 0.022));
+      gsap.fromTo(
+        heroCard,
+        { clipPath: 'inset(0px 0px 0px 0px round 0px)' },
+        {
+          clipPath: () =>
+            `inset(0px ${side()}px 0px ${side()}px round 0px 0px 32px 32px)`,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: heroCard,
+            start: 'top top+=1',
+            end: 'bottom 35%',
+            scrub: true,
+            invalidateOnRefresh: true,
+          },
+        },
+      );
+    }
+
+    // Manifesto words light up in reading order as the statement scrolls by.
+    root.querySelectorAll<HTMLElement>('[data-manifesto]').forEach((text) => {
+      const words = text.querySelectorAll<HTMLElement>('[data-word]');
+      gsap.fromTo(
+        words,
+        { opacity: 0.16 },
+        {
+          opacity: 1,
+          ease: 'none',
+          stagger: 0.1,
+          scrollTrigger: {
+            trigger: text,
+            start: 'top 82%',
+            end: 'bottom 48%',
+            scrub: 0.4,
+          },
+        },
+      );
+    });
+
+    // The metrics band grows from a card into its full frame.
+    root.querySelectorAll<HTMLElement>('[data-snapshot]').forEach((band) => {
+      gsap.fromTo(
+        band,
+        { scale: 0.92, borderRadius: 40 },
+        {
+          scale: 1,
+          borderRadius: 24,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: band,
+            start: 'top bottom',
+            end: 'top 45%',
+            scrub: 0.3,
+          },
+        },
+      );
+    });
+
     const media = root.querySelector('[data-hero-media]');
     const hero = root.querySelector('[data-hero]');
     if (media && hero) {
@@ -165,6 +226,27 @@ export function startScrollMotion(root: HTMLElement) {
       });
     }
   }, root);
+
+  // The footer wordmark rises out of the page edge (outside <main>).
+  const mega = document.querySelector<HTMLElement>('[data-footer-mega]');
+  if (mega) {
+    context.add(() => {
+      gsap.fromTo(
+        mega,
+        { yPercent: 70 },
+        {
+          yPercent: 0,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: mega.parentElement,
+            start: 'top bottom',
+            end: 'bottom bottom',
+            scrub: 0.4,
+          },
+        },
+      );
+    });
+  }
 
   const targets = Array.from(
     root.querySelectorAll<HTMLElement>('[data-reveal], [data-metric]'),

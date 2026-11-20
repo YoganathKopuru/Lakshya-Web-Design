@@ -7,11 +7,13 @@ import { CareersInvitation } from '@/components/careers-invitation';
 import { AiWorkflow } from '@/components/ai-workflow';
 import { ClientShowcase } from '@/components/client-showcase';
 import { DeliveryJourney } from '@/components/delivery-journey';
+import { Manifesto } from '@/components/manifesto';
 
 export default function Home() {
   return (
     <main id="main">
       <HomeHero />
+      <Manifesto />
       <section className="section wrap" id="expertise">
         <div className="section-head" data-reveal>
           <div>
