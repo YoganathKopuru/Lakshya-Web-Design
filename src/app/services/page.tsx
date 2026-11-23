@@ -18,7 +18,10 @@ export default function Services() {
           expertise to move your next idea forward.
         </p>
       </section>
-      <section className="section wrap">
+      <section className="section wrap" aria-labelledby="services-list">
+        <h2 id="services-list" className="visually-hidden">
+          All expertise areas
+        </h2>
         <ServiceGrid />
       </section>
       <ContactBand />

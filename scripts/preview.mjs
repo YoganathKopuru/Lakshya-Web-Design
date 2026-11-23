@@ -29,10 +29,33 @@ createServer(async (req, res) => {
     }
     if ((await stat(path)).isDirectory()) path = resolve(path, 'index.html');
     const data = await readFile(path);
-    res.writeHead(200, {
+    const headers = {
       'Content-Type': mime[extname(path)] || 'application/octet-stream',
       'Cache-Control': 'no-store',
-    });
+      'Accept-Ranges': 'bytes',
+    };
+    // Safari and iOS only play <video> when the server honours byte ranges,
+    // as production static hosts do.
+    const range = /^bytes=(\d*)-(\d*)$/.exec(req.headers.range ?? '');
+    if (range && (range[1] || range[2])) {
+      const size = data.length;
+      const start = range[1] ? Number(range[1]) : Math.max(0, size - range[2]);
+      const end =
+        range[1] && range[2] ? Math.min(Number(range[2]), size - 1) : size - 1;
+      if (start >= size || start > end) {
+        res.writeHead(416, { 'Content-Range': `bytes */${size}` });
+        res.end();
+        return;
+      }
+      res.writeHead(206, {
+        ...headers,
+        'Content-Range': `bytes ${start}-${end}/${size}`,
+        'Content-Length': end - start + 1,
+      });
+      res.end(data.subarray(start, end + 1));
+      return;
+    }
+    res.writeHead(200, { ...headers, 'Content-Length': data.length });
     res.end(data);
   } catch {
     res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });

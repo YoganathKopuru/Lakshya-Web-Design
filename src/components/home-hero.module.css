@@ -98,10 +98,13 @@
   color: #baced2;
   font-size: 13px;
   font-weight: 650;
-  transition: background 0.2s ease;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
 }
 .primary:hover {
-  background: #33bda50d;
+  background: #33bda526;
+  color: #e1edf1;
 }
 .primary:focus-visible {
   outline: 2px solid #c3efe4;

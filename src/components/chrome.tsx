@@ -25,14 +25,14 @@ export function Footer() {
           </a>
         </div>
         <div>
-          <h3>Explore</h3>
+          <h2>Explore</h2>
           <Link href="/services/">Expertise</Link>
           <Link href="/work/">Our work</Link>
           <Link href="/company/">Company</Link>
           <Link href="/careers/">Careers</Link>
         </div>
         <div>
-          <h3>Connect</h3>
+          <h2>Connect</h2>
           <Link href="/contact/">Business enquiries</Link>
           <a href="mailto:hr@lakshya-soft.com">Join our team</a>
           <a
@@ -44,7 +44,7 @@ export function Footer() {
           </a>
         </div>
         <div className="footer-location">
-          <h3>Find us</h3>
+          <h2>Find us</h2>
           <p>
             {office.building}
             <br />

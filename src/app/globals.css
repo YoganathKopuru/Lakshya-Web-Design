@@ -45,6 +45,17 @@
 * {
   box-sizing: border-box;
 }
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
 html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--header-height) + 17px);
@@ -211,6 +222,9 @@ textarea:focus-visible {
   background: var(--brand-gradient);
   background-size: 160% 100%;
   background-position: 0% 0;
+  /* Paint the gradient under the transparent border too, so the tile
+     never repeats into it as a teal sliver on the left edge. */
+  background-origin: border-box;
   box-shadow:
     inset 0 0 0 1px #7a7fe540,
     0 10px 30px -12px #0a796b80;
@@ -960,7 +974,7 @@ textarea:focus-visible {
   font-size: 11px;
   margin: 17px 0 20px;
 }
-.footer-grid h3 {
+.footer-grid h2 {
   font-family: var(--font-body);
   font-weight: 600;
   font-size: 11px;
@@ -1989,7 +2003,7 @@ textarea:focus-visible {
   .footer-wordmark {
     font-size: 38px;
   }
-  .footer-grid h3 {
+  .footer-grid h2 {
     margin-bottom: 17px;
   }
   .footer-grid > div > a:not(.footer-wordmark) {
@@ -2859,7 +2873,8 @@ textarea:focus-visible {
   box-shadow: 0 0 0 0 #02011300;
   transition:
     background 0.25s,
-    box-shadow 0.35s;
+    box-shadow 0.35s,
+    transform 0.2s;
 }
 .button-dark:hover {
   box-shadow: 0 10px 34px -10px #020113b3;
