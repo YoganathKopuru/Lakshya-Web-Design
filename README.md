@@ -32,6 +32,7 @@ src/data/            Service, office, experience and review content
 public/               Images, logo and static assets
 design/               Design and source research notes
 .openai/hosting.json  Sites project and static output configuration
+.claude/skills/       Project skills for Claude Code (reanimate motion verification)
 ```
 
 Content changes belong in `src/data/` where possible. The eight service pages share data-driven layouts; reusable visuals and page sections live in `src/components/`.
@@ -49,7 +50,7 @@ To contribute from a second machine, sign into GitHub with an account that has w
 - Employee review excerpts and the Glassdoor rating are a dated, manually maintained snapshot. Provenance is in `design/glassdoor-source-notes.md`.
 - Interactive illustrations are explanatory concepts, not live system data or performance claims.
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the day-to-day workflow and review checklist.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the day-to-day workflow and review checklist. The current architecture review and recommended next steps are in `design/architecture-review-2026-11-23.md`; motion changes are verified as described in `design/motion-verification.md`.
 
 ## Quality checks and preview
 
