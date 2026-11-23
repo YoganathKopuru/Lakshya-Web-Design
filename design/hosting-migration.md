@@ -1,7 +1,17 @@
 # Hosting migration: ChatGPT Sites → Vercel
 
-Status: the repository is ready; the Vercel project still has to be created by
-someone with access to the GitHub repository and the domain's DNS.
+Status (2026-11-23): the Vercel project `lakshya-web-design` exists in the
+team account, and this branch (commit `ea5e690`) is deployed to production at
+<https://lakshya-web-design.vercel.app>. That deploy was a static upload
+through the Vercel API (the `out/` export plus the repository's headers), the
+same way earlier deploys were made from the CLI. Still to do:
+
+- **Vercel Authentication is on for all deployments**, production included, so
+  visitors without a login on the Vercel team see a Vercel sign-in page. Turn
+  it off for production under _Settings → Deployment Protection_ when the site
+  should be public.
+- **The project is not connected to GitHub**, so pushes and pull requests do
+  not deploy. Connect it under _Settings → Git_ (steps 1–3 below still apply).
 
 ## Why Vercel
 
