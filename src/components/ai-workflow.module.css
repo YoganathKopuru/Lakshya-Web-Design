@@ -112,7 +112,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: #4fc8b8;
+  color: #7cdcc9;
 }
 .record h4 {
   font-size: clamp(23px, 2.5vw, 36px);
@@ -136,7 +136,7 @@
   margin: 0;
 }
 .card:nth-child(n + 2) dd:last-child {
-  color: #53c8b2;
+  color: #7cdcc9;
 }
 @media (min-width: 850px) and (min-height: 650px) and (prefers-reduced-motion: no-preference) {
   .card {

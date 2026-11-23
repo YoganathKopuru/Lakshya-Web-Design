@@ -381,12 +381,13 @@ textarea:focus-visible {
 .mega-links a:hover {
   color: var(--teal);
 }
+/* Sibling of .site-header (z-index 30), so it dims the page but not the
+   header and its menus. */
 .menu-scrim {
   position: fixed;
-  inset: 93px 0 0;
+  inset: 0;
   background: #04031a99;
-  border: 0;
-  z-index: -1;
+  z-index: 29;
 }
 .hero {
   display: grid;
@@ -1501,8 +1502,18 @@ textarea:focus-visible {
     padding: 12px;
     font-size: 12px;
   }
-  .menu-scrim {
+  /* The expertise list opens inside the phone menu, so only the phone menu
+     itself dims and locks the page here. */
+  .menu-scrim:not(.nav-scrim) {
     display: none;
+  }
+  html[data-nav-open],
+  html[data-nav-open] body {
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+  .nav {
+    overscroll-behavior: contain;
   }
 }
 @media (max-width: 800px) {
