@@ -36,7 +36,9 @@ To roll back safely, create a new branch from current main and use `git revert`
 on the improvement commits in reverse order. Build and test the restored tree,
 push it, then publish that commit through Sites. Avoid resetting or force-pushing
 main. The tag can also be checked out in a separate worktree for comparison.
-GitHub pushes alone do not update the Sites publication.
+GitHub pushes alone do not update the Sites publication. After the move to Vercel
+(`design/hosting-migration.md`), merging to `main` deploys, and a bad deploy can
+be rolled back from the Vercel Deployments list.
 
 Direct enquiry submission is deferred until an approved destination is supplied.
 Keep the working email-draft flow until receipt delivery can be verified.

@@ -1,6 +1,6 @@
 # Lakshya Software Technologies — Website
 
-Responsive company website built with Next.js 15, React 19 and TypeScript. The project is configured for static export and deployment through OpenAI Sites.
+Responsive company website built with Next.js 15, React 19 and TypeScript. The project is a static export, deployed on Vercel (migrating from ChatGPT Sites; see `design/hosting-migration.md`).
 
 ## Start on another laptop
 
@@ -31,7 +31,8 @@ src/components/      Shared sections, navigation and interactive visuals
 src/data/            Service, office, experience and review content
 public/               Images, logo and static assets
 design/               Design and source research notes
-.openai/hosting.json  Sites project and static output configuration
+.openai/hosting.json  Legacy ChatGPT Sites configuration (remove at cutover)
+vercel.json           Vercel build settings and security headers
 .claude/skills/       Project skills for Claude Code (reanimate motion verification)
 ```
 
@@ -54,13 +55,13 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the day-to-day workflow and review ch
 
 ## Quality checks and preview
 
-After `pnpm build`, use `pnpm preview` (or `pnpm start`) to serve the exported site at http://127.0.0.1:3008. Run `pnpm check:links` to validate exported internal links. `pnpm format` applies the shared formatting rules; `pnpm format:check` checks them.
+After `pnpm build`, use `pnpm preview` (or `pnpm start`) to serve the exported site at http://127.0.0.1:3008. Run `pnpm check:links` to validate exported internal links and `pnpm check:headers` to confirm `vercel.json` and `public/_headers` send the same headers. `pnpm format` applies the shared formatting rules; `pnpm format:check` checks them.
 
 GitHub Actions builds the site, checks formatting/types/links and runs focused Chromium desktop/mobile regression tests. To run those tests locally, install the browser with `pnpm exec playwright install chromium`, then run `pnpm test:e2e` after building. No real enquiry is sent by the tests.
 
 ## Preview and public launch metadata
 
-The default build uses the current Sites preview URL, emits noindex/nofollow metadata, disallows crawling, and leaves the sitemap empty. Public launch requires the approved HTTPS domain in `SITE_URL` and an explicit `SITE_INDEXABLE=true` at build time. Rebuild and deploy after changing these values. Never put credentials in this configuration. Public sitemap and canonical/social URLs are generated from that domain.
+The default build uses the deployment's own URL (`*.vercel.app` on Vercel; the legacy Sites preview elsewhere), emits noindex/nofollow metadata, disallows crawling, and leaves the sitemap empty. Public launch requires the approved HTTPS domain in `SITE_URL` and an explicit `SITE_INDEXABLE=true` at build time. Rebuild and deploy after changing these values. Never put credentials in this configuration. Public sitemap and canonical/social URLs are generated from that domain.
 
 ## Content and integration ownership
 

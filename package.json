@@ -9,6 +9,7 @@
     "typecheck": "tsc --noEmit",
     "preview": "node scripts/preview.mjs",
     "check:links": "node scripts/check-links.mjs",
+    "check:headers": "node scripts/check-headers.mjs",
     "test:e2e": "playwright test",
     "format": "prettier --write src scripts tests playwright.config.ts .github package.json README.md CONTRIBUTING.md",
     "format:check": "prettier --check src scripts tests playwright.config.ts .github package.json README.md CONTRIBUTING.md"
