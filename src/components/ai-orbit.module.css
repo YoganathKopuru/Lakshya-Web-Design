@@ -11,7 +11,7 @@
 .scene {
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(#b3ddd218 0.6px, transparent 0.6px);
+  background-image: radial-gradient(#b5ddcf28 0.6px, transparent 0.6px);
   background-size: 17px 17px;
   isolation: isolate;
   overflow: hidden;
@@ -24,7 +24,7 @@
 .glow {
   position: absolute;
   inset: 12% 4%;
-  background: radial-gradient(ellipse, #19877530, transparent 67%);
+  background: radial-gradient(ellipse, #2b876a30, transparent 67%);
   z-index: -1;
 }
 .rail {
@@ -32,17 +32,17 @@
   opacity: 0.72;
 }
 .signal {
-  filter: drop-shadow(0 0 4px #95e5d26a);
+  filter: drop-shadow(0 0 4px #9fe4c485);
 }
 .core {
-  filter: drop-shadow(0 0 22px #24c6ac13);
+  filter: drop-shadow(0 0 22px #54c58f18);
 }
 .core text {
   font-family: var(--font-display);
   font-size: 50px;
   font-weight: 450;
   letter-spacing: -2px;
-  fill: #cdf2e8;
+  fill: #d3f1de;
 }
 .label {
   position: absolute;
@@ -51,18 +51,18 @@
   align-items: center;
   gap: 7px;
   padding: 10px 12px;
-  border: 1px solid #a0d6c938;
+  border: 1px solid #a8d5bc38;
   border-radius: 3px;
   background: #112c3df2;
   font-family: monospace;
   font-size: 9px;
   letter-spacing: 0.8px;
-  color: #c0e5dc;
+  color: #c3e5d6;
 }
 .label > i {
   width: 4px;
   height: 4px;
-  border: 1px solid #33bda530;
+  border: 1px solid #b5dbc9;
   border-radius: 50%;
   flex-shrink: 0;
 }
@@ -117,7 +117,7 @@
 @keyframes core-breathe {
   50% {
     transform: scale(1.045);
-    filter: drop-shadow(0 0 24px #65dfc73e);
+    filter: drop-shadow(0 0 24px #73dfb84d);
   }
 }
 @keyframes core-glow {

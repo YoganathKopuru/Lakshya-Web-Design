@@ -34,49 +34,75 @@ test('AI placards connect enterprise knowledge to a reviewed support response', 
   await expect(page).toHaveURL(/ai-data\/$/);
 });
 
-test('intro film plays muted and pauses offscreen', async ({
-  page,
-  browserName,
-}) => {
-  test.skip(
-    browserName !== 'chromium',
-    'Video decoding depends on the browser test runtime',
-  );
+test('hero draws its halftone screen behind the headline', async ({ page }) => {
   await page.goto('/');
-  const video = page.locator('video#intro-film');
-  await expect(video).toHaveJSProperty('muted', true);
-  await expect(video).toHaveJSProperty('loop', true);
-  await expect(video).toHaveAttribute('playsinline', '');
-  await expect
-    .poll(() =>
-      video.evaluate((element: HTMLVideoElement) => element.currentTime),
-    )
-    .toBeGreaterThan(0.1);
-  await page.locator('#approach').scrollIntoViewIfNeeded();
-  await expect(video).toHaveJSProperty('paused', true);
-});
-
-test('intro film keeps its still when the video cannot load', async ({
-  page,
-}) => {
-  await page.goto('/');
-  const video = page.locator('video#intro-film');
-  await expect(video).toBeAttached();
-  await video.dispatchEvent('error');
-  await expect(page.locator('[data-hero-media] img')).toBeVisible();
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
     'Software, AI & engineering.',
   );
-  await expect(page.locator('video#intro-film')).toHaveCount(0);
+  const canvas = page.locator('[data-hero-media] canvas');
+  await expect(canvas).toHaveAttribute('aria-hidden', 'true');
+  await expect
+    .poll(() => canvas.evaluate((element: HTMLCanvasElement) => element.width))
+    .toBeGreaterThan(0);
+  await expect(page.locator('[data-hero] video')).toHaveCount(0);
 });
 
-test('the hero presents one project action', async ({ page }) => {
+test('the hero offers a project action and a route to expertise', async ({
+  page,
+}) => {
   await page.goto('/');
   const hero = page.locator('[data-hero]');
   await expect(hero.getByRole('button')).toHaveCount(0);
   await expect(hero.locator('iframe')).toHaveCount(0);
-  await expect(hero.getByRole('link')).toHaveCount(1);
+  await expect(hero.getByRole('link')).toHaveCount(2);
   await expect(
     hero.getByRole('link', { name: 'Discuss your project' }),
   ).toHaveAttribute('href', '/contact/');
+  await expect(
+    hero.getByRole('link', { name: 'Explore expertise' }),
+  ).toHaveAttribute('href', '/services/');
+});
+
+test('hero console moves the journey focus with each practice tab', async ({
+  page,
+}) => {
+  await page.goto('/');
+  const panel = page.locator('[data-console]');
+  const tabs = panel.getByRole('tab');
+  await expect(tabs).toHaveCount(3);
+  await tabs.filter({ hasText: 'AI & data' }).click();
+  await expect(tabs.filter({ hasText: 'AI & data' })).toHaveAttribute(
+    'aria-selected',
+    'true',
+  );
+  await expect(panel.getByRole('tabpanel')).toContainText(
+    'Enterprise knowledge & RAG',
+  );
+  await expect(panel.locator('[aria-current="step"]')).toHaveText('Plan');
+  await page.keyboard.press('ArrowRight');
+  await expect(tabs.filter({ hasText: 'Platforms' })).toBeFocused();
+  await expect(panel.locator('[aria-current="step"]')).toHaveText('Deploy');
+});
+
+test('hero console lies flat once scrolled into view', async ({ page }) => {
+  await page.goto('/');
+  const panel = page.locator('[data-console]');
+  // Bring the panel's top edge up to the upper fifth of the viewport.
+  await panel.evaluate((element) =>
+    window.scrollTo({
+      top:
+        element.getBoundingClientRect().top +
+        window.scrollY -
+        window.innerHeight * 0.15,
+      behavior: 'instant',
+    }),
+  );
+  await expect
+    .poll(() =>
+      panel.evaluate((element) => {
+        const m = new DOMMatrix(getComputedStyle(element).transform);
+        return Math.abs(m.m23) < 0.002 && Math.abs(m.a - 1) < 0.01;
+      }),
+    )
+    .toBe(true);
 });

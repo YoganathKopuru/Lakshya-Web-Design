@@ -10,17 +10,19 @@ import {
   Headphones,
 } from 'lucide-react';
 import { FlowField } from './flow-field';
+import { companyFigures, journeyStages } from '@/data/journey';
 import styles from './delivery-journey.module.css';
 
-const stages = [
-  { name: 'Understand', detail: 'Requirements & discovery', Icon: Search },
-  { name: 'Plan', detail: 'Strategy & roadmap', Icon: Map },
-  { name: 'Design', detail: 'Experience & prototypes', Icon: PenTool },
-  { name: 'Build', detail: 'Engineering & integration', Icon: Code2 },
-  { name: 'Test', detail: 'Quality & assurance', Icon: ShieldCheck },
-  { name: 'Deploy', detail: 'Launch & adoption', Icon: CloudUpload },
-  { name: 'Support', detail: 'Maintain & improve', Icon: Headphones },
+const icons = [
+  Search,
+  Map,
+  PenTool,
+  Code2,
+  ShieldCheck,
+  CloudUpload,
+  Headphones,
 ];
+const stages = journeyStages.map((stage, i) => ({ ...stage, Icon: icons[i] }));
 const explanations = [
   'Agree on the problem, stakeholders and what success should look like.',
   'Define priorities, dependencies and a practical delivery roadmap.',
@@ -30,12 +32,7 @@ const explanations = [
   'Prepare the release, rollout and handover with your team.',
   'Maintain the solution and identify opportunities for improvement.',
 ];
-const numbers = [
-  ['2015', 'Established'],
-  ['10+', 'Years of experience'],
-  ['350+', 'Projects worldwide'],
-  ['99%', 'Client satisfaction'],
-];
+const numbers = companyFigures;
 export function DeliveryJourney() {
   return (
     <section className={styles.section} id="approach">

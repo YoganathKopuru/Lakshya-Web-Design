@@ -166,27 +166,29 @@ export function startScrollMotion(root: HTMLElement) {
           },
         );
       });
-    // The film tucks into a rounded card as the page moves on (Apple-style).
-    const heroCard = root.querySelector<HTMLElement>('[data-hero]');
-    if (heroCard) {
-      const side = () => Math.min(28, Math.max(10, window.innerWidth * 0.022));
+    // The hero console starts tipped back and lays flat as it rises into
+    // view (its resting tilt is set in home-hero.module.css, so there is no
+    // jump before this script loads).
+    // Phones get a gentler tilt so the near edge never projects past the
+    // screen.
+    const tilt = window.innerWidth < 760 ? 9 : 22;
+    root.querySelectorAll<HTMLElement>('[data-console]').forEach((panel) => {
       gsap.fromTo(
-        heroCard,
-        { clipPath: 'inset(0px 0px 0px 0px round 0px)' },
+        panel,
+        { transformPerspective: 1600, rotationX: tilt, scale: 0.95 },
         {
-          clipPath: () =>
-            `inset(0px ${side()}px 0px ${side()}px round 0px 0px 32px 32px)`,
+          rotationX: 0,
+          scale: 1,
           ease: 'none',
           scrollTrigger: {
-            trigger: heroCard,
-            start: 'top top+=1',
-            end: 'bottom 35%',
-            scrub: true,
-            invalidateOnRefresh: true,
+            trigger: panel,
+            start: 'top 92%',
+            end: 'top 22%',
+            scrub: 0.5,
           },
         },
       );
-    }
+    });
 
     // Manifesto words light up in reading order as the statement scrolls by.
     root.querySelectorAll<HTMLElement>('[data-manifesto]').forEach((text) => {

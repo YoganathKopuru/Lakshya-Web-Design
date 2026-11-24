@@ -104,10 +104,14 @@ test('contact pairs the office map with a direct directions link', async ({
   );
   await page.goto('/contact/');
   const office = page.getByRole('region', { name: 'Find us in Madhapur.' });
-  await expect(office.getByText(/Plot #37 & 38/)).toBeVisible();
   const map = office.locator('iframe[title]');
-  await expect(map).toHaveAttribute('loading', 'lazy');
+  // The map is only requested as the visitor approaches it.
+  await expect(map).toHaveCount(0);
+  await office.scrollIntoViewIfNeeded();
+  await expect(office.getByText(/Plot #37 & 38/)).toBeVisible();
   await expect(map).toHaveAttribute('src', /17\.4416029%2C78\.3825443/);
+  await expect(office.locator('[data-loaded]')).toHaveCount(1);
+  await expect(office.locator('[aria-busy="false"]')).toHaveCount(1);
   await expect(
     office.getByRole('link', { name: 'Get directions' }),
   ).toHaveAttribute('href', 'https://maps.app.goo.gl/HRKtQG2ZDugDw7hb6');

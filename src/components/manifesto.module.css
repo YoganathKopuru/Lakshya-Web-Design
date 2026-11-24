@@ -2,8 +2,7 @@
   position: relative;
   padding: clamp(96px, 13vw, 168px) 0 clamp(80px, 10vw, 128px);
   background:
-    radial-gradient(60% 80% at 92% 0%, #0a796b40, transparent 70%),
-    radial-gradient(50% 60% at 0% 100%, #1d1a8a40, transparent 70%);
+    radial-gradient(60% 80% at 92% 0%, #c9d6ff66, transparent 70%), var(--paper);
   border-bottom: 1px solid var(--line);
 }
 .inner {
@@ -69,7 +68,7 @@
 }
 .link:hover {
   background: var(--ink);
-  color: #e6f3f6;
+  color: white;
 }
 @media (max-width: 760px) {
   .facts {

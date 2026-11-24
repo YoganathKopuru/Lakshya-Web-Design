@@ -1,9 +1,9 @@
 .section {
   padding: clamp(72px, 9vw, 136px) 0 clamp(36px, 5vw, 72px);
   background:
-    radial-gradient(ellipse at 80% 5%, #18434f, transparent 65%),
-    linear-gradient(135deg, #101450, #0d1f34 68%, #103137);
-  color: #e6f3f6;
+    radial-gradient(ellipse at 80% 5%, #2f55d855, transparent 65%),
+    linear-gradient(135deg, #0f0c59, #121c7a 62%, #1a2fa8);
+  color: #f5fbf8;
   overflow: hidden;
 }
 .heading {
@@ -12,7 +12,7 @@
   text-align: center;
 }
 .kicker {
-  color: #b4e7db;
+  color: #b8e7d4;
   font-size: 11px;
   font-weight: 650;
   letter-spacing: 0.17em;
@@ -26,7 +26,7 @@
 }
 .heading p {
   margin-top: 16px;
-  color: #d2dfe2;
+  color: #d0dfe5;
   font-size: 14px;
 }
 .viewport {
@@ -61,7 +61,7 @@
   height: auto;
 }
 .followup {
-  border-top: 1px solid #b6e8dc47;
+  border-top: 1px solid #b9e8d747;
   margin-top: clamp(28px, 5vw, 56px);
   padding-top: 13px;
 }
@@ -70,16 +70,16 @@
   align-items: center;
   min-height: 44px;
   gap: 8px;
-  color: #c3efe4;
+  color: #c9efdb;
   font-size: 13px;
   font-weight: 550;
 }
 .followup a:hover {
-  color: #e6f3f6;
+  color: #fff;
 }
 .viewport:focus-visible,
 .followup a:focus-visible {
-  outline: 2px solid #c3efe4;
+  outline: 2px solid #c9efdb;
   outline-offset: 4px;
 }
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {

@@ -33,7 +33,7 @@ function Box({
         x={x + w / 2}
         y={y + (sub ? h / 2 - 2 : h / 2 + 2.5)}
         textAnchor="middle"
-        fill={solid ? '#e6ecfa' : 'currentColor'}
+        fill={solid ? '#fff' : 'currentColor'}
       >
         {title}
       </text>
@@ -42,7 +42,7 @@ function Box({
           x={x + w / 2}
           y={y + h / 2 + 8}
           textAnchor="middle"
-          fill={solid ? '#e6ecfa' : 'currentColor'}
+          fill={solid ? '#fff' : 'currentColor'}
         >
           {sub}
         </text>

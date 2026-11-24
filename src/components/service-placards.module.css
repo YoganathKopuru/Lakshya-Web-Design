@@ -1,8 +1,8 @@
+/* Separate rounded cards on the page colour, Kelder-style. */
 .grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  border-top: 1px solid #10556c40;
-  border-left: 1px solid #10556c40;
+  gap: 14px;
   isolation: isolate;
 }
 .card {
@@ -13,19 +13,26 @@
   min-height: 440px;
   padding: 29px 26px 27px;
   overflow: hidden;
-  border-right: 1px solid #10556c40;
-  border-bottom: 1px solid #10556c40;
-  background: #7a7fe50a;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
   color: var(--placard-primary);
-  transition: translate 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 2px #0b12330a;
+  transition:
+    translate 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.35s ease;
+}
+.card:hover {
+  box-shadow: 0 24px 50px -28px #0f0c5940;
 }
 .card::before {
   content: '';
   position: absolute;
   inset: 0;
+  border-radius: inherit;
   box-shadow:
-    inset 0 0 0 1px #020113b3,
-    inset 0 -10px 22px #02011318;
+    inset 0 0 0 1px #0a626866,
+    inset 0 -10px 22px #0e3b680a;
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.35s;
@@ -65,9 +72,9 @@
   pointer-events: none;
   background: linear-gradient(
     135deg,
-    #7a7fe510,
+    #e5f2f0,
     var(--placard-tint) 60%,
-    #7a7fe511
+    #e0f1ee
   );
   transform: scale(0.9);
   transform-origin: bottom left;
@@ -89,7 +96,7 @@
     #120c5a,
     #0e3b68 35%,
     #0b5269 65%,
-    #007c6b
+    #077d63
   );
   transition: transform 0.5s ease-out;
 }
@@ -137,11 +144,11 @@
   font-family: monospace;
   font-size: 11px;
   letter-spacing: 0.4px;
-  color: #96b7c5;
+  color: #0b5269;
 }
 .card[data-active='true'] .top > svg {
   transform: scale(1.08) translateY(-1px);
-  color: #54c8b1;
+  color: #077d63;
 }
 .content {
   margin: auto 0;
@@ -155,13 +162,13 @@
   transition: color 0.3s;
 }
 .card[data-active='true'] h3 {
-  color: #c4cdf1;
+  color: #120c5a;
 }
 .content p {
   margin-top: 12px;
   font-size: 12px;
   line-height: 1.7;
-  color: #a5bedcdc;
+  color: #0e3b68dc;
 }
 .reveal {
   display: grid;
@@ -183,11 +190,11 @@
   min-height: 0;
 }
 .scene {
-  background: #7a7fe509;
-  border: 1px solid #10556c30;
+  background: #ffffffed;
+  border: 1px solid #0b526930;
   border-radius: 11px;
   padding: 11px;
-  box-shadow: 0 7px 12px #02011318;
+  box-shadow: 0 7px 12px #120c5a0a;
   color: var(--placard-primary);
 }
 .sceneHeader {
@@ -196,7 +203,7 @@
   gap: 5px;
   min-height: 25px;
   padding-bottom: 8px;
-  border-bottom: 1px solid #10556c1c;
+  border-bottom: 1px solid #0b52691c;
   font-family: monospace;
   font-size: 7px;
   line-height: 1.5;
@@ -207,8 +214,8 @@
   height: 5px;
   width: 5px;
   border-radius: 50%;
-  background: #007c6b;
-  box-shadow: 0 0 0 3px #0201133e;
+  background: #077d63;
+  box-shadow: 0 0 0 3px #077d631a;
   flex-shrink: 0;
 }
 .demo {
@@ -231,10 +238,10 @@
   fill: currentColor;
 }
 .diagram text[fill='white'] {
-  fill: #e6ecfa;
+  fill: white;
 }
 .diagram text[fill='#fff'] {
-  fill: #e6ecfa;
+  fill: #fff;
 }
 .tags {
   display: flex;
@@ -246,10 +253,10 @@
   font-size: 8px;
   line-height: 1.45;
   padding: 3px 6px;
-  border: 1px solid #10556c30;
+  border: 1px solid #0b526930;
   border-radius: 4px;
-  background: #7a7fe509;
-  color: #a5bedc;
+  background: #ffffffdf;
+  color: #0e3b68;
 }
 .bottom {
   display: flex;
@@ -258,7 +265,7 @@
   gap: 8px;
   font-size: 10px;
   font-weight: 500;
-  color: #96b7c5;
+  color: #0b5269;
 }
 .explore {
   display: flex;
@@ -268,7 +275,7 @@
 .explore > span:first-child {
   font-size: 9px;
   font-weight: 600;
-  color: #4fc8b7;
+  color: #097065;
   opacity: 0;
   transform: translateX(8px);
   transition:
@@ -290,15 +297,11 @@
   transition:
     color 0.3s,
     background 0.3s;
-  color: #54c8b1;
+  color: #077d63;
 }
 .card[data-active='true'] .arrow {
-  background: linear-gradient(
-    135deg,
-    var(--placard-secondary),
-    var(--logo-teal)
-  );
-  color: #e6f3f6;
+  background: linear-gradient(135deg, var(--placard-primary), #077d63);
+  color: white;
 }
 .card[data-active='true'] .arrow > svg {
   animation: arrowShoot 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -330,7 +333,7 @@
   animation-play-state: paused;
 }
 .card:focus-visible {
-  outline: 3px solid #4fc8b7;
+  outline: 3px solid #097065;
   outline-offset: -4px;
   z-index: 2;
 }

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ArrowUpRight, Code2, Layers3, Mail } from 'lucide-react';
+import { SilkLines } from './silk-lines';
 import styles from './closing-contact.module.css';
 
 const startingPoints = [
@@ -14,10 +15,13 @@ const startingPoints = [
 export function ClosingContact() {
   return (
     <section
-      className={`wrap ${styles.band}`}
+      className={`wrap halftone ${styles.band}`}
       id="start-a-conversation"
       data-reveal
     >
+      <div className={styles.silk} aria-hidden="true">
+        <SilkLines sides={['right']} />
+      </div>
       <div className={styles.ambient} aria-hidden="true">
         <svg viewBox="0 0 900 420" fill="none">
           <path d="M150 410C230 410 270 80 580 80S820 250 950-20" />
