@@ -23,38 +23,39 @@ export function EnquiryForm() {
       field instanceof HTMLInputElement ||
       field instanceof HTMLTextAreaElement
     )
-      field.setCustomValidity('');
-    if (
-      field instanceof HTMLInputElement ||
-      field instanceof HTMLTextAreaElement
-    )
       setErrors((previous) => ({ ...previous, [field.name]: '' }));
     setDraft(null);
     setCopyStatus('');
   }
+  function validate(form: HTMLFormElement) {
+    const text = (name: string) =>
+      (
+        form.elements.namedItem(name) as HTMLInputElement | HTMLTextAreaElement
+      ).value.trim();
+    const result: Record<string, string> = {};
+    if (!text('name')) result.name = 'Please enter your name.';
+    const email = text('email');
+    if (!email) result.email = 'Please enter your work email.';
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+      result.email = 'Enter an email address like you@company.com.';
+    if (!text('company')) result.company = 'Please enter your company.';
+    if (text('message').length < 10)
+      result.message =
+        'Describe your project in at least 10 characters, excluding surrounding spaces.';
+    return result;
+  }
   function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
-    const validationErrors: Record<string, string> = {};
-    for (const name of ['name', 'company', 'message']) {
-      const field = form.elements.namedItem(name) as
-        HTMLInputElement | HTMLTextAreaElement;
-      field.setCustomValidity(
-        field.value.trim().length < (name === 'message' ? 10 : 1)
-          ? name === 'message'
-            ? 'Describe your project in at least 10 characters, excluding surrounding spaces.'
-            : `Please enter your ${name}.`
-          : '',
-      );
-    }
-    for (const name of ['name', 'company', 'message']) {
-      const field = form.elements.namedItem(name) as
-        HTMLInputElement | HTMLTextAreaElement;
-      if (field.validationMessage)
-        validationErrors[name] = field.validationMessage;
-    }
+    const validationErrors = validate(form);
     setErrors(validationErrors);
-    if (!form.reportValidity()) return;
+    const firstInvalid = ['name', 'email', 'company', 'message'].find(
+      (name) => validationErrors[name],
+    );
+    if (firstInvalid) {
+      (form.elements.namedItem(firstInvalid) as HTMLElement).focus();
+      return;
+    }
     const data = new FormData(form);
     const value = (name: string) => String(data.get(name) || '').trim();
     const label =
@@ -85,7 +86,13 @@ export function EnquiryForm() {
     }
   }
   return (
-    <form className="contact-form" onSubmit={submit} onChange={invalidate}>
+    <form
+      className="contact-form"
+      onSubmit={submit}
+      onChange={invalidate}
+      noValidate
+      data-reveal
+    >
       <h2>What are you working on?</h2>
       <p>
         Share a little about your challenge. This form prepares an email for you
@@ -113,12 +120,19 @@ export function EnquiryForm() {
           Work email *
           <input
             name="email"
+            aria-invalid={Boolean(errors.email)}
+            aria-describedby={errors.email ? 'error-email' : undefined}
             required
             type="email"
             autoComplete="email"
             maxLength={254}
             placeholder="you@company.com"
           />
+          {errors.email && (
+            <span className="field-error" id="error-email">
+              {errors.email}
+            </span>
+          )}
         </label>
         <label className="field">
           Company *

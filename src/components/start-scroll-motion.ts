@@ -97,6 +97,22 @@ function countMetric(metric: HTMLElement) {
   const value = metric.dataset.metric ?? '';
   const match = /^(\d+)(.*)$/.exec(value);
   if (!display || !match) return;
+  // A founding year is a date, not a quantity: counting it up from zero
+  // flashes wrong years ("1965 Established"), so it simply fades in.
+  if (!match[2] && /^(19|20)\d\d$/.test(match[1])) {
+    gsap.fromTo(
+      metric,
+      { opacity: 0, y: 12 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: 'power2.out',
+        clearProps: 'opacity,transform',
+      },
+    );
+    return;
+  }
   const counter = { value: 0 };
   display.textContent = '0' + match[2];
   gsap.to(counter, {

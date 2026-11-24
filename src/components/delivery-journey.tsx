@@ -32,7 +32,7 @@ const explanations = [
 ];
 const numbers = [
   ['2015', 'Established'],
-  ['9+', 'Years of experience'],
+  ['10+', 'Years of experience'],
   ['350+', 'Projects worldwide'],
   ['99%', 'Client satisfaction'],
 ];

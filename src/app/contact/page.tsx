@@ -2,6 +2,7 @@ import { pageMetadata } from '@/lib/site-metadata';
 import { ArrowUpRight } from 'lucide-react';
 import { office } from '@/data/content';
 import { EnquiryForm } from '@/components/enquiry-form';
+import { OfficeMap } from '@/components/office-map';
 
 export default function Contact() {
   return (
@@ -19,18 +20,18 @@ export default function Contact() {
         </p>
       </section>
       <section className="section wrap">
-        <div className="contact-layout">
-          <div className="contact-details">
+        <div className="contact-layout" data-reveal-grid>
+          <div className="contact-details" data-reveal>
             <span className="eyebrow">TALK TO OUR TEAM</span>
             <h2>What’s your next move?</h2>
-            <div>
+            <div data-reveal-part>
               <h3>Business enquiries</h3>
               <p>Tell us about your technology or delivery needs.</p>
               <a className="text-link" href="mailto:contact@lakshya-soft.com">
                 contact@lakshya-soft.com <ArrowUpRight size={16} />
               </a>
             </div>
-            <div>
+            <div data-reveal-part>
               <h3>Careers & recruitment</h3>
               <p>Explore opportunities or get in touch with HR.</p>
               <a className="text-link" href="mailto:hr@lakshya-soft.com">
@@ -40,8 +41,12 @@ export default function Contact() {
           </div>
           <EnquiryForm />
         </div>
-        <section className="map-panel" aria-labelledby="office-heading">
-          <div className="map-info">
+        <section
+          className="map-panel"
+          aria-labelledby="office-heading"
+          data-reveal
+        >
+          <div className="map-info" data-reveal-part>
             <div>
               <h2 id="office-heading">Find us in Madhapur.</h2>
               <p>{office.building}</p>
@@ -56,15 +61,10 @@ export default function Contact() {
               Get directions <ArrowUpRight size={16} />
             </a>
           </div>
-          <div className="office-map-frame">
-            <iframe
-              className="office-map"
+          <div data-reveal-part>
+            <OfficeMap
               title="Google Maps location of Lakshya’s Madhapur office"
               src={`https://maps.google.com/maps?q=${office.coordinates.latitude}%2C${office.coordinates.longitude}&z=17&output=embed`}
-              loading="lazy"
-              referrerPolicy="strict-origin-when-cross-origin"
-              sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
-              allowFullScreen
             />
           </div>
         </section>

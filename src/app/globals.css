@@ -1336,20 +1336,156 @@ textarea:focus-visible {
 .map-info p {
   font-size: 13px;
 }
-/* The map is drawn in the logo inks: Google's light tiles are inverted to
-   grey, then take their colour from the brand gradient behind them. */
+/* The map is a clean white sheet: Google's tiles lose their colour so the
+   only accents on the page stay the brand indigo and teal. While the tiles
+   load, a branded placeholder pulses on the office, then the map opens out
+   from that point. */
 .office-map-frame {
+  position: relative;
   isolation: isolate;
+  overflow: hidden;
   border-top: 1px solid var(--line);
-  background: linear-gradient(120deg, #1b1880, #0d3d61 50%, #0a796b);
+  background: #f4f6fb;
+}
+.office-map-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  box-shadow:
+    inset 0 22px 30px -24px #0f0d3599,
+    inset 0 -22px 30px -24px #0f0d3566;
 }
 .office-map {
+  position: relative;
+  z-index: 2;
   display: block;
   width: 100%;
   height: clamp(300px, 38vw, 460px);
   border: 0;
-  filter: grayscale(1) invert(1) contrast(1.05) brightness(0.95);
-  mix-blend-mode: luminosity;
+  filter: grayscale(1) contrast(1.04) brightness(1.03);
+  opacity: 0;
+  clip-path: circle(0% at 50% 50%);
+  transition:
+    clip-path 1.4s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.5s ease;
+}
+.office-map-frame[data-loaded] .office-map {
+  opacity: 1;
+  clip-path: circle(75% at 50% 50%);
+}
+.map-loader {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 50%, #0a796b55, transparent 55%),
+    linear-gradient(120deg, #1b1880, #0d3d61 50%, #0a796b);
+  transition:
+    opacity 0.9s ease 0.35s,
+    transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.office-map-frame[data-loaded] .map-loader {
+  opacity: 0;
+  transform: scale(1.08);
+  pointer-events: none;
+}
+.map-loader-grid {
+  position: absolute;
+  inset: -40px;
+  background:
+    linear-gradient(#ffffff12 1px, transparent 1px) 0 0 / 44px 44px,
+    linear-gradient(90deg, #ffffff12 1px, transparent 1px) 0 0 / 44px 44px;
+  animation: map-grid-drift 9s linear infinite;
+}
+.map-loader-sweep {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 30%,
+    #c9efdb22 50%,
+    transparent 70%
+  );
+  transform: translateX(-100%);
+  animation: map-sweep 1.8s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+}
+.map-loader-pin {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  color: #0f0d35;
+  background: #c9efdb;
+  box-shadow: 0 10px 30px #02011366;
+}
+.map-loader-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid #c9efdb;
+  animation: map-ping 2s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
+}
+.map-loader-ring + .map-loader-ring {
+  animation-delay: 1s;
+}
+.map-loader-label {
+  position: absolute;
+  left: 50%;
+  top: calc(50% + 48px);
+  translate: -50% 0;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #c9efdbcc;
+  white-space: nowrap;
+}
+@keyframes map-grid-drift {
+  to {
+    transform: translate(44px, 44px);
+  }
+}
+@keyframes map-sweep {
+  to {
+    transform: translateX(100%);
+  }
+}
+@keyframes map-ping {
+  from {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(3.2);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .office-map,
+  .map-loader {
+    transition: opacity 0.3s ease;
+  }
+  .office-map {
+    clip-path: none;
+  }
+  .office-map-frame[data-loaded] .map-loader {
+    transform: none;
+  }
+  .map-loader-grid,
+  .map-loader-sweep,
+  .map-loader-ring {
+    animation: none;
+  }
+  .map-loader-sweep,
+  .map-loader-ring {
+    display: none;
+  }
 }
 .not-found {
   text-align: center;
@@ -1468,6 +1604,8 @@ textarea:focus-visible {
     display: flex;
     flex-direction: column;
     gap: 0;
+    height: calc(100dvh - 78px);
+    overscroll-behavior: contain;
   }
   .nav > a:not(.button),
   .nav-button {
@@ -1503,6 +1641,12 @@ textarea:focus-visible {
   }
   .menu-scrim {
     display: none;
+  }
+  /* Comfortable touch targets for the stacked footer links. */
+  .footer-grid a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
   }
 }
 @media (max-width: 800px) {
@@ -2203,6 +2347,10 @@ textarea:focus-visible {
   color: #ffadad;
   font-size: 13px;
   line-height: 1.5;
+}
+.field :is(input, textarea)[aria-invalid='true'] {
+  border-color: #ffadad;
+  box-shadow: 0 0 0 1px #ffadad;
 }
 .why-lakshya {
   display: grid;

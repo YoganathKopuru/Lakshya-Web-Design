@@ -15,6 +15,17 @@ export function Header() {
     setOpen(false);
     setMega(false);
   }, [pathname]);
+  // The full-screen mobile menu owns the viewport while it is open, so the
+  // page underneath must not scroll behind it.
+  useEffect(() => {
+    if (!open) return;
+    const root = document.documentElement;
+    const previous = root.style.overflow;
+    root.style.overflow = 'hidden';
+    return () => {
+      root.style.overflow = previous;
+    };
+  }, [open]);
   useEffect(() => {
     function close(e: KeyboardEvent) {
       if (e.key !== 'Escape') return;
