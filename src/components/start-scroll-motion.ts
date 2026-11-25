@@ -446,8 +446,12 @@ export function startScrollMotion(root: HTMLElement) {
   targets.forEach((target) => observer.observe(target));
 
   const stopFx = startPremiumFx(root);
+  // Every scroll scene now exists: a signal for anything (tests included)
+  // that should only act once the motion layer is live.
+  document.documentElement.dataset.motion = 'ready';
 
   return () => {
+    delete document.documentElement.dataset.motion;
     stopFx();
     window.removeEventListener('scroll', track);
     observer.disconnect();

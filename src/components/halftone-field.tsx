@@ -103,14 +103,22 @@ export function HalftoneField({ className }: { className?: string }) {
       context.fill();
     };
 
+    // Frame budget: 40 fps normally; a device that needs more than ~12 ms to
+    // draw a frame drops to ~15 fps so the screen never crowds out the page.
+    let interval = 25;
+    let cost = 0;
     const tick = (time: number) => {
       frame = requestAnimationFrame(tick);
-      if (time - last < 25) return;
+      if (time - last < interval) return;
       last = time;
       // The swell around the pointer eases away after it leaves.
       if (!pointer.active)
         pointer.strength = Math.max(0, pointer.strength - 0.05);
+      const began = performance.now();
       draw(time);
+      const spent = performance.now() - began;
+      cost = cost ? cost * 0.85 + spent * 0.15 : spent;
+      if (cost > 12) interval = 66;
     };
 
     const start = () => {

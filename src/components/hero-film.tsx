@@ -14,7 +14,9 @@ import styles from './hero-film.module.css';
  */
 export function HeroFilm() {
   const [allowMotion, setAllowMotion] = useState(false);
-  const video = useVisibleVideo(allowMotion);
+  // The stage is a full screen tall: wait until a good part of it is in
+  // view before decoding the film.
+  const video = useVisibleVideo(allowMotion, 0.35);
 
   useEffect(() => {
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)');

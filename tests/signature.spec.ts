@@ -106,6 +106,9 @@ test('the manifesto dial closes its ring once the statement is read', async ({
   test.slow();
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
+  await expect(page.locator('html')).toHaveAttribute('data-motion', 'ready', {
+    timeout: 20000,
+  });
   const dial = page.locator('[data-stage]');
   await expect(dial).toHaveAttribute('data-stage', '0');
   await page.locator('[data-manifesto]').evaluate((statement) =>
@@ -153,6 +156,9 @@ test('the film aperture opens with scroll and closes on the way back', async ({
 }) => {
   test.slow();
   await page.goto('/');
+  await expect(page.locator('html')).toHaveAttribute('data-motion', 'ready', {
+    timeout: 20000,
+  });
   const film = page.locator('[data-film]');
   const open = () =>
     film.evaluate(
@@ -185,6 +191,9 @@ test('the film aperture opens with scroll and closes on the way back', async ({
 
 test('content reveals again when scrolling back up', async ({ page }) => {
   await page.goto('/');
+  await expect(page.locator('html')).toHaveAttribute('data-motion', 'ready', {
+    timeout: 20000,
+  });
   const card = page.locator('#delivery [data-reveal]').first();
   await card.scrollIntoViewIfNeeded();
   await expect(card).toHaveCSS('opacity', '1');

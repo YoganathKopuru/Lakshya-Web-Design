@@ -66,6 +66,12 @@ type set with confidence.
 - Magnet lines: draws only while something is moving (the pointer is in the
   section or lines are settling), pauses offscreen; touch and reduced motion
   get a still pattern.
+- Film: the video decodes only once at least 35 % of its stage is on
+  screen, so it never starts while just the edge of the runway shows.
+- Halftone: 40 fps normally; if drawing a frame costs more than ~12 ms it
+  drops to ~15 fps for the rest of the visit.
+- Theme switch: if a browser stalls the view transition, the theme applies
+  itself after 600 ms anyway.
 - Dial: draws only on scroll and while sparks are alive; the centre label
   follows the scroll position directly and the ring eases after it; reduced
   motion shows the closed ring.

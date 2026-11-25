@@ -64,7 +64,17 @@ export function ThemeSwitcher() {
       Math.max(y, innerHeight - y),
     );
     root.dataset.themeSwitching = '';
-    const transition = document.startViewTransition(() => applyTheme(next));
+    // Some engines can stall a view transition (a busy or hidden page); the
+    // theme still has to change, so it applies itself after a short wait.
+    let applied = false;
+    const apply = () => {
+      if (applied) return;
+      applied = true;
+      window.clearTimeout(safety);
+      applyTheme(next);
+    };
+    const safety = window.setTimeout(apply, 600);
+    const transition = document.startViewTransition(apply);
     transition.ready
       .then(() => {
         root.animate(
