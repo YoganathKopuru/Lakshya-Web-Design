@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { currentTheme, observeTheme } from '@/lib/theme';
 
 /**
  * A halftone dot screen for the hero. Every dot sits on a fixed grid and only
@@ -41,20 +42,41 @@ export function HalftoneField({ className }: { className?: string }) {
       element.width = Math.round(width * ratio);
       element.height = Math.round(height * ratio);
       context.setTransform(ratio, 0, 0, ratio, 0, 0);
+      spectrum = '';
+    };
+
+    // Clean paints pale dots on its blue sky; Midnight lets the dots carry
+    // the logo spectrum, indigo on the left to teal on the right.
+    let spectrum: CanvasGradient | '' = '';
+    const paint = () => {
+      if (currentTheme() !== 'midnight') return 'rgba(232, 238, 255, 0.62)';
+      if (!spectrum) {
+        spectrum = context.createLinearGradient(0, 0, width, 0);
+        spectrum.addColorStop(0, 'rgba(120, 132, 255, 0.78)');
+        spectrum.addColorStop(0.5, 'rgba(150, 178, 255, 0.62)');
+        spectrum.addColorStop(1, 'rgba(70, 211, 179, 0.8)');
+      }
+      return spectrum;
     };
 
     const draw = (time: number) => {
       const t = time / 1000;
       context.clearRect(0, 0, width, height);
-      context.fillStyle = 'rgba(232, 238, 255, 0.62)';
+      context.fillStyle = paint();
       context.beginPath();
       const maxRadius = gap * 0.34;
       const originX = width / 2;
       const originY = height * 1.02;
+      // Clean fades the dots where its sky turns light; Midnight's sky stays
+      // dark to the edge, so the dots dissolve over a longer distance.
+      const night = currentTheme() === 'midnight';
+      const fadeFrom = night ? 0.66 : 0.8;
+      const fadeTo = night ? 0.99 : 0.97;
       for (let y = gap / 2; y < height; y += gap) {
         const ny = y / height;
-        // Rise through the middle, fade out where the backdrop turns light.
-        const band = smooth(0.12, 0.62, ny) * (1 - smooth(0.8, 0.97, ny));
+        // Rise through the middle, fade out towards the bottom edge.
+        const band =
+          smooth(0.12, 0.62, ny) * (1 - smooth(fadeFrom, fadeTo, ny));
         if (band < 0.02) continue;
         for (let x = gap / 2; x < width; x += gap) {
           const nx = (x - originX) / width;
@@ -130,9 +152,13 @@ export function HalftoneField({ className }: { className?: string }) {
     host.closest('section')?.addEventListener('pointerleave', leave);
     document.addEventListener('visibilitychange', start);
     still.addEventListener('change', start);
+    const stopTheme = observeTheme(() => {
+      if (still.matches) draw(2600);
+    });
     start();
 
     return () => {
+      stopTheme();
       cancelAnimationFrame(frame);
       sizeObserver.disconnect();
       viewObserver.disconnect();

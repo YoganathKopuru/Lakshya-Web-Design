@@ -1,3 +1,20 @@
+/* The section hosts the magnet-lines field (magnet-field.tsx), drawn edge
+   to edge behind the heading and the cards. */
+.section {
+  position: relative;
+  isolation: isolate;
+}
+.field {
+  position: absolute;
+  inset: 0 calc(50% - 50vw);
+  z-index: -1;
+  pointer-events: none;
+}
+.field canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
 .grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -357,4 +374,53 @@
     opacity: 1;
     transform: none;
   }
+}
+
+/* ── Midnight theme ───────────────────────────────────────────────────── */
+:global([data-theme='midnight']) .card {
+  border-color: var(--line);
+  background: var(--surface);
+}
+:global([data-theme='midnight']) .card::after {
+  background: var(--spectrum);
+}
+:global([data-theme='midnight']) .card:hover,
+:global([data-theme='midnight']) .card:focus-visible {
+  border-color: #46d3b366;
+  box-shadow: 0 30px 60px -30px #000000;
+}
+:global([data-theme='midnight']) .visual {
+  background: #0b1520;
+}
+:global([data-theme='midnight']) .visualTop {
+  color: #9ee6d3;
+}
+:global([data-theme='midnight']) .signal {
+  background: var(--teal);
+  box-shadow: 0 0 0 4px #46d3b31f;
+}
+:global([data-theme='midnight']) .scan {
+  background: linear-gradient(
+    110deg,
+    transparent 25%,
+    #ffffff1a 48%,
+    transparent 70%
+  );
+}
+:global([data-theme='midnight']) .journey > span {
+  border-color: #ffffff1f;
+  background: #070918d9;
+  color: #c9f2e6;
+}
+:global([data-theme='midnight']) .journey i {
+  background: var(--teal);
+}
+:global([data-theme='midnight']) .bottom {
+  border-top-color: var(--line);
+  color: var(--teal);
+}
+:global([data-theme='midnight']) .card:hover .arrow,
+:global([data-theme='midnight']) .card:focus-visible .arrow {
+  background: var(--teal);
+  color: var(--paper);
 }

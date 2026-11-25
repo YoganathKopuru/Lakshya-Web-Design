@@ -4,6 +4,7 @@ import { pageMetadata } from '@/lib/site-metadata';
 import type { Metadata } from 'next';
 import { ArrowUpRight, BriefcaseBusiness } from 'lucide-react';
 import { ContactBand } from '@/components/chrome';
+import { Curtain } from '@/components/curtain';
 
 export default function Careers() {
   return (
@@ -11,9 +12,11 @@ export default function Careers() {
       <section className="page-hero wrap story-hero">
         <span className="eyebrow">CAREERS AT LAKSHYA</span>
         <h1>
-          Bring your curiosity.
-          <br />
-          <span className="muted">Build what’s next.</span>
+          <Curtain>
+            Bring your curiosity.
+            <br />
+            <span className="muted">Build what’s next.</span>
+          </Curtain>
         </h1>
         <p>
           Meaningful challenges. Connected disciplines. Explore a career at the

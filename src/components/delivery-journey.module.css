@@ -440,3 +440,48 @@
     height: 36px;
   }
 }
+
+/* ── Midnight theme ───────────────────────────────────────────────────── */
+:global([data-theme='midnight']) .heading {
+  border-bottom-color: var(--line);
+}
+:global([data-theme='midnight']) .heading h2 span,
+:global([data-theme='midnight']) .heading :global(.eyebrow),
+:global([data-theme='midnight']) .link,
+:global([data-theme='midnight']) .stages li:not(:last-child)::after,
+:global([data-theme='midnight']) .prompt {
+  color: var(--teal);
+}
+:global([data-theme='midnight']) .heading p,
+:global([data-theme='midnight']) .number,
+:global([data-theme='midnight']) .card p {
+  color: var(--muted);
+}
+:global([data-theme='midnight']) .card {
+  border-color: var(--line);
+  background: linear-gradient(145deg, #0f1330, #0a0d22);
+}
+:global([data-theme='midnight']) .card:hover,
+:global([data-theme='midnight']) .card:focus-within {
+  border-color: #46d3b399;
+  box-shadow: 0 18px 44px -18px #1fbf9f33;
+}
+:global([data-theme='midnight']) .card[open] {
+  border-color: #46d3b399;
+  background: linear-gradient(145deg, #131a44, #0c1029);
+}
+:global([data-theme='midnight']) .card:has(:focus-visible) {
+  outline-color: var(--teal);
+}
+:global([data-theme='midnight']) .icon {
+  border-color: #46d3b34d;
+  background: #46d3b30f;
+  color: var(--teal);
+}
+:global([data-theme='midnight']) .card p.explanation {
+  border-top-color: var(--line);
+  color: var(--muted);
+}
+:global([data-theme='midnight']) .snapshot {
+  border: 1px solid var(--line);
+}

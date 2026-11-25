@@ -54,10 +54,12 @@ export function SmoothScroll() {
       gsap.ticker.add(tick);
       gsap.ticker.lagSmoothing(0);
       document.documentElement.dataset.smoothScroll = '';
+      window.__lakshyaLenis = lenis;
       stop = () => {
         gsap.ticker.remove(tick);
         gsap.ticker.lagSmoothing(500, 33);
         lenis.destroy();
+        if (window.__lakshyaLenis === lenis) delete window.__lakshyaLenis;
         delete document.documentElement.dataset.smoothScroll;
       };
     };

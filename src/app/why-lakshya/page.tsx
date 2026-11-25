@@ -3,6 +3,7 @@ import { ArrowUpRight } from 'lucide-react';
 import { pageMetadata } from '@/lib/site-metadata';
 import { ContactBand } from '@/components/chrome';
 import { PeopleStory } from '@/components/people-story';
+import { Curtain } from '@/components/curtain';
 export const metadata = pageMetadata(
   'Why Lakshya',
   'Find your starting point with Lakshya: technology, careers and collaboration.',
@@ -44,9 +45,11 @@ export default function WhyLakshya() {
       <section className="page-hero wrap story-hero">
         <span className="eyebrow">WHY LAKSHYA</span>
         <h1>
-          Different starting points.
-          <br />
-          <span className="muted">Shared possibility.</span>
+          <Curtain>
+            Different starting points.
+            <br />
+            <span className="muted">Shared possibility.</span>
+          </Curtain>
         </h1>
         <p>
           Technology is only the beginning. Find the people, capabilities and

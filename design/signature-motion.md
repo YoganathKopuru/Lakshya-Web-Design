@@ -1,0 +1,87 @@
+# Signature motion and themes — 2026-11-25
+
+Branch `design/signature-motion`, built on `design/kelder-clean` (630f1a0,
+also `main` at the time). The goal: a calmer, more cinematic site that feels
+crafted rather than assembled, with a second colour theme and a handful of
+interactions that each say something about Lakshya.
+
+References studied (nothing copied: no code, artwork, copy or assets):
+
+- getlayers.ai **Text Animations → Curtain Up**: words rising from behind
+  masks on a spring.
+- getlayers.ai **Custom Cursors → Magnet Lines**: a grid of strokes that turn
+  toward the pointer.
+- getlayers.ai **Shader Backgrounds**: animated, grain-textured gradient
+  fields.
+- nuehealth.in: a dark, unhurried page; a scroll-driven radial gauge with
+  sparks at its leading edge; centred headlines that swap stage by stage.
+
+## What changed
+
+| Area             | Now                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Themes           | Two themes on `<html data-theme>`: **Midnight** (default) and **Clean** (the Kelder layout exactly as before). A switcher in the header (two swatches, a radio group) changes them; the new theme washes in as a circle growing from the pressed swatch (View Transitions API, instant where unsupported or with reduced motion). The choice is kept in `localStorage` and applied by an inline head script before first paint. |
+| Midnight palette | Night `#05060f`, surfaces `#0b0e20` / `#10142c`, ink `#eef1ff` (17.9:1), muted `#9aa3c6` (8.1:1), teal `#46d3b3` (10.8:1), the logo spectrum indigo → blue → teal as light. Tokens in `src/app/theme-midnight.css`; component overrides at the end of each CSS module under "Midnight theme".                                                                                                                                   |
+| Logo             | Untouched. Midnight shows the original artwork (`/logo.png`) on the night header, as supplied; Clean keeps its existing header artwork (`/logo-reverse.png`). CSS shows exactly one.                                                                                                                                                                                                                                            |
+| Headlines        | **Curtain up** everywhere: every word rises from behind its own mask on a spring (ζ 0.72, 3.8 % overshoot), 55 ms apart. Page headlines are split on the server (`components/curtain.tsx`) and animated in CSS, so they never flash; section headings are split as they scroll into view (`start-scroll-motion.ts`, GSAP SplitText) and restored to plain text afterwards.                                                      |
+| Hero (Midnight)  | A live aurora (`components/aurora-shader.tsx`, WebGL): domain-warped noise in the logo spectrum, drifting slowly, gathering light around the pointer, with film grain. The halftone dots carry the spectrum, indigo to teal.                                                                                                                                                                                                    |
+| Manifesto        | **Signature dial** (`components/signature-dial.tsx`): as the statement lights up word by word, three arcs (software, AI, engineering) fill in step and close into one ring at "together"; the centre names the arc being drawn, sparks trail the leading edge. Desktop only (≥ 1001 px).                                                                                                                                        |
+| Field notes      | **Magnet lines** (`components/magnet-field.tsx`) behind the delivery section: a 34 px grid of strokes that turn to face the pointer within 190 px, brighten from indigo to teal, and ease back to rest when it leaves.                                                                                                                                                                                                          |
+| Footer           | **Back to top** at the end of every page: a long eased glide through Lenis (instant with reduced motion); focus moves to the logo so keyboard users continue from the top.                                                                                                                                                                                                                                                      |
+
+## Motion and performance
+
+- Curtain: 1.3 s per word, `linear()` spring easing in CSS
+  (`--ease-spring`, easeOutExpo where `linear()` is unsupported) and the same
+  spring as a GSAP ease function. Masks are padded so descenders and the
+  overshoot are never clipped.
+- Aurora: half resolution (a third on phones), 30 fps cap, only while the
+  Midnight theme is active and the hero is on screen, never in hidden tabs.
+  Three layers keep it from ever slowing the page: no shader when the
+  browser reports software rendering (SwiftShader, llvmpipe, WARP); a
+  one-time cost probe (a few timed frames, each read back so the GPU must
+  finish) that keeps a still sky above 14 ms a frame and drops the canvas
+  above 40 ms; and a frame budget that settles to a still sky if the page
+  later falls under ~16 fps. An Intel UHD 620 laptop GPU animates it at
+  full rate. Reduced motion: one still frame. No CSS masks on the large
+  canvases (the fades are drawn), so compositing stays cheap.
+- Magnet lines: draws only while something is moving (the pointer is in the
+  section or lines are settling), pauses offscreen; touch and reduced motion
+  get a still pattern.
+- Dial: draws only on scroll and while sparks are alive; the centre label
+  follows the scroll position directly and the ring eases after it; reduced
+  motion shows the closed ring.
+- Everything decorative is `aria-hidden`; content and tab order are
+  unchanged.
+
+## Tests
+
+`tests/signature.spec.ts` covers the default theme and logo, switching and
+persistence (pointer and arrow keys), back to top (scroll and focus), curtain
+headlines (and reduced motion), magnet lines reacting to the pointer, and the
+dial closing its ring (and reduced motion). The existing suites are
+unchanged.
+
+Local result (Windows workstation, all four projects, two workers): 93
+passed, 2 skipped, 1 failed — the existing mobile "metrics count up" test,
+whose counter was still mid-animation when its 10 s wait ended. The same
+test also fails on the unchanged baseline (`design/kelder-clean`) on this
+machine under load; CI retries once.
+
+## Running it
+
+From the workspace root, the `signature-dev` entry in `.claude/launch.json`
+serves this worktree on port 3012. In the worktree itself: `pnpm dev`, then
+`pnpm typecheck`, `pnpm build`, `npx playwright test`.
+
+## Rollback
+
+- Tag **`rollback/pre-signature-motion-2026-11-25`** marks 630f1a0, the
+  commit this branch starts from (`design/kelder-clean`, equal to `main` at
+  the time).
+- Not merged: delete or ignore the branch; nothing else changes.
+- Merged and you want it out: on a new branch from `main`,
+  `git revert --no-edit rollback/pre-signature-motion-2026-11-25..<last signature commit>`,
+  build, test and open a pull request. Avoid resetting or force-pushing `main`.
+- Keep the motion but drop Midnight as the default: set `defaultTheme` to
+  `'clean'` in `src/lib/theme.ts`.

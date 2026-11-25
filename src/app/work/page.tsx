@@ -5,6 +5,7 @@ import { ArrowUpRight } from 'lucide-react';
 import { projectAreas } from '@/data/content';
 import { ProjectVisual } from '@/components/visuals';
 import { ContactBand } from '@/components/chrome';
+import { Curtain } from '@/components/curtain';
 
 const contexts = {
   manufacturing: [
@@ -30,9 +31,11 @@ export default function Work() {
       <section className="page-hero wrap">
         <span className="eyebrow">DELIVERY EXPERIENCE</span>
         <h1>
-          Real challenges.
-          <br />
-          <span className="muted">Purposeful technology.</span>
+          <Curtain>
+            Real challenges.
+            <br />
+            <span className="muted">Purposeful technology.</span>
+          </Curtain>
         </h1>
         <p>
           A look at the areas where Lakshya has delivered technology solutions.

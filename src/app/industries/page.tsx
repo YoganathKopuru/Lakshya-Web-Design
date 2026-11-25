@@ -10,6 +10,7 @@ import {
   ArrowUpRight,
 } from 'lucide-react';
 import { ContactBand } from '@/components/chrome';
+import { Curtain } from '@/components/curtain';
 
 const industries = [
   {
@@ -51,9 +52,11 @@ export default function Industries() {
       <section className="page-hero wrap">
         <span className="eyebrow">INDUSTRIES</span>
         <h1>
-          Technology in context.
-          <br />
-          <span className="muted">Your world, understood.</span>
+          <Curtain>
+            Technology in context.
+            <br />
+            <span className="muted">Your world, understood.</span>
+          </Curtain>
         </h1>
         <p>
           Every industry has its own complexity. We begin with your operations

@@ -7,6 +7,7 @@ import { services } from '@/data/content';
 import { ContactBand } from '@/components/chrome';
 import { ServiceExperience } from '@/components/service-experience';
 import { QualityStandards } from '@/components/quality-standards';
+import { Curtain } from '@/components/curtain';
 export function generateStaticParams() {
   return services.map((s) => ({ slug: s.slug }));
 }
@@ -41,7 +42,9 @@ export default async function Service({
         <div className="detail-hero">
           <div>
             <span className="eyebrow">{s.name.toUpperCase()}</span>
-            <h1>{s.intro}</h1>
+            <h1>
+              <Curtain>{s.intro}</Curtain>
+            </h1>
             <p>{s.description}</p>
             <div className="tag-row">
               {s.tags.map((t) => (

@@ -3,6 +3,7 @@ import { ArrowUpRight } from 'lucide-react';
 import { office } from '@/data/content';
 import { EnquiryForm } from '@/components/enquiry-form';
 import { OfficeMap } from '@/components/office-map';
+import { Curtain } from '@/components/curtain';
 
 export default function Contact() {
   return (
@@ -10,9 +11,11 @@ export default function Contact() {
       <section className="page-hero wrap">
         <span className="eyebrow">LET’S CONNECT</span>
         <h1>
-          Good things start
-          <br />
-          <span className="muted">with a conversation.</span>
+          <Curtain>
+            Good things start
+            <br />
+            <span className="muted">with a conversation.</span>
+          </Curtain>
         </h1>
         <p>
           An idea to explore, a system to improve, or a team to build. We’d like

@@ -1,0 +1,300 @@
+/* ── Signature layer (2026-11-25) ─────────────────────────────────────────
+   Shared by both themes: the theme switcher, curtain-up headings, the
+   back-to-top control and supporting motion. Rollback and notes:
+   design/signature-motion.md. */
+
+:root {
+  /* A damped spring (ζ 0.72): 98 % of the travel in the first third, a
+     3.8 % overshoot, then a soft settle. Browsers without linear() keep
+     easeOutExpo. */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: linear(
+    0,
+    0.0014 0.5%,
+    0.0088 1.4%,
+    0.025 2.4%,
+    0.0514 3.5%,
+    0.0883 4.7%,
+    0.1352 6%,
+    0.191 7.4%,
+    0.254 8.9%,
+    0.3224 10.4%,
+    0.3943 12%,
+    0.4677 13.7%,
+    0.5407 15.4%,
+    0.6116 17.1%,
+    0.6789 18.9%,
+    0.7414 20.8%,
+    0.7983 22.7%,
+    0.8489 24.6%,
+    0.893 26.6%,
+    0.9305 28.6%,
+    0.9614 30.7%,
+    0.9862 32.8%,
+    1.0054 34.9%,
+    1.0195 37%,
+    1.0291 39.2%,
+    1.0351 41.5%,
+    1.0379 43.7%,
+    1.0383 46%,
+    1.0369 48.3%,
+    1.0341 50.6%,
+    1.0306 53%,
+    1.0265 55.4%,
+    1.0223 57.8%,
+    1.0182 60.3%,
+    1.0144 62.8%,
+    1.0109 65.3%,
+    1.0079 67.8%,
+    1.0054 70.4%,
+    1.0033 73%,
+    1.0017 75.6%,
+    1.0005 78.2%,
+    0.9996 80.8%,
+    0.999 83.5%,
+    0.9987 86.2%,
+    0.9985 88.9%,
+    0.9985 91.7%,
+    0.9986 94.4%,
+    0.9988 97.2%,
+    1
+  );
+}
+
+/* Curtain up (components/curtain.tsx): each word rises from behind its own
+   mask. The padding gives descenders and the spring's overshoot room inside
+   the mask; the matching negative margin keeps line spacing unchanged. */
+.curtain-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding: 0.12em 0.04em 0.16em;
+  margin: -0.12em -0.04em -0.16em;
+}
+.curtain-word > span {
+  display: inline-block;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .curtain-word > span {
+    animation: curtain-up 1.3s var(--ease-out-expo) both;
+    animation-delay: calc(var(--curtain-delay, 0s) + 0.08s + var(--i) * 55ms);
+  }
+  @supports (animation-timing-function: linear(0, 1)) {
+    .curtain-word > span {
+      animation-timing-function: var(--ease-spring);
+    }
+  }
+}
+@keyframes curtain-up {
+  from {
+    transform: translateY(118%);
+  }
+}
+/* The same masks for headings split at scroll time (start-scroll-motion.ts;
+   GSAP names each mask after its word class plus "-mask"). */
+.fx-word-mask {
+  padding: 0.12em 0.04em 0.16em;
+  margin: -0.12em -0.04em -0.16em;
+}
+
+/* Header order: logo, navigation, theme switcher (menu button on phones). */
+.brand {
+  order: 0;
+}
+.nav {
+  order: 1;
+  margin-left: auto;
+}
+.theme-switch {
+  order: 2;
+}
+.menu-toggle {
+  order: 3;
+}
+
+/* Each theme shows its own logo artwork, never both. */
+.brand .brand-logo-clean {
+  display: none;
+}
+:root[data-theme='clean'] .brand .brand-logo-clean {
+  display: block;
+}
+:root[data-theme='clean'] .brand .brand-logo-midnight {
+  display: none;
+}
+
+/* Theme switcher: two swatches in a pill, a ring slides to the active one. */
+.theme-switch {
+  --swatch: 28px;
+  --swatch-gap: 4px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--swatch-gap);
+  margin-left: 22px;
+  padding: 4px;
+  border: 1px solid #ffffff1f;
+  border-radius: 999px;
+  background: #ffffff0d;
+  isolation: isolate;
+}
+.theme-switch-thumb {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  z-index: 1;
+  width: var(--swatch);
+  height: var(--swatch);
+  border: 1.5px solid #c9efdb;
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px #c9efdb1a;
+  pointer-events: none;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+:root[data-theme='clean'] .theme-switch-thumb {
+  transform: translateX(calc(var(--swatch) + var(--swatch-gap)));
+}
+.theme-swatch {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: var(--swatch);
+  height: var(--swatch);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+}
+.theme-swatch > span {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px #ffffff33;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.theme-swatch[data-swatch='midnight'] > span {
+  background:
+    radial-gradient(circle at 72% 28%, #46d3b3 0 14%, transparent 15%),
+    linear-gradient(140deg, #05060f 30%, #2f3ad6 72%, #1fbf9f);
+}
+.theme-swatch[data-swatch='clean'] > span {
+  background: linear-gradient(140deg, #f6f8fc 0 52%, #0f0c59 53%);
+}
+.theme-swatch:hover > span {
+  transform: scale(1.12);
+}
+.theme-swatch:focus-visible {
+  outline: 2px solid #c9efdb;
+  outline-offset: 3px;
+}
+.theme-swatch::after {
+  content: attr(data-tip);
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 50%;
+  padding: 5px 10px;
+  border-radius: 8px;
+  background: #eef2ff;
+  color: #07063a;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate(-50%, -4px);
+  pointer-events: none;
+  transition:
+    opacity 0.2s ease,
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.theme-swatch:hover::after,
+.theme-swatch:focus-visible::after {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+@media (max-width: 880px) {
+  .theme-switch {
+    margin-left: auto;
+    margin-right: 10px;
+  }
+  .theme-swatch::after {
+    display: none;
+  }
+}
+
+/* The new theme washes in as a growing circle (theme-switcher.tsx). While
+   it does, CSS transitions pause so colours do not fade a second time. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-new(root) {
+  z-index: 2;
+}
+:root[data-theme-switching] *,
+:root[data-theme-switching] *::before,
+:root[data-theme-switching] *::after {
+  transition: none !important;
+}
+
+/* Back to top (components/back-to-top.tsx): the footer's closing control.
+   The footer is dark in both themes, so one set of colours serves both. */
+.footer-bottom {
+  align-items: center;
+}
+.back-to-top {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 4px 4px 16px;
+  border: 1px solid #ffffff24;
+  border-radius: 999px;
+  background: #ffffff0a;
+  color: #e6eaff;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition:
+    border-color 0.3s ease,
+    background 0.3s ease;
+}
+.back-to-top:hover {
+  border-color: #c9efdb80;
+  background: #ffffff14;
+}
+.back-to-top:focus-visible {
+  outline: 2px solid #c9efdb;
+  outline-offset: 3px;
+}
+.back-to-top-icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #c9efdb;
+  color: #07063a;
+}
+.back-to-top-icon svg {
+  grid-area: 1 / 1;
+  transition: transform 0.5s var(--ease-out-expo);
+}
+.back-to-top-icon svg + svg {
+  transform: translateY(160%);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .back-to-top:is(:hover, :focus-visible) .back-to-top-icon svg:first-child {
+    transform: translateY(-160%);
+  }
+  .back-to-top:is(:hover, :focus-visible) .back-to-top-icon svg + svg {
+    transform: translateY(0);
+  }
+}
+@media (max-width: 600px) {
+  .back-to-top {
+    margin-top: 14px;
+  }
+}

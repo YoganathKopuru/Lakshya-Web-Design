@@ -137,3 +137,12 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+
+/* ── Midnight theme ───────────────────────────────────────────────────── */
+:global([data-theme='midnight']) .section {
+  border-block: 1px solid var(--line);
+  background:
+    radial-gradient(ellipse at 80% 0%, #2f55d84d, transparent 62%),
+    radial-gradient(ellipse at 10% 100%, #1fbf9f1f, transparent 60%),
+    linear-gradient(135deg, #08083a, #0c1160 62%, #12207e);
+}

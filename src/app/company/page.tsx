@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { ContactBand } from '@/components/chrome';
+import { Curtain } from '@/components/curtain';
 
 export default function Company() {
   return (
@@ -18,9 +19,11 @@ export default function Company() {
         </div>
         <span className="eyebrow">WE ARE LAKSHYA</span>
         <h1>
-          Human ingenuity.
-          <br />
-          <span className="muted">Technical possibility.</span>
+          <Curtain>
+            Human ingenuity.
+            <br />
+            <span className="muted">Technical possibility.</span>
+          </Curtain>
         </h1>
         <p>
           Lakshya Software Technologies brings IT services, engineering and

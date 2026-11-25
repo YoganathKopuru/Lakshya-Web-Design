@@ -3,6 +3,8 @@ import { ArrowRight } from 'lucide-react';
 import { HalftoneField } from './halftone-field';
 import { SilkLines } from './silk-lines';
 import { DeliveryConsole } from './delivery-console';
+import { Curtain } from './curtain';
+import { AuroraShader } from './aurora-shader';
 import styles from './home-hero.module.css';
 
 /**
@@ -15,6 +17,9 @@ import styles from './home-hero.module.css';
 export function HomeHero() {
   return (
     <section className={styles.hero} aria-labelledby="home-heading" data-hero>
+      <div className={styles.aurora} aria-hidden="true">
+        <AuroraShader />
+      </div>
       <div className={styles.backdrop} aria-hidden="true" data-hero-media>
         <HalftoneField className={styles.dots} />
         <SilkLines className={styles.silk} />
@@ -25,12 +30,12 @@ export function HomeHero() {
           Lakshya Software Technologies · Hyderabad
         </p>
         <h1 id="home-heading">
-          <span className={styles.mask}>
-            <span>Software, AI &amp;</span>
-          </span>{' '}
-          <span className={styles.mask}>
-            <em>engineering.</em>
-          </span>
+          <Curtain delay={0.05}>
+            <span className={styles.line}>Software, AI &amp;</span>{' '}
+            <span className={styles.line}>
+              <em>engineering.</em>
+            </span>
+          </Curtain>
         </h1>
         <p className={styles.description}>
           For businesses modernizing operations, building connected products or

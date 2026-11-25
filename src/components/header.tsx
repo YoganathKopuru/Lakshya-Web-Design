@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { ArrowUpRight, Menu, X, ChevronDown, ArrowRight } from 'lucide-react';
 import { services } from '@/data/content';
+import { ThemeSwitcher } from './theme-switcher';
 
 export function Header() {
   const pathname = usePathname();
@@ -44,13 +45,25 @@ export function Header() {
     <header className="site-header">
       <div className="header-inner">
         <Link href="/" className="brand" aria-label="Lakshya home">
+          {/* Each theme shows the logo exactly as supplied for it: the
+              original artwork on Midnight's night sky, the existing reverse
+              artwork on Clean's navy bar. CSS shows one at a time. */}
           <img
+            className="brand-logo brand-logo-midnight"
+            src="/logo.png"
+            alt="Lakshya Software Technologies"
+            width="164"
+            height="52"
+          />
+          <img
+            className="brand-logo brand-logo-clean"
             src="/logo-reverse.png"
             alt="Lakshya Software Technologies"
             width="164"
-            height="54"
+            height="52"
           />
         </Link>
+        <ThemeSwitcher />
         <button
           ref={menuTrigger}
           className="menu-toggle"

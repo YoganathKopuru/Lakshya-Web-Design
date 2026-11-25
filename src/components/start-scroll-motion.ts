@@ -9,19 +9,40 @@ function revealItems(target: HTMLElement) {
   return parts.length ? parts : [target];
 }
 
-/** Headings rise line by line from behind a mask. */
+/**
+ * A damped spring (ζ 0.72, ω 10), the same curve as --ease-spring in
+ * signature.css: most of the travel early, a 3.8 % overshoot, a soft settle.
+ */
+function spring(progress: number) {
+  if (progress >= 1) return 1;
+  const zeta = 0.72;
+  const omega = 10;
+  const damped = omega * Math.sqrt(1 - zeta * zeta);
+  return (
+    1 -
+    Math.exp(-zeta * omega * progress) *
+      (Math.cos(damped * progress) +
+        ((zeta * omega) / damped) * Math.sin(damped * progress))
+  );
+}
+
+/**
+ * Curtain up: each word of a heading rises from behind its own mask on the
+ * spring, 55 ms after the word before it (the server-rendered headlines in
+ * curtain.tsx use the same timing).
+ */
 function revealHeading(heading: HTMLElement, delay: number) {
   gsap.set(heading, { opacity: 1, y: 0 });
   const split = SplitText.create(heading, {
-    type: 'lines',
-    mask: 'lines',
-    linesClass: 'fx-line',
+    type: 'words',
+    mask: 'words',
+    wordsClass: 'fx-word',
   });
-  gsap.from(split.lines, {
-    yPercent: 110,
-    duration: 1.1,
-    ease: 'expo.out',
-    stagger: 0.1,
+  gsap.from(split.words, {
+    yPercent: 118,
+    duration: 1.3,
+    ease: spring,
+    stagger: 0.055,
     delay,
     onComplete: () => {
       split.revert();
@@ -266,8 +287,15 @@ export function startScrollMotion(root: HTMLElement) {
     });
   }
 
+  // Section headings outside a reveal group still get the curtain.
+  const standalone = Array.from(
+    root.querySelectorAll<HTMLElement>('h2'),
+  ).filter((heading) => !heading.closest('[data-reveal]'));
+  standalone.forEach((heading) => (heading.dataset.curtain = ''));
   const targets = Array.from(
-    root.querySelectorAll<HTMLElement>('[data-reveal], [data-metric]'),
+    root.querySelectorAll<HTMLElement>(
+      '[data-reveal], [data-metric], [data-curtain]',
+    ),
   );
   const observer = new IntersectionObserver(
     (entries) => {
@@ -288,6 +316,8 @@ export function startScrollMotion(root: HTMLElement) {
           if (target.matches(':focus-within'))
             gsap.set(revealItems(target), { clearProps: 'transform,opacity' });
           else if (target.hasAttribute('data-metric')) countMetric(target);
+          else if (target.hasAttribute('data-curtain'))
+            revealHeading(target, 0);
           else reveal(target, delay);
         });
       }
@@ -296,7 +326,8 @@ export function startScrollMotion(root: HTMLElement) {
   );
   const belowFold = targets.filter(
     (target) =>
-      target.hasAttribute('data-reveal') &&
+      (target.hasAttribute('data-reveal') ||
+        target.hasAttribute('data-curtain')) &&
       target.dataset.revealed === undefined &&
       target.getBoundingClientRect().top >= window.innerHeight,
   );
@@ -313,6 +344,7 @@ export function startScrollMotion(root: HTMLElement) {
     stopFx();
     observer.disconnect();
     context.revert();
+    standalone.forEach((heading) => delete heading.dataset.curtain);
     root
       .querySelectorAll<HTMLElement>('[data-metric-display]')
       .forEach((display) => {
