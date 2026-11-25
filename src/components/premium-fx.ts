@@ -69,7 +69,75 @@ export function startPremiumFx(root: HTMLElement) {
     });
   }
 
+  // Inner-page heroes, in both directions: the copy lifts away and softens,
+  // the line art drifts at its own pace and a hero card eases back as the
+  // page scrolls down; scrolling up plays all of it in reverse.
+  root.querySelectorAll<HTMLElement>('.page-hero').forEach((pageHero) => {
+    const content = Array.from(pageHero.children).filter(
+      (child) => !child.matches('.signal-art, .hero-aurora, .ocean-waves'),
+    );
+    const art = pageHero.querySelector<HTMLElement>('.signal-art');
+    const scroll = () => ({
+      trigger: pageHero,
+      start: 'clamp(top top+=93)',
+      end: 'bottom top',
+      scrub: true,
+    });
+    const tweens = [
+      gsap.to(content, {
+        y: -40,
+        opacity: 0.3,
+        ease: 'none',
+        scrollTrigger: scroll(),
+      }),
+    ];
+    if (art)
+      tweens.push(
+        gsap.to(art, { yPercent: 16, ease: 'none', scrollTrigger: scroll() }),
+      );
+    if (pageHero.classList.contains('story-hero'))
+      tweens.push(
+        gsap.to(pageHero, {
+          scale: 0.95,
+          transformOrigin: '50% 0%',
+          ease: 'none',
+          scrollTrigger: scroll(),
+        }),
+      );
+    cleanups.push(() => {
+      tweens.forEach((tween) => {
+        tween.scrollTrigger?.kill();
+        tween.kill();
+      });
+      gsap.set([...content, ...(art ? [art] : []), pageHero], {
+        clearProps: 'transform,opacity',
+      });
+    });
+  });
+
   if (!fine) return () => cleanups.forEach((fn) => fn());
+
+  // Inner-page hero art drifts with the pointer for depth.
+  root.querySelectorAll<HTMLElement>('.page-hero').forEach((pageHero) => {
+    const move = (event: PointerEvent) => {
+      const box = pageHero.getBoundingClientRect();
+      const px = ((event.clientX - box.left) / box.width) * 2 - 1;
+      const py = ((event.clientY - box.top) / box.height) * 2 - 1;
+      pageHero.style.setProperty('--px', px.toFixed(3));
+      pageHero.style.setProperty('--py', py.toFixed(3));
+    };
+    const leave = () => {
+      pageHero.style.removeProperty('--px');
+      pageHero.style.removeProperty('--py');
+    };
+    pageHero.addEventListener('pointermove', move, { passive: true });
+    pageHero.addEventListener('pointerleave', leave);
+    cleanups.push(() => {
+      pageHero.removeEventListener('pointermove', move);
+      pageHero.removeEventListener('pointerleave', leave);
+      leave();
+    });
+  });
 
   // Hero aurora and grid follow the pointer.
   if (hero) {
@@ -77,9 +145,19 @@ export function startPremiumFx(root: HTMLElement) {
       const box = hero.getBoundingClientRect();
       hero.style.setProperty('--hx', `${event.clientX - box.left}px`);
       hero.style.setProperty('--hy', `${event.clientY - box.top}px`);
+      // Normalised pointer (-1 to 1) for the layered depth drift.
+      const px = ((event.clientX - box.left) / box.width) * 2 - 1;
+      const py =
+        ((event.clientY - box.top) / Math.min(box.height, innerHeight)) * 2 - 1;
+      hero.style.setProperty('--px', Math.max(-1, Math.min(1, px)).toFixed(3));
+      hero.style.setProperty('--py', Math.max(-1, Math.min(1, py)).toFixed(3));
       hero.dataset.pointer = '';
     };
-    const leave = () => delete hero.dataset.pointer;
+    const leave = () => {
+      delete hero.dataset.pointer;
+      hero.style.removeProperty('--px');
+      hero.style.removeProperty('--py');
+    };
     hero.addEventListener('pointermove', move, { passive: true });
     hero.addEventListener('pointerleave', leave);
     cleanups.push(() => {

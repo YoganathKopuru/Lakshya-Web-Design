@@ -5,6 +5,7 @@ import { SilkLines } from './silk-lines';
 import { DeliveryConsole } from './delivery-console';
 import { Curtain } from './curtain';
 import { AuroraShader } from './aurora-shader';
+import { HyderabadTime } from './hyderabad-time';
 import styles from './home-hero.module.css';
 
 /**
@@ -28,6 +29,7 @@ export function HomeHero() {
         <p className={styles.badge}>
           <i aria-hidden="true" />
           Lakshya Software Technologies · Hyderabad
+          <HyderabadTime className={styles.time} />
         </p>
         <h1 id="home-heading">
           <Curtain delay={0.05}>

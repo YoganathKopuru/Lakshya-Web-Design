@@ -4,11 +4,13 @@ import { office } from '@/data/content';
 import { EnquiryForm } from '@/components/enquiry-form';
 import { OfficeMap } from '@/components/office-map';
 import { Curtain } from '@/components/curtain';
+import { HeroArt } from '@/components/hero-art';
 
 export default function Contact() {
   return (
     <main id="main">
       <section className="page-hero wrap">
+        <HeroArt variant="threads" />
         <span className="eyebrow">LET’S CONNECT</span>
         <h1>
           <Curtain>

@@ -35,6 +35,7 @@ export function DeliveryExperience() {
             href={`/work/#${project.type}`}
             key={project.type}
             aria-labelledby={`delivery-${project.type}`}
+            data-cursor="View"
             data-reveal
           >
             <div className={styles.visual} data-editorial-zoom>

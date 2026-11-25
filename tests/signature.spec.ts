@@ -122,3 +122,105 @@ test('the manifesto dial closes its ring once the statement is read', async ({
   await page.reload();
   await expect(dial).toHaveAttribute('data-stage', '3');
 });
+
+test('the custom cursor replaces the arrow and names card actions', async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(isMobile, 'A fine pointer is required');
+  await page.goto('/#expertise');
+  const ring = page.locator('.cursor-signal');
+  const card = page.locator('#expertise a[data-cursor="Explore"]').first();
+  await card.scrollIntoViewIfNeeded();
+  const box = (await card.boundingBox())!;
+  await expect
+    .poll(async () => {
+      await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+      await page.mouse.move(box.x + box.width / 2 + 3, box.y + box.height / 2);
+      return page.locator('html').getAttribute('data-cursor-ready');
+    })
+    .toBe('');
+  await expect(page.locator('.cursor-dot')).toHaveAttribute('data-active', '');
+  await expect(ring).toHaveAttribute('data-label', '');
+  await expect(ring.locator('.cursor-label')).toHaveText('Explore');
+  await expect(page.locator('body')).toHaveCSS('cursor', 'none');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect(page.locator('html')).not.toHaveAttribute('data-cursor-ready');
+});
+
+test('the film aperture opens with scroll and closes on the way back', async ({
+  page,
+}) => {
+  test.slow();
+  await page.goto('/');
+  const film = page.locator('[data-film]');
+  const open = () =>
+    film.evaluate(
+      (element) =>
+        parseFloat(getComputedStyle(element).getPropertyValue('--open')) || 0,
+    );
+  await expect(film.getByRole('heading', { level: 2 })).toHaveText(
+    'Technology, with purpose.',
+  );
+  await film.evaluate((element: HTMLElement) =>
+    window.scrollTo({
+      top:
+        element.offsetTop + (element.offsetHeight - window.innerHeight) * 0.95,
+      behavior: 'instant',
+    }),
+  );
+  await expect.poll(open, { timeout: 10000 }).toBeGreaterThan(0.98);
+  await film.evaluate((element: HTMLElement) =>
+    window.scrollTo({
+      top: element.offsetTop - window.innerHeight,
+      behavior: 'instant',
+    }),
+  );
+  await expect.poll(open, { timeout: 10000 }).toBeLessThan(0.02);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.reload();
+  await expect(film.locator('video')).toHaveCount(0);
+  await expect.poll(open).toBe(1);
+});
+
+test('content reveals again when scrolling back up', async ({ page }) => {
+  await page.goto('/');
+  const card = page.locator('#delivery [data-reveal]').first();
+  await card.scrollIntoViewIfNeeded();
+  await expect(card).toHaveCSS('opacity', '1');
+  // Well past it, it resets above the viewport...
+  await card.evaluate((element) =>
+    window.scrollTo({
+      top:
+        element.getBoundingClientRect().bottom +
+        window.scrollY +
+        window.innerHeight,
+      behavior: 'instant',
+    }),
+  );
+  await expect(card).toHaveCSS('opacity', '0');
+  // ...and drops back in when the page scrolls up to it again.
+  await card.evaluate((element) =>
+    window.scrollTo({
+      top:
+        element.getBoundingClientRect().top +
+        window.scrollY -
+        window.innerHeight * 0.3,
+      behavior: 'instant',
+    }),
+  );
+  await expect(card).toHaveCSS('opacity', '1');
+});
+
+test('inner heroes carry their own line art in Midnight only', async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(isMobile, 'The line art steps aside on phones');
+  await page.goto('/why-lakshya/');
+  const art = page.locator('.signal-art');
+  await expect(art).toHaveAttribute('data-signal-art', 'converge');
+  await expect(art).toBeVisible();
+  await page.getByRole('radio', { name: 'Clean theme' }).click();
+  await expect(art).toBeHidden();
+});

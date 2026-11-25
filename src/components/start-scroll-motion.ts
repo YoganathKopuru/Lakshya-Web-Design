@@ -27,28 +27,51 @@ function spring(progress: number) {
 }
 
 /**
- * Curtain up: each word of a heading rises from behind its own mask on the
- * spring, 55 ms after the word before it (the server-rendered headlines in
- * curtain.tsx use the same timing).
+ * Which way content arrives: 1 when it comes up from below (reading down
+ * the page), -1 when it comes down from above (scrolling back up).
  */
-function revealHeading(heading: HTMLElement, delay: number) {
+type Side = 1 | -1;
+
+const splits = new WeakMap<HTMLElement, SplitText>();
+
+/**
+ * Curtain: each word of a heading moves into place from behind its own mask
+ * on the spring, 55 ms after the word before it (the server-rendered
+ * headlines in curtain.tsx use the same timing). Reading down, the words
+ * rise; scrolling back up, they drop in from above.
+ */
+function revealHeading(heading: HTMLElement, delay: number, side: Side = 1) {
+  splits.get(heading)?.revert();
   gsap.set(heading, { opacity: 1, y: 0 });
   const split = SplitText.create(heading, {
     type: 'words',
     mask: 'words',
     wordsClass: 'fx-word',
   });
+  splits.set(heading, split);
   gsap.from(split.words, {
-    yPercent: 118,
+    yPercent: 118 * side,
     duration: 1.3,
     ease: spring,
     stagger: 0.055,
     delay,
     onComplete: () => {
       split.revert();
+      splits.delete(heading);
       gsap.set(heading, { clearProps: 'transform,opacity' });
     },
   });
+}
+
+/** Hides a heading again once it is out of view, ready to replay. */
+function concealHeading(heading: HTMLElement) {
+  const split = splits.get(heading);
+  if (split) {
+    gsap.killTweensOf(split.words);
+    split.revert();
+    splits.delete(heading);
+  }
+  gsap.set(heading, { opacity: 0 });
 }
 
 /** Section labels decode into place like a terminal readout. */
@@ -64,27 +87,45 @@ function decode(label: HTMLElement, delay: number) {
   });
 }
 
-function reveal(target: HTMLElement, delay: number) {
+function within(target: HTMLElement, selector: string) {
+  return Array.from(target.querySelectorAll<HTMLElement>(selector)).concat(
+    target.matches(selector) ? [target] : [],
+  );
+}
+
+/** Puts a reveal group back into its hidden state on the given side. */
+function conceal(target: HTMLElement, side: Side) {
+  const headings = within(target, 'h2');
+  const items = Array.from(revealItems(target)).filter(
+    (el) => !headings.includes(el),
+  );
+  gsap.killTweensOf(items);
+  gsap.set(items, { y: 30 * side, opacity: 0 });
+  if (target.dataset.reveal === 'pillar') {
+    gsap.killTweensOf(target);
+    gsap.set(target, { y: 30 * side });
+  }
+  headings.forEach(concealHeading);
+}
+
+function reveal(target: HTMLElement, delay: number, side: Side = 1) {
+  const distance = 30 * side;
   if (target.dataset.reveal === 'pillar') {
     gsap.fromTo(
       target,
-      { y: 30 },
+      { y: distance },
       { y: 0, duration: 0.7, ease: 'expo.out', delay, clearProps: 'transform' },
     );
   }
   const all = Array.from(revealItems(target));
-  const within = (selector: string) =>
-    Array.from(target.querySelectorAll<HTMLElement>(selector)).concat(
-      target.matches(selector) ? [target] : [],
-    );
-  const headings = within('h2');
+  const headings = within(target, 'h2');
   const items = all.filter((el) => !headings.includes(el));
-  headings.forEach((heading) => revealHeading(heading, delay));
-  within('.eyebrow').forEach((eyebrow) => decode(eyebrow, delay));
+  headings.forEach((heading) => revealHeading(heading, delay, side));
+  within(target, '.eyebrow').forEach((eyebrow) => decode(eyebrow, delay));
   if (items.length)
     gsap.fromTo(
       items,
-      { y: 30, opacity: 0 },
+      { y: distance, opacity: 0 },
       {
         y: 0,
         opacity: 1,
@@ -250,6 +291,28 @@ export function startScrollMotion(root: HTMLElement) {
       );
     });
 
+    // The film aperture opens with scroll and closes again on the way back.
+    // It reaches fully open at 82 % of its runway, so the finished frame
+    // holds for a moment before the page moves on.
+    root.querySelectorAll<HTMLElement>('[data-film]').forEach((film) => {
+      gsap.fromTo(
+        film,
+        { '--open': 0 },
+        {
+          '--open': 1,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: film,
+            start: 'top top',
+            end: () =>
+              `+=${Math.max(1, (film.offsetHeight - window.innerHeight) * 0.82)}`,
+            scrub: 0.6,
+            invalidateOnRefresh: true,
+          },
+        },
+      );
+    });
+
     const media = root.querySelector('[data-hero-media]');
     const hero = root.querySelector('[data-hero]');
     if (media && hero) {
@@ -290,51 +353,95 @@ export function startScrollMotion(root: HTMLElement) {
   // Section headings outside a reveal group still get the curtain.
   const standalone = Array.from(
     root.querySelectorAll<HTMLElement>('h2'),
-  ).filter((heading) => !heading.closest('[data-reveal]'));
+  ).filter(
+    (heading) =>
+      !heading.closest('[data-reveal]') &&
+      !heading.hasAttribute('data-curtain-skip'),
+  );
   standalone.forEach((heading) => (heading.dataset.curtain = ''));
   const targets = Array.from(
     root.querySelectorAll<HTMLElement>(
       '[data-reveal], [data-metric], [data-curtain]',
     ),
   );
+  // Reveals play in both directions: content rises in while reading down,
+  // drops in from above while scrolling back up, and quietly resets once it
+  // has left the screen so it can play again. Metrics count up once.
+  const shown = new Set<HTMLElement>();
+  // The direction of travel decides the side content arrives from.
+  let lastY = window.scrollY;
+  let travel: Side = 1;
+  const track = () => {
+    const y = window.scrollY;
+    if (y !== lastY) travel = y > lastY ? 1 : -1;
+    lastY = y;
+  };
+  window.addEventListener('scroll', track, { passive: true });
   const observer = new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
-        if (entry.intersectionRatio < 0.15) continue;
         const target = entry.target as HTMLElement;
-        observer.unobserve(target);
-        if (target.dataset.revealed !== undefined) continue;
-        target.dataset.revealed = '';
-        const row = target.parentElement?.hasAttribute('data-reveal-grid')
-          ? Array.from(target.parentElement.children).filter(
-              (sibling) =>
-                (sibling as HTMLElement).offsetTop === target.offsetTop,
-            )
-          : [];
-        const delay = Math.max(0, row.indexOf(target)) * 0.12;
-        context.add(() => {
-          if (target.matches(':focus-within'))
-            gsap.set(revealItems(target), { clearProps: 'transform,opacity' });
-          else if (target.hasAttribute('data-metric')) countMetric(target);
-          else if (target.hasAttribute('data-curtain'))
-            revealHeading(target, 0);
-          else reveal(target, delay);
-        });
+        const box = entry.boundingClientRect;
+        const height = entry.rootBounds?.height ?? window.innerHeight;
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.15) {
+          if (shown.has(target)) continue;
+          shown.add(target);
+          target.dataset.revealed = '';
+          // Straddling an edge says where it came from; otherwise (after a
+          // jump) the last scroll direction does.
+          const fromAbove = box.top < 0 && box.bottom <= height;
+          const fromBelow = box.bottom > height && box.top >= 0;
+          const side: Side = fromAbove ? -1 : fromBelow ? 1 : travel;
+          const row = target.parentElement?.hasAttribute('data-reveal-grid')
+            ? Array.from(target.parentElement.children).filter(
+                (sibling) =>
+                  (sibling as HTMLElement).offsetTop === target.offsetTop,
+              )
+            : [];
+          const delay = Math.max(0, row.indexOf(target)) * 0.12;
+          context.add(() => {
+            if (target.matches(':focus-within'))
+              gsap.set(revealItems(target), {
+                clearProps: 'transform,opacity',
+              });
+            else if (target.hasAttribute('data-metric')) {
+              observer.unobserve(target);
+              countMetric(target);
+            } else if (target.hasAttribute('data-curtain'))
+              revealHeading(target, 0, side);
+            else reveal(target, delay, side);
+          });
+        } else if (!entry.isIntersecting && shown.has(target)) {
+          // Never hide what holds keyboard focus.
+          if (target.matches(':focus-within')) continue;
+          shown.delete(target);
+          // Left through the bottom: next time it comes up from below.
+          const side: Side = box.top >= height ? 1 : -1;
+          context.add(() => {
+            if (target.hasAttribute('data-curtain')) concealHeading(target);
+            else conceal(target, side);
+          });
+        }
       }
     },
-    { threshold: 0.15 },
+    { threshold: [0, 0.15] },
   );
-  const belowFold = targets.filter(
+  // Anything off screen at the start waits, hidden, on the side it will
+  // arrive from.
+  const offscreen = targets.filter(
     (target) =>
       (target.hasAttribute('data-reveal') ||
         target.hasAttribute('data-curtain')) &&
-      target.dataset.revealed === undefined &&
-      target.getBoundingClientRect().top >= window.innerHeight,
+      target.dataset.revealed === undefined,
   );
   context.add(() => {
-    belowFold.forEach((target) =>
-      gsap.set(revealItems(target), { y: 30, opacity: 0 }),
-    );
+    offscreen.forEach((target) => {
+      const box = target.getBoundingClientRect();
+      if (box.top >= window.innerHeight)
+        gsap.set(revealItems(target), { y: 30, opacity: 0 });
+      else if (box.bottom <= 0)
+        gsap.set(revealItems(target), { y: -30, opacity: 0 });
+    });
   });
   targets.forEach((target) => observer.observe(target));
 
@@ -342,6 +449,7 @@ export function startScrollMotion(root: HTMLElement) {
 
   return () => {
     stopFx();
+    window.removeEventListener('scroll', track);
     observer.disconnect();
     context.revert();
     standalone.forEach((heading) => delete heading.dataset.curtain);

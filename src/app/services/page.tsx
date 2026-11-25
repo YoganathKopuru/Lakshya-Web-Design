@@ -3,11 +3,13 @@ import type { Metadata } from 'next';
 import { ServiceGrid } from '@/components/service-grid';
 import { ContactBand } from '@/components/chrome';
 import { Curtain } from '@/components/curtain';
+import { HeroArt } from '@/components/hero-art';
 
 export default function Services() {
   return (
     <main id="main">
       <section className="page-hero wrap">
+        <HeroArt variant="threads" />
         <span className="eyebrow">OUR EXPERTISE</span>
         <h1>
           <Curtain>

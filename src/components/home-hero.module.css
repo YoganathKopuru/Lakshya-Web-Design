@@ -232,6 +232,53 @@
   }
 }
 
+/* The time in Hyderabad, after the location in the badge. */
+.time {
+  margin-left: 2px;
+  padding-left: 10px;
+  border-left: 1px solid #ffffff2b;
+  color: #9ee6d3;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Pointer depth: premium-fx.ts sets --px and --py (-1 to 1) across the
+   hero; each layer drifts by its own amount, the far sky against the near
+   threads, so the scene reads in depth. The individual translate property
+   leaves the scroll-driven transforms on these layers untouched. The dot
+   screen and threads overhang the hero so a drift never shows an edge. */
+.dots {
+  inset: -24px;
+  width: calc(100% + 48px);
+  height: calc(100% + 48px);
+}
+.silk {
+  inset: -32px;
+  width: calc(100% + 64px);
+  height: calc(100% + 64px);
+}
+.aurora,
+.dots,
+.silk,
+.content,
+.stage {
+  transition: translate 1.2s var(--ease-out-expo);
+}
+.aurora {
+  translate: calc(var(--px, 0) * -10px) calc(var(--py, 0) * -6px);
+}
+.dots {
+  translate: calc(var(--px, 0) * 14px) calc(var(--py, 0) * 8px);
+}
+.silk {
+  translate: calc(var(--px, 0) * 26px) calc(var(--py, 0) * 12px);
+}
+.content {
+  translate: calc(var(--px, 0) * -8px) calc(var(--py, 0) * -5px);
+}
+.stage {
+  translate: calc(var(--px, 0) * 12px) calc(var(--py, 0) * 6px);
+}
+
 /* ── Midnight theme ─────────────────────────────────────────────────────
    A night sky lit from within: an indigo dome, a teal horizon under the
    console, and a live aurora (aurora-shader.tsx) drifting through the

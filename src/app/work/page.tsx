@@ -6,6 +6,7 @@ import { projectAreas } from '@/data/content';
 import { ProjectVisual } from '@/components/visuals';
 import { ContactBand } from '@/components/chrome';
 import { Curtain } from '@/components/curtain';
+import { HeroArt } from '@/components/hero-art';
 
 const contexts = {
   manufacturing: [
@@ -29,6 +30,7 @@ export default function Work() {
   return (
     <main id="main">
       <section className="page-hero wrap">
+        <HeroArt variant="threads" />
         <span className="eyebrow">DELIVERY EXPERIENCE</span>
         <h1>
           <Curtain>

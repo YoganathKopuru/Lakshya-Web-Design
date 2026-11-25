@@ -1,5 +1,6 @@
 import { pageMetadata } from '@/lib/site-metadata';
 import { HomeHero } from '@/components/home-hero';
+import { HeroFilm } from '@/components/hero-film';
 import { ServicePlacards } from '@/components/service-placards';
 import { ContactBand } from '@/components/chrome';
 import { DeliveryExperience } from '@/components/delivery-experience';
@@ -13,6 +14,7 @@ export default function Home() {
   return (
     <main id="main">
       <HomeHero />
+      <HeroFilm />
       <Manifesto />
       <section className="section wrap" id="expertise">
         <div className="section-head" data-reveal>

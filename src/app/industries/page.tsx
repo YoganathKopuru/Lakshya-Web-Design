@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { ContactBand } from '@/components/chrome';
 import { Curtain } from '@/components/curtain';
+import { HeroArt } from '@/components/hero-art';
 
 const industries = [
   {
@@ -50,6 +51,7 @@ export default function Industries() {
   return (
     <main id="main">
       <section className="page-hero wrap">
+        <HeroArt variant="threads" />
         <span className="eyebrow">INDUSTRIES</span>
         <h1>
           <Curtain>

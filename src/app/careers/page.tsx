@@ -5,11 +5,15 @@ import type { Metadata } from 'next';
 import { ArrowUpRight, BriefcaseBusiness } from 'lucide-react';
 import { ContactBand } from '@/components/chrome';
 import { Curtain } from '@/components/curtain';
+import { HeroArt } from '@/components/hero-art';
+import { HeroAurora } from '@/components/hero-aurora';
 
 export default function Careers() {
   return (
     <main id="main">
       <section className="page-hero wrap story-hero">
+        <HeroAurora />
+        <HeroArt variant="route" />
         <span className="eyebrow">CAREERS AT LAKSHYA</span>
         <h1>
           <Curtain>

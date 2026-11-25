@@ -5,11 +5,15 @@ import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { ContactBand } from '@/components/chrome';
 import { Curtain } from '@/components/curtain';
+import { HeroArt } from '@/components/hero-art';
+import { HeroAurora } from '@/components/hero-aurora';
 
 export default function Company() {
   return (
     <main id="main">
       <section className="page-hero wrap story-hero ocean-hero">
+        <HeroAurora />
+        <HeroArt variant="waves" />
         <div className="ocean-waves" aria-hidden="true">
           <svg viewBox="0 0 1200 400" preserveAspectRatio="none">
             <path d="M-300 160Q0 20 300 160T900 160T1500 160V500H-300Z" />

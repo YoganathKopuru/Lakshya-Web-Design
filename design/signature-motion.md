@@ -29,6 +29,24 @@ References studied (nothing copied: no code, artwork, copy or assets):
 | Field notes      | **Magnet lines** (`components/magnet-field.tsx`) behind the delivery section: a 34 px grid of strokes that turn to face the pointer within 190 px, brighten from indigo to teal, and ease back to rest when it leaves.                                                                                                                                                                                                          |
 | Footer           | **Back to top** at the end of every page: a long eased glide through Lenis (instant with reduced motion); focus moves to the logo so keyboard users continue from the top.                                                                                                                                                                                                                                                      |
 
+## Round two: hero, cursor and two-way scroll
+
+References studied for the hero (again, nothing copied): nuehealth.in,
+getlayers.ai, instrument.com/work, fisglobal.com and ingenero.com. What they
+share: real footage framed with care (an inset card, an aperture that
+opens), a scroll story that plays backwards as faithfully as forwards, and
+type set with confidence.
+
+| Area            | Now                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Film aperture   | `components/hero-film.tsx`, after the hero. A sticky stage holds a capsule of film with "Technology," and "with purpose." either side; scrolling opens it to a near-full-screen frame and closes the line over the footage, with "Built around people. Powered by technology." beneath. One value, `--open`, drives it from scroll, so it plays back in reverse. Labelled "Stock footage".                                                     |
+| Hero depth      | The sky, dot screen, threads, copy and console drift by different amounts with the pointer (`--px`/`--py`, set in `premium-fx.ts`), using the `translate` property so the scroll transforms are untouched.                                                                                                                                                                                                                                     |
+| Hyderabad time  | The hero badge ends with the live time in Hyderabad (`components/hyderabad-time.tsx`).                                                                                                                                                                                                                                                                                                                                                         |
+| Two-way reveals | `start-scroll-motion.ts`: content rises in while reading down, drops in from above while scrolling up, and resets once it leaves the screen so it plays again; headings curtain up or down to match. Metrics still count up once; nothing holding keyboard focus is hidden.                                                                                                                                                                    |
+| Inner heroes    | Midnight only (Clean unchanged): the live aurora inside the Company, Why Lakshya and Careers cards, and line art for each page's headline (`components/hero-art.tsx`): waves (Company), converging paths (Why Lakshya), a rising route (Careers), threads (Services, Work, Industries, Contact). Every inner hero lifts and softens with scroll, both ways; cards ease back slightly.                                                          |
+| Cursor          | Site-wide (`components/cursor-signal.tsx`): a dot on the pointer (difference blend, so it reads on any background) and a ring on a spring that stretches with speed, opens over links, becomes a labelled pill over Expertise cards ("Explore") and Field notes ("View"), and tightens when pressed. The system arrow is hidden only while it is on screen; text fields keep the text cursor; touch and reduced motion keep the system cursor. |
+| Dev servers     | Only `signature-dev` (port 3012) remains in the workspace launch configuration. The premium worktree was removed (its branch equals `main` on GitHub); `frontend/` stays because it holds the repository's shared git data.                                                                                                                                                                                                                    |
+
 ## Motion and performance
 
 - Curtain: 1.3 s per word, `linear()` spring easing in CSS
@@ -58,9 +76,12 @@ References studied (nothing copied: no code, artwork, copy or assets):
 
 `tests/signature.spec.ts` covers the default theme and logo, switching and
 persistence (pointer and arrow keys), back to top (scroll and focus), curtain
-headlines (and reduced motion), magnet lines reacting to the pointer, and the
-dial closing its ring (and reduced motion). The existing suites are
-unchanged.
+headlines (and reduced motion), magnet lines reacting to the pointer, the
+dial closing its ring (and reduced motion), the custom cursor (arrow hidden,
+labelled pill, reduced motion), the film aperture opening and closing with
+scroll (and its reduced-motion still), content revealing again on the way
+back up, and the inner-hero art showing in Midnight only. The existing
+suites are unchanged.
 
 Local result (Windows workstation, all four projects, two workers): 93
 passed, 2 skipped, 1 failed — the existing mobile "metrics count up" test,
