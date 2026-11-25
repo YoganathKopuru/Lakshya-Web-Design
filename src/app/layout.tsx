@@ -8,6 +8,7 @@ import { Header, Footer } from '@/components/chrome';
 import { CursorSignal } from '@/components/cursor-signal';
 import { ScrollMotion } from '@/components/scroll-motion';
 import { SmoothScroll } from '@/components/smooth-scroll';
+import { MotionGovernor } from '@/components/motion-governor';
 
 export const metadata: Metadata = {
   metadataBase: siteUrl,
@@ -53,6 +54,7 @@ export default function RootLayout({
         <CursorSignal />
         <ScrollMotion />
         <SmoothScroll />
+        <MotionGovernor />
       </body>
     </html>
   );

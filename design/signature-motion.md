@@ -66,6 +66,15 @@ type set with confidence.
 - Magnet lines: draws only while something is moving (the pointer is in the
   section or lines are settling), pauses offscreen; touch and reduced motion
   get a still pattern.
+- Lite mode (`components/motion-governor.tsx`): about a second after the
+  page settles it samples the real frame rate for 1.5 s; below ~20 fps the
+  page gets `<html data-lite>`. The costliest decorative paint then settles:
+  the hero's dot ripple holds a still frame, the aurora steps aside for its
+  CSS sky, threads and inner-hero line art stop moving, the header drops its
+  live blur, and the delivery console's "live" ping (which repaints the
+  whole tilted panel) stops. Scroll motion, the cursor and every interaction
+  stay. Measured in headless Firefox (software rendering): 4 → 44 fps at the
+  top of the homepage, 3 → 41 fps at the console. A laptop GPU (Intel UHD 620) stays at full quality.
 - Film: the video decodes only once at least 35 % of its stage is on
   screen, so it never starts while just the edge of the runway shows.
 - Halftone: 40 fps normally; if drawing a frame costs more than ~12 ms it

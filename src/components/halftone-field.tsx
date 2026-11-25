@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { currentTheme, observeTheme } from '@/lib/theme';
+import { isLite, LITE_EVENT } from './motion-governor';
 
 /**
  * A halftone dot screen for the hero. Every dot sits on a fixed grid and only
@@ -121,9 +122,12 @@ export function HalftoneField({ className }: { className?: string }) {
       if (cost > 12) interval = 66;
     };
 
+    // Reduced motion and lite mode (motion-governor.tsx) keep a still frame.
+    const calm = () => still.matches || isLite();
+
     const start = () => {
       cancelAnimationFrame(frame);
-      if (still.matches) {
+      if (calm()) {
         draw(2600);
         return;
       }
@@ -145,7 +149,7 @@ export function HalftoneField({ className }: { className?: string }) {
 
     const sizeObserver = new ResizeObserver(() => {
       resize();
-      if (still.matches) draw(2600);
+      if (calm()) draw(2600);
     });
     const viewObserver = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
@@ -161,11 +165,13 @@ export function HalftoneField({ className }: { className?: string }) {
     document.addEventListener('visibilitychange', start);
     still.addEventListener('change', start);
     const stopTheme = observeTheme(() => {
-      if (still.matches) draw(2600);
+      if (calm()) draw(2600);
     });
+    window.addEventListener(LITE_EVENT, start);
     start();
 
     return () => {
+      window.removeEventListener(LITE_EVENT, start);
       stopTheme();
       cancelAnimationFrame(frame);
       sizeObserver.disconnect();

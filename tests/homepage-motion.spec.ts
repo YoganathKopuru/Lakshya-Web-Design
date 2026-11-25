@@ -102,12 +102,15 @@ test('hero console lies flat once scrolled into view', async ({ page }) => {
       behavior: 'instant',
     }),
   );
+  // Report the panel's state, not just a yes/no, so a failure says why.
   await expect
     .poll(() =>
       panel.evaluate((element) => {
         const m = new DOMMatrix(getComputedStyle(element).transform);
-        return Math.abs(m.m23) < 0.002 && Math.abs(m.a - 1) < 0.01;
+        const flat = Math.abs(m.m23) < 0.002 && Math.abs(m.a - 1) < 0.01;
+        const top = Math.round(element.getBoundingClientRect().top);
+        return `${flat ? 'flat' : 'tilted'} (m23 ${m.m23.toFixed(3)}, scale ${m.a.toFixed(3)}, top ${top}px, scrollY ${Math.round(window.scrollY)}, viewport ${window.innerHeight}px)`;
       }),
     )
-    .toBe(true);
+    .toMatch(/^flat/);
 });

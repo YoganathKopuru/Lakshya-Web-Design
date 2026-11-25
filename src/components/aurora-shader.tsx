@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { currentTheme, observeTheme } from '@/lib/theme';
+import { isLite, LITE_EVENT } from './motion-governor';
 
 const vertex = `
 attribute vec2 a_position;
@@ -258,6 +259,8 @@ export function AuroraShader({ className }: { className?: string }) {
       frame = 0;
       last = 0;
       intervals.length = 0;
+      // Lite mode (motion-governor.tsx): the CSS sky is the whole sky.
+      if (isLite()) element.dataset.off = '';
       if (!active() || element.dataset.off !== undefined) return;
       if (!probed && !still.matches) probe();
       if (element.dataset.off !== undefined) return;
@@ -296,10 +299,12 @@ export function AuroraShader({ className }: { className?: string }) {
     document.addEventListener('visibilitychange', start);
     still.addEventListener('change', start);
     const stopTheme = observeTheme(start);
+    window.addEventListener(LITE_EVENT, start);
     start();
 
     return () => {
       cancelAnimationFrame(frame);
+      window.removeEventListener(LITE_EVENT, start);
       stopTheme();
       sizeObserver.disconnect();
       viewObserver.disconnect();

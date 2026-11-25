@@ -81,7 +81,10 @@ test('magnet lines answer the pointer in the field notes section', async ({
   await page.goto('/');
   const field = page.locator('#delivery canvas');
   await expect(field).toHaveCount(1);
-  await field.scrollIntoViewIfNeeded();
+  // Bring the section heading (inside the field) into view: the canvas is
+  // taller than the screen, so scrolling to it can leave the heading out.
+  const head = page.locator('#delivery .section-head');
+  await head.scrollIntoViewIfNeeded();
   const fingerprint = () =>
     field.evaluate((canvas: HTMLCanvasElement) => {
       const data = canvas
@@ -91,11 +94,12 @@ test('magnet lines answer the pointer in the field notes section', async ({
       for (let i = 3; i < data.length; i += 16) sum += data[i];
       return sum;
     });
+  await expect.poll(fingerprint).toBeGreaterThan(0);
   const resting = await fingerprint();
-  expect(resting).toBeGreaterThan(0);
-  const box = (await page.locator('#delivery .section-head').boundingBox())!;
-  await page.mouse.move(box.x + box.width * 0.6, box.y + 10);
-  await page.mouse.move(box.x + box.width * 0.62, box.y + 14);
+  const box = (await head.boundingBox())!;
+  // A few steps across the heading, so the field sees a moving pointer.
+  for (const step of [0.5, 0.55, 0.6, 0.65])
+    await page.mouse.move(box.x + box.width * step, box.y + box.height / 2);
   await expect.poll(fingerprint).not.toBe(resting);
 });
 

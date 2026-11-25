@@ -405,11 +405,9 @@ html[data-cursor-ready]
   opacity: 1;
   translate: 0 0;
 }
-/* "Difference" on the fixed element itself, so it blends with the page
-   (a blended child of it would only blend inside its own layer). */
-.cursor-dot {
-  mix-blend-mode: difference;
-}
+/* A light dot with a fine dark edge reads on night and paper alike, with
+   no blend mode (which would make the browser re-blend the whole page on
+   every frame). */
 .cursor-dot::before {
   content: '';
   position: absolute;
@@ -419,6 +417,7 @@ html[data-cursor-ready]
   height: 6px;
   border-radius: 50%;
   background: #fff;
+  box-shadow: 0 0 0 1px #07063a8c;
 }
 @media (prefers-reduced-motion: reduce),
   (any-pointer: coarse) and (not (any-pointer: fine)) {
@@ -559,4 +558,33 @@ html[data-cursor-ready]
   :root[data-theme='midnight'] .signal-art {
     display: none;
   }
+}
+
+/* ── Lite mode (components/motion-governor.tsx) ──────────────────────────
+   On a device that cannot keep ~20 fps with every layer running, the
+   costliest decorative paint settles: threads and line art stop moving,
+   the aurora steps aside for its CSS sky, and the header drops its live
+   blur for a solid bar. Scroll motion and every interaction remain. */
+:root[data-lite] .silk path,
+:root[data-lite] .silk-bundle,
+:root[data-lite] .signal-art *,
+:root[data-lite] .grain::after,
+:root[data-lite] [data-console] *,
+:root[data-lite] [data-console] *::after {
+  /* The console's "live" ping repaints the whole tilted panel each frame. */
+  animation: none !important;
+}
+:root[data-lite] .signal-art-pulse,
+:root[data-lite] .aurora,
+:root[data-lite] .hero-aurora {
+  display: none !important;
+}
+:root[data-lite] .site-header,
+:root[data-lite] .site-header[data-scrolled] {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+:root[data-lite][data-theme='midnight'] .site-header,
+:root[data-lite][data-theme='midnight'] .site-header[data-scrolled] {
+  background: var(--paper);
 }
