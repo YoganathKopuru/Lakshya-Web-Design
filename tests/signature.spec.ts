@@ -245,6 +245,26 @@ test('content reveals again when scrolling back up', async ({ page }) => {
   await expect(card).toHaveCSS('opacity', '1');
 });
 
+test('work and industries open with cards drawn from their own content', async ({
+  page,
+  isMobile,
+}) => {
+  for (const [path, variant] of [
+    ['/work/', 'resolve'],
+    ['/industries/', 'skyline'],
+  ] as const) {
+    await page.goto(path);
+    const card = page.locator('.story-hero');
+    await expect(card.getByRole('heading', { level: 1 })).toBeVisible();
+    await expect(card.locator('.hero-aurora')).toHaveCount(1);
+    const art = card.locator('.signal-art');
+    await expect(art).toHaveAttribute('data-signal-art', variant);
+    // Phones leave the card to its copy and sky.
+    if (isMobile) await expect(art).toBeHidden();
+    else await expect(art).toBeVisible();
+  }
+});
+
 test('inner heroes carry their own line art in both themes', async ({
   page,
   isMobile,

@@ -470,11 +470,35 @@ export function startScrollMotion(root: HTMLElement) {
   targets.forEach((target) => observer.observe(target));
 
   const stopFx = startPremiumFx(root);
-  // Every scroll scene now exists: a signal for anything (tests included)
-  // that should only act once the motion layer is live.
-  document.documentElement.dataset.motion = 'ready';
+
+  // Entrance animations (the hero copy and console rising into place) move
+  // elements with transforms, and ScrollTrigger measures through transforms:
+  // a scene measured mid-entrance would end too late (the console would
+  // stop just short of flat). Once the entrances in flight have settled
+  // (at most a few seconds), measure every scene again, then report the
+  // motion layer live: a signal for anything, tests included, that should
+  // only act once it is.
+  let live = true;
+  const entrances = document
+    .getAnimations()
+    .filter(
+      (animation) =>
+        animation instanceof CSSAnimation &&
+        animation.playState === 'running' &&
+        Number.isFinite(animation.effect?.getComputedTiming().endTime),
+    )
+    .map((animation) => animation.finished);
+  void Promise.race([
+    Promise.allSettled(entrances),
+    new Promise((settle) => window.setTimeout(settle, 4000)),
+  ]).then(() => {
+    if (!live) return;
+    ScrollTrigger.refresh();
+    document.documentElement.dataset.motion = 'ready';
+  });
 
   return () => {
+    live = false;
     delete document.documentElement.dataset.motion;
     stopFx();
     window.removeEventListener('scroll', track);

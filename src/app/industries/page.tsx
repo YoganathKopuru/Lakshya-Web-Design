@@ -12,6 +12,7 @@ import {
 import { ContactBand } from '@/components/chrome';
 import { Curtain } from '@/components/curtain';
 import { HeroArt } from '@/components/hero-art';
+import { HeroAurora } from '@/components/hero-aurora';
 
 const industries = [
   {
@@ -50,8 +51,9 @@ const industries = [
 export default function Industries() {
   return (
     <main id="main">
-      <section className="page-hero wrap">
-        <HeroArt variant="threads" />
+      <section className="page-hero wrap story-hero">
+        <HeroAurora />
+        <HeroArt variant="skyline" />
         <span className="eyebrow">INDUSTRIES</span>
         <h1>
           <Curtain>

@@ -7,13 +7,20 @@ import type { CSSProperties } from 'react';
  * - waves (Company): a sea of signals in the logo spectrum, drifting.
  * - converge (Why Lakshya): different starting points meeting at one.
  * - route (Careers): a path that rises, with a pulse travelling along it.
- * - threads (Services, Work, Industries, Contact): fine threads flowing in.
+ * - resolve (Work): "Real challenges. Purposeful technology." Tangled
+ *   lines pass through a delivery module and leave it as clean, evenly
+ *   spaced paths that end in value.
+ * - skyline (Industries): "Technology in context." One line takes the
+ *   shape of each industry served: a factory's sawtooth roof, a
+ *   heartbeat, a civic building, office towers.
+ * - threads (Services, Contact): fine threads flowing in.
  *
  * Decorative (aria-hidden). Drawn in SVG; CSS draws the lines in and keeps
  * them moving (signature.css), reduced motion keeps them still, and the
  * pointer and scroll move the whole piece for depth.
  */
-export type HeroArtVariant = 'waves' | 'converge' | 'route' | 'threads';
+export type HeroArtVariant =
+  'waves' | 'converge' | 'route' | 'resolve' | 'skyline' | 'threads';
 
 const SPECTRUM = [
   '#6f7bff',
@@ -40,6 +47,21 @@ function Spectrum() {
         <stop offset="0" stopColor="#6f7bff" stopOpacity="0" />
         <stop offset="0.32" stopColor="#6f7bff" stopOpacity="0.6" />
         <stop offset="0.7" stopColor="#2f8fd8" />
+        <stop offset="1" stopColor="#46d3b3" />
+      </linearGradient>
+      {/* The spectrum at full strength almost from the left edge, for a
+          single line that carries the whole piece. */}
+      <linearGradient
+        id="signal-art-band"
+        x1="0"
+        y1="0"
+        x2="600"
+        y2="0"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop offset="0.28" stopColor="#6f7bff" stopOpacity="0" />
+        <stop offset="0.36" stopColor="#6f7bff" stopOpacity="0.9" />
+        <stop offset="0.62" stopColor="#2f8fd8" />
         <stop offset="1" stopColor="#46d3b3" />
       </linearGradient>
       <linearGradient
@@ -216,6 +238,142 @@ function Route() {
   );
 }
 
+/** Tangled line i: [start, first turn, second turn, final level]. */
+const KNOTS: Array<[number, number, number, number]> = [
+  [250, 120, 230, 140],
+  [130, 270, 150, 170],
+  [290, 170, 110, 200],
+  [160, 230, 280, 230],
+  [210, 110, 260, 260],
+];
+const MODULE = { x: 304, y: 116, width: 46, height: 168 };
+
+function Resolve() {
+  return (
+    <g>
+      {/* The delivery module the lines pass through, with a port where
+          each one enters and leaves. */}
+      <rect {...MODULE} rx={14} fill="#ffffff0a" stroke="#ffffff38" />
+      {KNOTS.map(([start, first, second, level], index) => {
+        // The knot starts clear of the headline, at x 130.
+        const d = `M130 ${start} C158 ${start} 172 ${first} 200 ${first} S232 ${second} 254 ${second} S276 ${level} 294 ${level} L566 ${level}`;
+        const duration = `${3.8 + (index % 3) * 0.5}s`;
+        return (
+          <g key={index}>
+            <path
+              className="signal-art-line"
+              d={d}
+              stroke="url(#signal-art-spectrum)"
+              strokeOpacity={0.7 + (index % 2) * 0.3}
+              pathLength={1}
+              style={i(index)}
+            />
+            {[MODULE.x, MODULE.x + MODULE.width].map((x) => (
+              <circle key={x} cx={x} cy={level} r={2.2} fill="#c9d2f5" />
+            ))}
+            <circle
+              className="signal-art-stop"
+              cx={566}
+              cy={level}
+              r={3.4}
+              fill={SPECTRUM[index + 1]}
+              style={i(index)}
+            />
+            <circle className="signal-art-pulse" r={2.4} fill="#9ee6d3">
+              <animateMotion
+                dur={duration}
+                begin={`${index * 0.6}s`}
+                repeatCount="indefinite"
+                path={d}
+              />
+              <animate
+                attributeName="opacity"
+                values="0;1;1;0"
+                keyTimes="0;0.12;0.86;1"
+                dur={duration}
+                begin={`${index * 0.6}s`}
+                repeatCount="indefinite"
+              />
+            </circle>
+          </g>
+        );
+      })}
+      <circle
+        className="signal-art-ring"
+        cx={566}
+        cy={200}
+        r={7}
+        fill="none"
+        stroke="#46d3b3"
+      />
+      <circle cx={566} cy={200} r={18} fill="#46d3b31f" />
+    </g>
+  );
+}
+
+/* One line across a common ground, taking the shape of each industry in
+   turn: a sawtooth factory roof, a heartbeat, a pedimented civic building,
+   then office towers. It starts at x 168, clear of the headline. */
+const GROUND = 290;
+const SKYLINE = [
+  `M168 ${GROUND} L220 ${GROUND}`,
+  'L220 236 L241 212 L241 236 L262 212 L262 236 L283 212 L283 290',
+  'L304 290 L312 290 L318 278 L324 290 L331 290 L340 222 L349 328 L357 290 L368 290 L375 275 L385 290',
+  'L406 290 L406 244 L448 210 L491 244 L491 290',
+  'L510 290 L510 228 L529 228 L529 182 L552 182 L552 144 L571 144 L571 204 L590 204 L590 290',
+].join(' ');
+const COLUMNS = [418, 433, 448.5, 464, 479];
+const JUNCTIONS = [294, 396, 500];
+
+function Skyline() {
+  return (
+    <g>
+      {[40, 22].map((offset, index) => (
+        <path
+          key={offset}
+          className="signal-art-line signal-art-contour"
+          d={`M168 ${GROUND + offset} L600 ${GROUND + offset}`}
+          stroke="url(#signal-art-band)"
+          pathLength={1}
+          style={i(index)}
+        />
+      ))}
+      {/* Columns and the pediment's base, drawn faintly inside the civic
+          building. */}
+      <path
+        className="signal-art-line signal-art-contour"
+        d={`M406 244 L491 244 ${COLUMNS.map((x) => `M${x} 252 L${x} 284`).join(' ')}`}
+        stroke="#c9d2f5"
+        pathLength={1}
+        style={i(3)}
+      />
+      <path
+        className="signal-art-line signal-art-main"
+        d={SKYLINE}
+        stroke="url(#signal-art-band)"
+        pathLength={1}
+        style={i(2)}
+      />
+      {JUNCTIONS.map((cx, index) => (
+        <g key={cx} className="signal-art-stop" style={i(index)}>
+          <circle cx={cx} cy={GROUND} r={9} fill="#05060f" stroke="#ffffff38" />
+          <circle cx={cx} cy={GROUND} r={3.4} fill={SPECTRUM[index * 2 + 1]} />
+        </g>
+      ))}
+      <circle className="signal-art-pulse" r={3} fill="#c9efdb">
+        <animateMotion dur="7.2s" repeatCount="indefinite" path={SKYLINE} />
+        <animate
+          attributeName="opacity"
+          values="0;1;1;0"
+          keyTimes="0;0.08;0.9;1"
+          dur="7.2s"
+          repeatCount="indefinite"
+        />
+      </circle>
+    </g>
+  );
+}
+
 function Threads() {
   return (
     <g className="signal-art-sway">
@@ -242,6 +400,8 @@ export function HeroArt({ variant }: { variant: HeroArtVariant }) {
         {variant === 'waves' && <Waves />}
         {variant === 'converge' && <Converge />}
         {variant === 'route' && <Route />}
+        {variant === 'resolve' && <Resolve />}
+        {variant === 'skyline' && <Skyline />}
         {variant === 'threads' && <Threads />}
       </svg>
     </div>
