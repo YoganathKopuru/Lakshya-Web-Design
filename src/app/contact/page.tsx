@@ -3,16 +3,21 @@ import { ArrowUpRight } from 'lucide-react';
 import { office } from '@/data/content';
 import { EnquiryForm } from '@/components/enquiry-form';
 import { OfficeMap } from '@/components/office-map';
+import { Curtain } from '@/components/curtain';
+import { HeroArt } from '@/components/hero-art';
 
 export default function Contact() {
   return (
     <main id="main">
       <section className="page-hero wrap">
+        <HeroArt variant="threads" />
         <span className="eyebrow">LET’S CONNECT</span>
         <h1>
-          Good things start
-          <br />
-          <span className="muted">with a conversation.</span>
+          <Curtain>
+            Good things start
+            <br />
+            <span className="muted">with a conversation.</span>
+          </Curtain>
         </h1>
         <p>
           An idea to explore, a system to improve, or a team to build. We’d like

@@ -1,0 +1,250 @@
+/* ── Midnight theme (2026-11-25) ──────────────────────────────────────────
+   The signature blend: a deep night page, the logo's indigo-to-teal spectrum
+   used as light rather than paint, and glass surfaces lifted a step above the
+   night. Every rule is scoped to :root[data-theme='midnight'], so the Clean
+   theme (the light Kelder layout) renders exactly as it did before.
+   Component-specific overrides sit at the end of each CSS module.
+   Text colours are checked against the night: --ink 17.9:1, --muted 8.1:1,
+   --teal 10.8:1 (WCAG AA needs 4.5:1). */
+
+:root[data-theme='midnight'] {
+  color-scheme: dark;
+  --ink: #eef1ff;
+  --blue: #6f8cff;
+  --teal: #46d3b3;
+  --mint: #c9efdb;
+  --paper: #05060f;
+  --surface: #0b0e20;
+  --raised: #10142c;
+  --muted: #9aa3c6;
+  --line: #ffffff17;
+  --line-strong: #ffffff2b;
+  --glow-indigo: #3b44e0;
+  --glow-teal: #1fbf9f;
+  --brand-gradient: linear-gradient(100deg, #2b2bb3, #2f55d8 55%, #0d9c86);
+  --spectrum: linear-gradient(100deg, #5b63ff, #2f8fd8 50%, #46d3b3);
+}
+
+:root[data-theme='midnight'] body {
+  background: var(--paper);
+}
+:root[data-theme='midnight'] .muted {
+  color: #8a93b8;
+}
+:root[data-theme='midnight'] ::selection {
+  background: #2f55d8;
+  color: #fff;
+}
+:root[data-theme='midnight'] a:focus-visible,
+:root[data-theme='midnight'] button:focus-visible {
+  outline-color: var(--teal);
+}
+
+/* Header: night glass; the original logo artwork sits on it as supplied. */
+:root[data-theme='midnight'] .site-header,
+:root[data-theme='midnight'] .site-header[data-scrolled] {
+  background: #05060fcc;
+  border-bottom-color: #ffffff12;
+}
+:root[data-theme='midnight'] .site-header[data-scrolled] {
+  box-shadow: 0 18px 50px -24px #000000e6;
+}
+:root[data-theme='midnight'] .mega-menu {
+  border: 1px solid var(--line);
+  border-top: 0;
+  box-shadow: 0 40px 80px -30px #000000f2;
+}
+:root[data-theme='midnight'] .mega-links a:hover {
+  color: var(--teal);
+}
+:root[data-theme='midnight'] .menu-scrim {
+  background: #00000080;
+}
+@media (max-width: 880px) {
+  :root[data-theme='midnight'] .nav {
+    background: var(--paper);
+  }
+  :root[data-theme='midnight'] .mega-menu {
+    border: 0;
+    box-shadow: none;
+  }
+}
+
+/* Footer: the night deepens, lit from below in the logo's spectrum. */
+:root[data-theme='midnight'] .site-footer {
+  border-top: 1px solid var(--line);
+  background:
+    radial-gradient(70% 60% at 50% 115%, #1fbf9f33, transparent 70%),
+    radial-gradient(60% 50% at 15% 100%, #3b44e033, transparent 70%),
+    var(--paper);
+}
+:root[data-theme='midnight'] .footer-mega span {
+  background: linear-gradient(
+    180deg,
+    #8e9bff 0%,
+    #3f6fe0 38%,
+    #1fbf9f 72%,
+    #1fbf9f00 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* Inner page heads: an indigo glow rather than a pale wash. */
+:root[data-theme='midnight'] .page-hero::before {
+  background:
+    radial-gradient(55% 120% at 82% 0%, #3b44e040, transparent 70%),
+    radial-gradient(40% 90% at 10% 0%, #1fbf9f1f, transparent 70%),
+    linear-gradient(180deg, #080a22 0%, var(--paper) 100%);
+}
+:root[data-theme='midnight'] .breadcrumb,
+:root[data-theme='midnight'] .content-note,
+:root[data-theme='midnight'] .form-note,
+:root[data-theme='midnight'] .service-card-top > span,
+:root[data-theme='midnight'] .card-bottom > span {
+  color: var(--muted);
+}
+:root[data-theme='midnight'] .detail-hero {
+  background:
+    radial-gradient(ellipse at 100% 0%, #2f55d840, transparent 60%),
+    var(--surface);
+}
+:root[data-theme='midnight'] .story-hero {
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(ellipse at 90% 0%, #2f55d899 0%, transparent 60%),
+    radial-gradient(ellipse at 0% 100%, #1fbf9f33 0%, transparent 55%),
+    linear-gradient(160deg, #0d0b4d 0%, #05060f 100%);
+}
+
+/* Cards, rows and tags across inner pages. */
+:root[data-theme='midnight'] .service-card:hover,
+:root[data-theme='midnight'] .related-link:hover,
+:root[data-theme='midnight'] .audience-route:hover,
+:root[data-theme='midnight'] .audience-route:focus-within {
+  background: var(--raised);
+}
+:root[data-theme='midnight'] .service-card:first-child {
+  background: linear-gradient(145deg, #121a46, var(--surface));
+}
+:root[data-theme='midnight'] .tag {
+  border-color: var(--line-strong);
+}
+:root[data-theme='midnight'] .industry-card {
+  border-color: var(--line);
+  background: linear-gradient(125deg, #10163a, var(--surface));
+}
+:root[data-theme='midnight'] .industry-card:before {
+  border-color: #46d3b340;
+  box-shadow:
+    0 0 0 22px #46d3b30d,
+    0 0 0 44px #46d3b308;
+}
+:root[data-theme='midnight'] .industry-card:hover,
+:root[data-theme='midnight'] .industry-card:focus-within {
+  box-shadow: 0 24px 60px -24px #000000cc;
+}
+:root[data-theme='midnight'] .empty-jobs,
+:root[data-theme='midnight'] .why-cards article,
+:root[data-theme='midnight'] .standards-grid article {
+  border-color: var(--line);
+  background: var(--surface);
+}
+:root[data-theme='midnight'] .why-cards span,
+:root[data-theme='midnight'] .standards-number,
+:root[data-theme='midnight'] .project-story dt {
+  color: var(--teal);
+}
+:root[data-theme='midnight'] .why-lakshya > div > p,
+:root[data-theme='midnight'] .standards-intro p,
+:root[data-theme='midnight'] .why-cards p,
+:root[data-theme='midnight'] .standards-grid p,
+:root[data-theme='midnight'] .people-story p,
+:root[data-theme='midnight'] .people-story li,
+:root[data-theme='midnight'] .audience-intro p,
+:root[data-theme='midnight'] .audience-route p,
+:root[data-theme='midnight'] .project-story dd {
+  color: var(--muted);
+}
+:root[data-theme='midnight'] .standards,
+:root[data-theme='midnight'] .audience-routes,
+:root[data-theme='midnight'] .audience-route,
+:root[data-theme='midnight'] .project-story > div {
+  border-color: var(--line);
+}
+:root[data-theme='midnight'] .ocean-hero {
+  border-color: var(--line);
+}
+
+/* Delivery visuals (homepage field notes and the work page). */
+:root[data-theme='midnight'] .project-visual.manufacturing {
+  background: #0c1a24;
+}
+:root[data-theme='midnight'] .project-visual.workflow {
+  background: #0f1331;
+}
+:root[data-theme='midnight'] .project-visual.healthcare {
+  background: #0a1d22;
+}
+:root[data-theme='midnight'] .factory-art > div {
+  background: linear-gradient(
+    90deg,
+    #1d6f63,
+    #34a58e 50%,
+    #9ee6d3 51%,
+    #46d3b3
+  );
+  box-shadow: 10px 10px 0 #46d3b31f;
+}
+:root[data-theme='midnight'] .workflow-art > span {
+  background: #161b45;
+  border-color: #6f8cff55;
+  color: #c9d2ff;
+  box-shadow: 7px 7px 0 #6f8cff26;
+}
+:root[data-theme='midnight'] .workflow-art > i {
+  background: #6f8cff;
+}
+:root[data-theme='midnight'] .health-art svg {
+  color: #46d3b3;
+}
+:root[data-theme='midnight'] .health-bars i {
+  background: #2f9f8a;
+}
+
+/* Enquiry form and office map. */
+:root[data-theme='midnight'] .contact-form {
+  border-color: var(--line);
+  background: var(--surface);
+}
+:root[data-theme='midnight'] .field input,
+:root[data-theme='midnight'] .field select,
+:root[data-theme='midnight'] .field textarea {
+  background: #070918;
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+:root[data-theme='midnight'] .field select option {
+  background: #0b0e20;
+  color: var(--ink);
+}
+:root[data-theme='midnight'] .form-status {
+  background: #0f2a2a;
+}
+:root[data-theme='midnight'] .map-panel {
+  background: var(--surface);
+  border-color: var(--line);
+}
+:root[data-theme='midnight'] .office-map-frame {
+  background: #070918;
+}
+
+/* Pointer light on cards reads a touch brighter against the night. */
+:root[data-theme='midnight'] .fx-glow {
+  background: radial-gradient(
+    420px circle at var(--fx-x, 50%) var(--fx-y, 50%),
+    #46d3b326,
+    #5b63ff1a 40%,
+    transparent 70%
+  );
+}

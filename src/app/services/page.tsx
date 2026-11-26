@@ -2,16 +2,21 @@ import { pageMetadata } from '@/lib/site-metadata';
 import type { Metadata } from 'next';
 import { ServiceGrid } from '@/components/service-grid';
 import { ContactBand } from '@/components/chrome';
+import { Curtain } from '@/components/curtain';
+import { HeroArt } from '@/components/hero-art';
 
 export default function Services() {
   return (
     <main id="main">
       <section className="page-hero wrap">
+        <HeroArt variant="threads" />
         <span className="eyebrow">OUR EXPERTISE</span>
         <h1>
-          Connected capabilities.
-          <br />
-          <span className="muted">Countless possibilities.</span>
+          <Curtain>
+            Connected capabilities.
+            <br />
+            <span className="muted">Countless possibilities.</span>
+          </Curtain>
         </h1>
         <p>
           From emerging AI to the systems your business relies on. Find the

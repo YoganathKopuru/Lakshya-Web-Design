@@ -220,3 +220,43 @@
     transform: none;
   }
 }
+
+/* ── Midnight theme ───────────────────────────────────────────────────── */
+:global([data-theme='midnight']) .link > span {
+  border-color: var(--line-strong);
+}
+:global([data-theme='midnight']) .art {
+  color: #c9d2ff;
+}
+:global([data-theme='midnight']) .art svg > path:first-of-type {
+  stroke: #ffffff1f;
+}
+:global([data-theme='midnight']) .art stop:first-child {
+  stop-color: #6f7bff;
+}
+:global([data-theme='midnight']) .art stop:last-child {
+  stop-color: #46d3b3;
+}
+:global([data-theme='midnight']) .step1 circle,
+:global([data-theme='midnight']) .step2 circle {
+  fill: #0b0e20;
+  stroke: #ffffff38;
+}
+:global([data-theme='midnight']) .step3 circle {
+  fill: #1fa78c;
+}
+:global([data-theme='midnight']) .launch path:first-child {
+  stroke: var(--teal);
+}
+:global([data-theme='midnight']) .launch path:last-child {
+  stroke: #46d3b366;
+}
+:global([data-theme='midnight']) .art .stepLabel {
+  fill: var(--muted);
+}
+:global([data-theme='midnight']) .glow {
+  background: radial-gradient(ellipse at 60% 55%, #3b44e033, transparent 70%);
+}
+:global([data-theme='midnight']) .caption {
+  color: var(--muted);
+}

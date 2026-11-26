@@ -84,12 +84,8 @@
   font-style: normal;
   color: #c9efdb;
 }
-.mask {
-  display: block;
-  overflow: clip;
-  overflow-clip-margin: 10px;
-}
-.mask > * {
+/* Each headline line is a block; its words rise on their own (curtain.tsx). */
+.line {
   display: block;
 }
 .description {
@@ -165,12 +161,6 @@
   .actions {
     animation-delay: 0.38s;
   }
-  .mask > * {
-    animation: hero-reveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.06s both;
-  }
-  .mask:nth-of-type(2) > * {
-    animation-delay: 0.18s;
-  }
   .stage {
     animation: hero-stage 1.3s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both;
   }
@@ -189,11 +179,6 @@
   from {
     opacity: 0;
     transform: translateY(18px);
-  }
-}
-@keyframes hero-reveal {
-  from {
-    transform: translateY(105%);
   }
 }
 @keyframes hero-stage {
@@ -245,4 +230,101 @@
   .stage > [data-console] {
     transform: perspective(1600px) rotateX(9deg) scale(0.95);
   }
+}
+
+/* The time in Hyderabad, after the location in the badge. */
+.time {
+  margin-left: 2px;
+  padding-left: 10px;
+  border-left: 1px solid #ffffff2b;
+  color: #9ee6d3;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Pointer depth: premium-fx.ts sets --px and --py (-1 to 1) across the
+   hero; each layer drifts by its own amount, the far sky against the near
+   threads, so the scene reads in depth. The individual translate property
+   leaves the scroll-driven transforms on these layers untouched. The dot
+   screen and threads overhang the hero so a drift never shows an edge. */
+.dots {
+  inset: -24px;
+  width: calc(100% + 48px);
+  height: calc(100% + 48px);
+}
+.silk {
+  inset: -32px;
+  width: calc(100% + 64px);
+  height: calc(100% + 64px);
+}
+.aurora,
+.dots,
+.silk,
+.content,
+.stage {
+  transition: translate 1.2s var(--ease-out-expo);
+}
+.aurora {
+  translate: calc(var(--px, 0) * -10px) calc(var(--py, 0) * -6px);
+}
+.dots {
+  translate: calc(var(--px, 0) * 14px) calc(var(--py, 0) * 8px);
+}
+.silk {
+  translate: calc(var(--px, 0) * 26px) calc(var(--py, 0) * 12px);
+}
+.content {
+  translate: calc(var(--px, 0) * -8px) calc(var(--py, 0) * -5px);
+}
+.stage {
+  translate: calc(var(--px, 0) * 12px) calc(var(--py, 0) * 6px);
+}
+
+/* A live aurora (aurora-shader.tsx) drifts through each theme's sky:
+   Midnight's light through the middle of its night, Clean's pale veils
+   across the upper sky, kept clear of the copy. The CSS gradients are the
+   still fallback without WebGL. */
+.aurora {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+}
+/* The shader fades itself out towards the console, so no CSS mask (a mask
+   would add a costly compositing pass on every frame). */
+.aurora canvas {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1.6s ease;
+}
+.aurora canvas[data-ready] {
+  opacity: 1;
+}
+.aurora canvas[data-off] {
+  display: none;
+}
+
+/* ── Midnight theme ─────────────────────────────────────────────────────
+   A night sky lit from within: an indigo dome and a teal horizon under the
+   console. */
+:global([data-theme='midnight']) .hero {
+  background:
+    radial-gradient(55% 38% at 50% 66%, #1fbf9f24, transparent 70%),
+    radial-gradient(85% 60% at 50% -8%, #2a33c95c, transparent 72%),
+    linear-gradient(
+      180deg,
+      #05060f 0%,
+      #08093a 28%,
+      #0b0f55 50%,
+      #080a2e 72%,
+      var(--paper) 94%
+    );
+}
+:global([data-theme='midnight']) .silk {
+  color: #8e9bff;
+  opacity: 0.7;
+}
+:global([data-theme='midnight']) .badge {
+  border-color: #ffffff24;
+  background: #ffffff0d;
 }

@@ -518,3 +518,64 @@
     transform: none;
   }
 }
+
+/* ── Midnight theme ─────────────────────────────────────────────────────
+   Night glass cards; the active card fills with a low indigo-to-teal light.
+   The concept screen stays light, like a lit display inside the card. */
+:global([data-theme='midnight']) .card {
+  border-color: var(--line);
+  background: linear-gradient(180deg, #0d1129, #090c1e);
+  color: #dfe4ff;
+  box-shadow: none;
+}
+:global([data-theme='midnight']) .card:hover {
+  box-shadow: 0 30px 60px -30px #000000;
+}
+:global([data-theme='midnight']) .card::before {
+  box-shadow:
+    inset 0 0 0 1px #46d3b355,
+    inset 0 -10px 22px #46d3b30a;
+}
+:global([data-theme='midnight']) .card::after,
+:global([data-theme='midnight']) .accent {
+  background: var(--spectrum);
+}
+:global([data-theme='midnight']) .sweep {
+  background:
+    radial-gradient(120% 80% at 0% 100%, #1fbf9f2b, transparent 60%),
+    radial-gradient(90% 70% at 100% 0%, #3b44e033, transparent 65%),
+    linear-gradient(160deg, #121845, #0b1130);
+}
+:global([data-theme='midnight']) .watermark,
+:global([data-theme='midnight']) .top > span,
+:global([data-theme='midnight']) .bottom {
+  color: #8e9bff;
+}
+:global([data-theme='midnight']) .card[data-active='true'] .top > svg,
+:global([data-theme='midnight']) .explore > span:first-child,
+:global([data-theme='midnight']) .arrow {
+  color: var(--teal);
+}
+:global([data-theme='midnight']) .card[data-active='true'] h3 {
+  color: #fff;
+}
+:global([data-theme='midnight']) .content p {
+  color: var(--muted);
+}
+:global([data-theme='midnight']) .scene {
+  border-color: #ffffff2e;
+  background: #e8edffef;
+  box-shadow: 0 14px 30px -16px #000000;
+}
+:global([data-theme='midnight']) .tags > span {
+  border-color: #ffffff24;
+  background: #ffffff0d;
+  color: #c9d2ff;
+}
+:global([data-theme='midnight']) .card[data-active='true'] .arrow {
+  background: linear-gradient(135deg, #2f55d8, #1fbf9f);
+  color: #fff;
+}
+:global([data-theme='midnight']) .card:focus-visible {
+  outline-color: var(--teal);
+}

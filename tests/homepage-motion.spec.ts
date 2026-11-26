@@ -86,6 +86,11 @@ test('hero console moves the journey focus with each practice tab', async ({
 
 test('hero console lies flat once scrolled into view', async ({ page }) => {
   await page.goto('/');
+  // Scroll only once the motion layer is live (it loads after hydration,
+  // which a busy CI runner can take several seconds to finish).
+  await expect(page.locator('html')).toHaveAttribute('data-motion', 'ready', {
+    timeout: 20000,
+  });
   const panel = page.locator('[data-console]');
   // Bring the panel's top edge up to the upper fifth of the viewport.
   await panel.evaluate((element) =>
@@ -97,12 +102,15 @@ test('hero console lies flat once scrolled into view', async ({ page }) => {
       behavior: 'instant',
     }),
   );
+  // Report the panel's state, not just a yes/no, so a failure says why.
   await expect
     .poll(() =>
       panel.evaluate((element) => {
         const m = new DOMMatrix(getComputedStyle(element).transform);
-        return Math.abs(m.m23) < 0.002 && Math.abs(m.a - 1) < 0.01;
+        const flat = Math.abs(m.m23) < 0.002 && Math.abs(m.a - 1) < 0.01;
+        const top = Math.round(element.getBoundingClientRect().top);
+        return `${flat ? 'flat' : 'tilted'} (m23 ${m.m23.toFixed(3)}, scale ${m.a.toFixed(3)}, top ${top}px, scrollY ${Math.round(window.scrollY)}, viewport ${window.innerHeight}px)`;
       }),
     )
-    .toBe(true);
+    .toMatch(/^flat/);
 });

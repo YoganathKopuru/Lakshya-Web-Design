@@ -5,6 +5,9 @@ import { ArrowUpRight } from 'lucide-react';
 import { projectAreas } from '@/data/content';
 import { ProjectVisual } from '@/components/visuals';
 import { ContactBand } from '@/components/chrome';
+import { Curtain } from '@/components/curtain';
+import { HeroArt } from '@/components/hero-art';
+import { HeroAurora } from '@/components/hero-aurora';
 
 const contexts = {
   manufacturing: [
@@ -27,12 +30,16 @@ const contexts = {
 export default function Work() {
   return (
     <main id="main">
-      <section className="page-hero wrap">
+      <section className="page-hero wrap story-hero">
+        <HeroAurora />
+        <HeroArt variant="resolve" />
         <span className="eyebrow">DELIVERY EXPERIENCE</span>
         <h1>
-          Real challenges.
-          <br />
-          <span className="muted">Purposeful technology.</span>
+          <Curtain>
+            Real challenges.
+            <br />
+            <span className="muted">Purposeful technology.</span>
+          </Curtain>
         </h1>
         <p>
           A look at the areas where Lakshya has delivered technology solutions.

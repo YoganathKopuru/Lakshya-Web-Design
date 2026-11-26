@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { office } from '@/data/content';
 import { ClosingContact } from './closing-contact';
+import { BackToTop } from './back-to-top';
 export { Header } from './header';
 
 export function ContactBand() {
@@ -58,6 +59,7 @@ export function Footer() {
       <div className="wrap footer-bottom">
         <span>© {new Date().getFullYear()} Lakshya Software Technologies.</span>
         <span>Built around people. Powered by technology.</span>
+        <BackToTop />
       </div>
       <div className="footer-mega" aria-hidden="true">
         <span data-footer-mega>lakshya</span>

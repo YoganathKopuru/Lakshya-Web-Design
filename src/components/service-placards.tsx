@@ -80,6 +80,7 @@ export function ServicePlacards() {
             style={variables}
             className={styles.card}
             data-active={isActive}
+            data-cursor="Explore"
             data-reveal="pillar"
             aria-labelledby={`expertise-title-${service.slug}`}
             onPointerEnter={(event) => {

@@ -2832,45 +2832,6 @@ textarea:focus-visible {
   background: linear-gradient(145deg, #071b32, #07536a 55%, #248f87);
   border: 1px solid #bddfd7;
 }
-.ocean-hero:after {
-  content: '';
-  position: absolute;
-  inset: 24px 38% 24px 24px;
-  border: 1px solid #ffffff29;
-  border-radius: 16px;
-  background: #0a233b69;
-  backdrop-filter: blur(18px);
-  z-index: -1;
-}
-.ocean-waves {
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  overflow: hidden;
-}
-.ocean-waves svg {
-  width: 140%;
-  height: 100%;
-  fill: #73d3bd25;
-  stroke: #b2e8dc50;
-  stroke-width: 1;
-}
-.ocean-waves path {
-  animation: ocean-drift 12s ease-in-out infinite alternate;
-}
-.ocean-waves path:nth-child(2) {
-  animation-delay: -4s;
-  fill: #67b7c135;
-}
-.ocean-waves path:nth-child(3) {
-  animation-delay: -8s;
-  fill: #95dbce40;
-}
-@keyframes ocean-drift {
-  to {
-    transform: translateX(-180px) translateY(15px);
-  }
-}
 .people-art svg {
   animation: none;
 }
@@ -2891,9 +2852,6 @@ textarea:focus-visible {
     padding-right: 25%;
     min-height: 270px;
   }
-  .ocean-hero:after {
-    inset: 14px;
-  }
 }
 @media (prefers-reduced-motion: reduce) {
   .scene-conveyor,
@@ -2902,7 +2860,6 @@ textarea:focus-visible {
   .factory-art > div,
   .health-bars > i,
   .health-art path,
-  .ocean-waves path,
   .people-art .collaboration-screen,
   .people-art .career-ladder {
     animation: none;

@@ -22,6 +22,97 @@
 .statement [data-word] {
   transition: color 0.2s linear;
 }
+
+/* Statement and dial side by side (signature-dial.tsx); the dial is a
+   desktop flourish and steps aside on narrower screens. */
+.lead {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(280px, 26vw, 360px);
+  align-items: center;
+  gap: clamp(32px, 5vw, 72px);
+  margin-top: 28px;
+}
+.lead > .statement {
+  margin-top: 0;
+}
+.dial {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+}
+.dial canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.dialCore {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 10px;
+  text-align: center;
+  pointer-events: none;
+}
+.dialStep,
+.dialWord {
+  display: grid;
+  overflow: hidden;
+}
+.dialStep > span,
+.dialWord > span {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transform: translateY(110%);
+  transition:
+    transform 0.75s var(--ease-out-expo),
+    opacity 0.35s ease;
+}
+.dialStep {
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--teal);
+}
+.dialWord {
+  padding: 0.08em 0.06em 0.16em;
+  font-family: var(--font-display);
+  font-size: clamp(24px, 2.4vw, 34px);
+  font-weight: 550;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  color: var(--ink);
+}
+/* The current step is in place; earlier steps have left through the top. */
+.dial[data-stage='0'] [data-step='0'],
+.dial[data-stage='1'] [data-step='1'],
+.dial[data-stage='2'] [data-step='2'],
+.dial[data-stage='3'] [data-step='3'] {
+  opacity: 1;
+  transform: none;
+}
+.dial[data-stage='1'] [data-step='0'],
+.dial[data-stage='2'] :is([data-step='0'], [data-step='1']),
+.dial[data-stage='3'] :is([data-step='0'], [data-step='1'], [data-step='2']) {
+  transform: translateY(-110%);
+}
+@media (prefers-reduced-motion: reduce) {
+  .dialStep > span,
+  .dialWord > span {
+    transition: none;
+  }
+}
+@media (max-width: 1000px) {
+  .lead {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .dial {
+    display: none;
+  }
+}
 .accent {
   color: var(--teal);
 }
@@ -79,4 +170,20 @@
     flex-wrap: wrap;
     row-gap: 18px;
   }
+}
+
+/* ── Midnight theme ───────────────────────────────────────────────────── */
+/* Glows sit well inside the section so neither edge shows a seam. */
+:global([data-theme='midnight']) .section {
+  background:
+    radial-gradient(42% 46% at 86% 52%, #3b44e026, transparent 72%),
+    radial-gradient(36% 40% at 8% 88%, #1fbf9f10, transparent 72%), var(--paper);
+}
+:global([data-theme='midnight']) .link {
+  border-color: var(--line-strong);
+}
+:global([data-theme='midnight']) .link:hover {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--paper);
 }

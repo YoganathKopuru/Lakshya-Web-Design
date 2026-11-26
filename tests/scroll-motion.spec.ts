@@ -1,9 +1,12 @@
 import { expect, test } from '@playwright/test';
 
-test('hero zooms with scroll and editorial cards reveal once', async ({
+test('hero zooms with scroll and editorial cards reveal in view', async ({
   page,
 }) => {
   await page.goto('/');
+  await expect(page.locator('html')).toHaveAttribute('data-motion', 'ready', {
+    timeout: 20000,
+  });
   const media = page.locator('[data-hero-media]');
   await expect(media).toHaveCSS(
     'transform',

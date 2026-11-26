@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { projectAreas } from '@/data/content';
 import { ProjectVisual } from './visuals';
+import { MagnetField } from './magnet-field';
 import styles from './delivery-experience.module.css';
 
 const journeys = [
@@ -12,7 +13,8 @@ const journeys = [
 
 export function DeliveryExperience() {
   return (
-    <section className="section wrap" id="delivery">
+    <section className={`section wrap ${styles.section}`} id="delivery">
+      <MagnetField className={styles.field} />
       <div className="section-head">
         <div>
           <span className="eyebrow">02 — DELIVERY EXPERIENCE</span>
@@ -33,6 +35,7 @@ export function DeliveryExperience() {
             href={`/work/#${project.type}`}
             key={project.type}
             aria-labelledby={`delivery-${project.type}`}
+            data-cursor="View"
             data-reveal
           >
             <div className={styles.visual} data-editorial-zoom>

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { services } from '@/data/content';
+import { SignatureDial } from './signature-dial';
 import styles from './manifesto.module.css';
 
 /**
@@ -26,17 +27,20 @@ export function Manifesto() {
         <span className="eyebrow" id="manifesto-label">
           WHO WE ARE
         </span>
-        <p className={styles.statement} data-manifesto>
-          {statement.map(([phrase, accent], i) => (
-            <span key={i} className={accent ? styles.accent : undefined}>
-              {phrase.split(' ').map((word, j) => (
-                <span key={j} data-word>
-                  {word}{' '}
-                </span>
-              ))}
-            </span>
-          ))}
-        </p>
+        <div className={styles.lead}>
+          <p className={styles.statement} data-manifesto>
+            {statement.map(([phrase, accent], i) => (
+              <span key={i} className={accent ? styles.accent : undefined}>
+                {phrase.split(' ').map((word, j) => (
+                  <span key={j} data-word>
+                    {word}{' '}
+                  </span>
+                ))}
+              </span>
+            ))}
+          </p>
+          <SignatureDial />
+        </div>
         <div className={styles.facts} data-reveal>
           <dl data-reveal-part>
             <div>

@@ -284,3 +284,61 @@
     transform: none;
   }
 }
+
+/* ── Midnight theme ───────────────────────────────────────────────────── */
+:global([data-theme='midnight']) .section {
+  border-top-color: var(--line);
+}
+:global([data-theme='midnight']) .rating,
+:global([data-theme='midnight']) .card {
+  border-color: var(--line);
+  background: var(--surface);
+}
+:global([data-theme='midnight']) .rating:hover {
+  border-color: #46d3b366;
+  background: var(--raised);
+}
+:global([data-theme='midnight']) .card:hover {
+  border-color: #46d3b366;
+  box-shadow: 0 24px 50px -30px #000000;
+}
+:global([data-theme='midnight']) .ratingTop {
+  color: #9ee6d3;
+}
+:global([data-theme='midnight']) .score strong {
+  color: #fff;
+}
+:global([data-theme='midnight']) .score > span:not(.stars),
+:global([data-theme='midnight']) .reviewCount,
+:global([data-theme='midnight']) .selectionLabel,
+:global([data-theme='midnight']) .cardTop > span:last-child,
+:global([data-theme='midnight']) .card h3,
+:global([data-theme='midnight']) .attribution time,
+:global([data-theme='midnight']) .sourceNote {
+  color: var(--muted);
+}
+:global([data-theme='midnight']) .stars > span:first-child {
+  color: #ffffff2e;
+}
+:global([data-theme='midnight']) .stars > span:last-child,
+:global([data-theme='midnight']) .card > a {
+  color: var(--teal);
+}
+:global([data-theme='midnight']) .card > a:hover {
+  color: #9ee6d3;
+}
+:global([data-theme='midnight']) .quoteMark {
+  color: #46d3b399;
+}
+:global([data-theme='midnight']) .card blockquote {
+  color: var(--ink);
+}
+:global([data-theme='midnight']) .attribution {
+  border-top-color: var(--line);
+}
+:global([data-theme='midnight']) .attribution > span {
+  color: #c9d2ff;
+}
+:global([data-theme='midnight']) .section a:focus-visible {
+  outline-color: var(--teal);
+}
