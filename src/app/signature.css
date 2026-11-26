@@ -426,8 +426,9 @@ html[data-cursor-ready]
   }
 }
 
-/* ── Inner-page heroes (signal-art.tsx, hero-aurora.tsx) ───────────────────
-   Midnight only: Clean keeps its heroes exactly as they were. */
+/* ── Inner-page heroes (hero-art.tsx, hero-aurora.tsx) ─────────────────────
+   Midnight only: Clean keeps its heroes as they were, with one repair below
+   (the Company card). */
 .signal-art,
 .hero-aurora {
   display: none;
@@ -439,6 +440,12 @@ html[data-cursor-ready]
 /* The aurora and line art replace the ocean hero's glass panel and fills. */
 :root[data-theme='midnight'] .ocean-hero::after,
 :root[data-theme='midnight'] .ocean-waves {
+  display: none;
+}
+/* Clean: the Company card is isolated (for its waves), so the page's light
+   wash painted inside it, over its own indigo sky, waves and glass panel,
+   leaving a pale card with a grey box. The card keeps its own sky. */
+:root[data-theme='clean'] .ocean-hero::before {
   display: none;
 }
 :root[data-theme='midnight'] .hero-aurora {
