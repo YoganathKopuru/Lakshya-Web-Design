@@ -74,7 +74,7 @@ export function startPremiumFx(root: HTMLElement) {
   // page scrolls down; scrolling up plays all of it in reverse.
   root.querySelectorAll<HTMLElement>('.page-hero').forEach((pageHero) => {
     const content = Array.from(pageHero.children).filter(
-      (child) => !child.matches('.signal-art, .hero-aurora, .ocean-waves'),
+      (child) => !child.matches('.signal-art, .hero-aurora'),
     );
     const art = pageHero.querySelector<HTMLElement>('.signal-art');
     const scroll = () => ({

@@ -427,32 +427,23 @@ html[data-cursor-ready]
 }
 
 /* ── Inner-page heroes (hero-art.tsx, hero-aurora.tsx) ─────────────────────
-   Midnight only: Clean keeps its heroes as they were, with one repair below
-   (the Company card). */
-.signal-art,
-.hero-aurora {
-  display: none;
-}
-:root[data-theme='midnight'] .story-hero {
+   Both themes: line art on every inner hero, and the living sky inside the
+   feature cards (Company, Why Lakshya, Careers). A card holds its own
+   layers, clipped to its corners. */
+.story-hero {
   isolation: isolate;
   overflow: hidden;
 }
-/* The aurora and line art replace the ocean hero's glass panel and fills. */
-:root[data-theme='midnight'] .ocean-hero::after,
-:root[data-theme='midnight'] .ocean-waves {
+/* Clean: the page's light wash belongs behind the page head, but inside a
+   card (which is its own layer) it would paint over the card's indigo sky
+   and leave white text on a pale card. The card keeps its own sky. */
+:root[data-theme='clean'] .story-hero::before {
   display: none;
 }
-/* Clean: the Company card is isolated (for its waves), so the page's light
-   wash painted inside it, over its own indigo sky, waves and glass panel,
-   leaving a pale card with a grey box. The card keeps its own sky. */
-:root[data-theme='clean'] .ocean-hero::before {
-  display: none;
-}
-:root[data-theme='midnight'] .hero-aurora {
+.hero-aurora {
   position: absolute;
   inset: 0;
   z-index: -1;
-  display: block;
   overflow: hidden;
   border-radius: inherit;
   pointer-events: none;
@@ -470,13 +461,12 @@ html[data-cursor-ready]
 .hero-aurora canvas[data-off] {
   display: none;
 }
-:root[data-theme='midnight'] .signal-art {
+.signal-art {
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   z-index: -1;
-  display: block;
   width: min(54%, 660px);
   pointer-events: none;
   translate: calc(var(--px, 0) * 16px) calc(var(--py, 0) * 10px);
@@ -562,7 +552,7 @@ html[data-cursor-ready]
   }
 }
 @media (max-width: 760px) {
-  :root[data-theme='midnight'] .signal-art {
+  .signal-art {
     display: none;
   }
 }

@@ -26,6 +26,12 @@ function spring(progress: number) {
   );
 }
 
+/** 0 up to `from`, 1 from `to`, and an S-curve between. */
+function smoothstep(value: number, from: number, to: number) {
+  const t = Math.min(1, Math.max(0, (value - from) / (to - from)));
+  return t * t * (3 - 2 * t);
+}
+
 /**
  * Which way content arrives: 1 when it comes up from below (reading down
  * the page), -1 when it comes down from above (scrolling back up).
@@ -291,28 +297,6 @@ export function startScrollMotion(root: HTMLElement) {
       );
     });
 
-    // The film aperture opens with scroll and closes again on the way back.
-    // It reaches fully open at 82 % of its runway, so the finished frame
-    // holds for a moment before the page moves on.
-    root.querySelectorAll<HTMLElement>('[data-film]').forEach((film) => {
-      gsap.fromTo(
-        film,
-        { '--open': 0 },
-        {
-          '--open': 1,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: film,
-            start: 'top top',
-            end: () =>
-              `+=${Math.max(1, (film.offsetHeight - window.innerHeight) * 0.82)}`,
-            scrub: 0.6,
-            invalidateOnRefresh: true,
-          },
-        },
-      );
-    });
-
     const media = root.querySelector('[data-hero-media]');
     const hero = root.querySelector('[data-hero]');
     if (media && hero) {
@@ -349,6 +333,46 @@ export function startScrollMotion(root: HTMLElement) {
       );
     });
   }
+
+  // The film stays hidden between the words of its line at both ends of its
+  // runway, so it opens out of the line whichever way the visitor arrives:
+  // the words part around a capsule of film, the capsule opens into a
+  // near-full frame as the halves meet again over the footage, the frame
+  // holds, then it all runs back and the line closes over the film before
+  // the page moves on. Scrolling back up plays the same scene in reverse.
+  root.querySelectorAll<HTMLElement>('[data-film]').forEach((film) => {
+    context.add(() => {
+      const scene = { progress: 0 };
+      const paint = () => {
+        // 0 at either end of the runway, 1 in the middle.
+        const depth = 1 - Math.abs(scene.progress * 2 - 1);
+        const reveal = smoothstep(depth, 0.12, 0.5);
+        const grow = smoothstep(depth, 0.46, 0.86);
+        film.style.setProperty('--reveal', reveal.toFixed(4));
+        film.style.setProperty('--grow', grow.toFixed(4));
+        // The footage plays only while some of it shows (hero-film.tsx).
+        film.toggleAttribute('data-showing', reveal > 0.001);
+      };
+      gsap.to(scene, {
+        progress: 1,
+        ease: 'none',
+        onUpdate: paint,
+        scrollTrigger: {
+          trigger: film,
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: 0.6,
+          invalidateOnRefresh: true,
+        },
+      });
+      paint();
+      return () => {
+        film.style.removeProperty('--reveal');
+        film.style.removeProperty('--grow');
+        film.removeAttribute('data-showing');
+      };
+    });
+  });
 
   // Section headings outside a reveal group still get the curtain.
   const standalone = Array.from(

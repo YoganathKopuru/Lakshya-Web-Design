@@ -9,17 +9,17 @@ import { HyderabadTime } from './hyderabad-time';
 import styles from './home-hero.module.css';
 
 /**
- * Homepage hero: a deep indigo-to-blue sky with a pulsing halftone screen and
- * silk threads at the edges, a centred statement with two calls to action,
- * and a delivery console that tilts flat as the page scrolls (see
- * start-scroll-motion.ts). The backdrop fades into the page colour so the
- * console lands on the first light section.
+ * Homepage hero: a deep indigo-to-blue sky with a living aurora, a pulsing
+ * halftone screen and silk threads at the edges, a centred statement with
+ * two calls to action, and a delivery console that tilts flat as the page
+ * scrolls (see start-scroll-motion.ts). The backdrop fades into the page
+ * colour so the console lands on the first light section.
  */
 export function HomeHero() {
   return (
     <section className={styles.hero} aria-labelledby="home-heading" data-hero>
       <div className={styles.aurora} aria-hidden="true">
-        <AuroraShader />
+        <AuroraShader keepClear="[data-hero-content] > :not(h1)" />
       </div>
       <div className={styles.backdrop} aria-hidden="true" data-hero-media>
         <HalftoneField className={styles.dots} />

@@ -1,8 +1,9 @@
 /**
  * Colour themes. "Midnight" is the signature blend (deep night, the logo's
- * indigo-to-teal spectrum as light); "Clean" is the light Kelder layout,
- * kept exactly as it was. The choice lives on <html data-theme> so CSS can
- * scope every override, and in localStorage so it survives navigation.
+ * indigo-to-teal spectrum as light); "Clean" is the light Kelder layout in
+ * its original colours, with the same motion and hero art in its own
+ * palette. The choice lives on <html data-theme> so CSS can scope every
+ * override, and in localStorage so it survives navigation.
  */
 export const themes = [
   {

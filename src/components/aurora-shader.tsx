@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { currentTheme, observeTheme } from '@/lib/theme';
+import { currentTheme, observeTheme, type ThemeId } from '@/lib/theme';
 import { isLite, LITE_EVENT } from './motion-governor';
 
 const vertex = `
@@ -11,8 +11,12 @@ void main() {
 }`;
 
 /* Domain-warped noise (two passes of fractal noise feeding a third) mapped
-   onto the logo spectrum: night, indigo, blue, teal. The light lives in a
-   band through the middle of the hero and gathers a little around the
+   onto the logo spectrum. Midnight paints indigo, blue and teal light with
+   the night between; Clean paints only the light, as pale veils that never
+   darken its blue sky, and keeps them out from behind small text (u_clear:
+   up to four boxes, left, top, right, bottom as fractions of the canvas)
+   so it always reads. The light lives in a band (u_band: fade in from x to
+   y, out from z to w, top to bottom) and gathers a little around the
    pointer. Output is premultiplied alpha over the CSS sky. */
 const fragment = `
 precision mediump float;
@@ -20,6 +24,9 @@ uniform vec2 u_res;
 uniform float u_time;
 uniform vec2 u_pointer;
 uniform float u_glow;
+uniform float u_clean;
+uniform vec4 u_band;
+uniform vec4 u_clear[4];
 
 float hash(vec2 p) {
   p = fract(p * vec2(123.34, 456.21));
@@ -60,24 +67,41 @@ void main() {
     fbm(p * 1.5 + 3.2 * q + vec2(8.3, 2.8) - t * 0.6)
   );
   float f = fbm(p * 1.1 + 2.6 * r);
+  float ribbon = smoothstep(0.5, 1.0, length(q));
+  float sheen = smoothstep(0.58, 0.98, r.x);
+
+  float depth = 1.0 - uv.y;
+  float band = smoothstep(u_band.x, u_band.y, depth) * (1.0 - smoothstep(u_band.z, u_band.w, depth));
+
+  vec2 at = vec2(uv.x, depth);
+  float clear = 1.0;
+  for (int i = 0; i < 4; i++) {
+    vec2 outside = max(max(u_clear[i].xy - at, at - u_clear[i].zw), 0.0);
+    clear = min(clear, smoothstep(0.0, 0.1, length(outside * vec2(aspect, 1.0))));
+  }
 
   vec3 night = vec3(0.020, 0.024, 0.059);
   vec3 indigo = vec3(0.180, 0.215, 0.860);
   vec3 blue = vec3(0.184, 0.380, 0.900);
   vec3 teal = vec3(0.122, 0.749, 0.624);
-
   vec3 colour = mix(night, indigo, smoothstep(0.28, 0.78, f));
-  colour = mix(colour, blue, smoothstep(0.5, 1.0, length(q)) * 0.45);
-  colour = mix(colour, teal, smoothstep(0.58, 0.98, r.x) * 0.6);
+  colour = mix(colour, blue, ribbon * 0.45);
+  colour = mix(colour, teal, sheen * 0.6);
+  float alpha = band * (0.25 + 0.75 * f);
 
-  float depth = 1.0 - uv.y;
-  float band = smoothstep(0.08, 0.42, depth) * (1.0 - smoothstep(0.6, 0.9, depth));
+  vec3 periwinkle = vec3(0.560, 0.620, 1.000);
+  vec3 sky = vec3(0.520, 0.760, 1.000);
+  vec3 mint = vec3(0.620, 0.900, 0.830);
+  vec3 veil = mix(periwinkle, sky, ribbon * 0.6);
+  veil = mix(veil, mint, sheen * 0.5);
+  colour = mix(colour, veil, u_clean);
+  alpha = mix(alpha, band * clear * smoothstep(0.38, 0.78, f) * 0.5, u_clean);
 
   vec2 pointer = vec2(u_pointer.x * aspect, 1.0 - u_pointer.y);
-  float light = exp(-dot(p - pointer, p - pointer) * 7.0) * u_glow;
+  float light = exp(-dot(p - pointer, p - pointer) * 7.0) * u_glow * mix(1.0, clear, u_clean);
   colour += mix(teal, blue, 0.35) * light * 0.35;
+  alpha = clamp(alpha + light * 0.18, 0.0, 1.0);
 
-  float alpha = clamp(band * (0.25 + 0.75 * f) + light * 0.18, 0.0, 1.0);
   float grain = hash(gl_FragCoord.xy + fract(u_time * 7.0) * 91.0) - 0.5;
   colour += grain * 0.03;
   gl_FragColor = vec4(colour * alpha, alpha);
@@ -95,13 +119,51 @@ function compile(gl: WebGLRenderingContext, type: number, source: string) {
   return shader;
 }
 
+type AuroraPlace = 'hero' | 'card';
+
 /**
- * The Midnight hero's living sky. It renders only while the Midnight theme
- * is active and the hero is on screen, at a reduced resolution (the image is
- * soft by nature), capped at 30 fps. Reduced motion gets a single still
- * frame. Without WebGL the CSS gradient underneath is the whole sky.
+ * Where the light sits (u_band above), per theme and place. Midnight's sky
+ * is dark throughout, so its light fills a broad middle band. Clean's
+ * homepage sky turns light towards the console, so its veils fade out
+ * before that; on the hero cards both themes use the middle band.
  */
-export function AuroraShader({ className }: { className?: string }) {
+const BANDS: Record<
+  ThemeId,
+  Record<AuroraPlace, [number, number, number, number]>
+> = {
+  midnight: {
+    hero: [0.08, 0.42, 0.6, 0.9],
+    card: [0.08, 0.42, 0.6, 0.9],
+  },
+  clean: {
+    hero: [0, 0.1, 0.45, 0.62],
+    card: [0.08, 0.42, 0.6, 0.9],
+  },
+};
+
+/** An empty box, far outside the canvas, for unused u_clear slots. */
+const NOWHERE = [-9, -9, -9, -9];
+
+/**
+ * A living sky: the homepage hero's (place "hero") or an inner-page hero
+ * card's ("card"), in the palette of the active theme. It renders only
+ * while it is on screen, at a reduced resolution (the image is soft by
+ * nature), capped at 30 fps. Reduced motion gets a single still frame.
+ * Without WebGL the CSS gradient underneath is the whole sky.
+ *
+ * `keepClear` selects (within the host section) up to four elements of
+ * small text that Clean's pale light stays out from behind, so the copy
+ * keeps its contrast wherever the light drifts.
+ */
+export function AuroraShader({
+  className,
+  place = 'hero',
+  keepClear,
+}: {
+  className?: string;
+  place?: AuroraPlace;
+  keepClear?: string;
+}) {
   const canvas = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -160,6 +222,46 @@ export function AuroraShader({ className }: { className?: string }) {
     const uTime = gl.getUniformLocation(program, 'u_time');
     const uPointer = gl.getUniformLocation(program, 'u_pointer');
     const uGlow = gl.getUniformLocation(program, 'u_glow');
+    const uClean = gl.getUniformLocation(program, 'u_clean');
+    const uBand = gl.getUniformLocation(program, 'u_band');
+    const uClear = gl.getUniformLocation(program, 'u_clear');
+    const section = element.closest('section');
+    const range = document.createRange();
+    const clear = new Float32Array(16);
+    let measured = 0;
+    // Where the small text sits, as fractions of the canvas (Clean only).
+    const measure = () => {
+      measured = performance.now();
+      for (let slot = 0; slot < 4; slot++) clear.set(NOWHERE, slot * 4);
+      if (currentTheme() === 'clean' && keepClear && section) {
+        const box = element.getBoundingClientRect();
+        Array.from(section.querySelectorAll(keepClear))
+          .slice(0, 4)
+          .forEach((node, slot) => {
+            if (!box.width || !box.height) return;
+            range.selectNodeContents(node);
+            const text = range.getBoundingClientRect();
+            clear.set(
+              [
+                (text.left - box.left) / box.width,
+                (text.top - box.top) / box.height,
+                (text.right - box.left) / box.width,
+                (text.bottom - box.top) / box.height,
+              ],
+              slot * 4,
+            );
+          });
+      }
+      gl.uniform4fv(uClear, clear);
+    };
+    // The active theme's palette and placement of the light.
+    const look = () => {
+      const theme = currentTheme();
+      const band = BANDS[theme][place];
+      gl.uniform1f(uClean, theme === 'clean' ? 1 : 0);
+      gl.uniform4f(uBand, band[0], band[1], band[2], band[3]);
+      measure();
+    };
 
     const still = matchMedia('(prefers-reduced-motion: reduce)');
     const pointer = { x: 0.5, y: 0.55, tx: 0.5, ty: 0.55, glow: 0, target: 0 };
@@ -211,11 +313,12 @@ export function AuroraShader({ className }: { className?: string }) {
         }
       }
       last = time;
+      // Text moves under the light (scroll scenes, late fonts): follow it.
+      if (time - measured > 500) measure();
       draw(time - startedAt + 40000);
     };
 
-    const active = () =>
-      currentTheme() === 'midnight' && visible && !document.hidden;
+    const active = () => visible && !document.hidden;
 
     // Cost probe, once: render a warm-up frame (shader compilation happens
     // here), then time a few frames. Reading back one pixel makes the
@@ -262,6 +365,7 @@ export function AuroraShader({ className }: { className?: string }) {
       // Lite mode (motion-governor.tsx): the CSS sky is the whole sky.
       if (isLite()) element.dataset.off = '';
       if (!active() || element.dataset.off !== undefined) return;
+      look();
       if (!probed && !still.matches) probe();
       if (element.dataset.off !== undefined) return;
       if (still.matches || calm) {
@@ -271,7 +375,6 @@ export function AuroraShader({ className }: { className?: string }) {
       frame = requestAnimationFrame(tick);
     };
 
-    const section = element.closest('section');
     const move = (event: PointerEvent) => {
       if (event.pointerType !== 'mouse') return;
       const box = element.getBoundingClientRect();
@@ -323,7 +426,7 @@ export function AuroraShader({ className }: { className?: string }) {
           gl.getExtension('WEBGL_lose_context')?.loseContext();
       }, 0);
     };
-  }, []);
+  }, [place, keepClear]);
 
   return <canvas ref={canvas} className={className} aria-hidden="true" />;
 }

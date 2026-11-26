@@ -2,13 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 
-/**
- * Plays a muted, looping video only while it is on screen (and the tab is
- * visible), pausing it otherwise. `threshold` is how much of the video must
- * be in view before it plays: 0 (any part) by default; a large stage can ask
- * for more so it does not start decoding while only its edge is showing.
- */
-export function useVisibleVideo(enabled: boolean, threshold = 0) {
+export function useVisibleVideo(enabled: boolean) {
   const ref = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -25,13 +19,10 @@ export function useVisibleVideo(enabled: boolean, threshold = 0) {
         video.pause();
       }
     };
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        inView = entry.isIntersecting && entry.intersectionRatio >= threshold;
-        sync();
-      },
-      { threshold: threshold > 0 ? [0, threshold] : 0 },
-    );
+    const observer = new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting;
+      sync();
+    });
     observer.observe(video);
     document.addEventListener('visibilitychange', sync);
     return () => {
@@ -39,7 +30,7 @@ export function useVisibleVideo(enabled: boolean, threshold = 0) {
       document.removeEventListener('visibilitychange', sync);
       video.pause();
     };
-  }, [enabled, threshold]);
+  }, [enabled]);
 
   return ref;
 }

@@ -14,13 +14,6 @@ export default function Company() {
       <section className="page-hero wrap story-hero ocean-hero">
         <HeroAurora />
         <HeroArt variant="waves" />
-        <div className="ocean-waves" aria-hidden="true">
-          <svg viewBox="0 0 1200 400" preserveAspectRatio="none">
-            <path d="M-300 160Q0 20 300 160T900 160T1500 160V500H-300Z" />
-            <path d="M-300 240Q0 90 300 240T900 240T1500 240V500H-300Z" />
-            <path d="M-300 310Q0 170 300 310T900 310T1500 310V500H-300Z" />
-          </svg>
-        </div>
         <span className="eyebrow">WE ARE LAKSHYA</span>
         <h1>
           <Curtain>

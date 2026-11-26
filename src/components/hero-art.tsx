@@ -1,8 +1,8 @@
 import type { CSSProperties } from 'react';
 
 /**
- * Line art for inner-page heroes in the Midnight theme, one motif per page,
- * each a picture of that page's headline:
+ * Line art for inner-page heroes, in both themes, one motif per page, each
+ * a picture of that page's headline:
  *
  * - waves (Company): a sea of signals in the logo spectrum, drifting.
  * - converge (Why Lakshya): different starting points meeting at one.

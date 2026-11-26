@@ -1,8 +1,22 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { currentTheme, observeTheme } from '@/lib/theme';
+import { currentTheme, observeTheme, type ThemeId } from '@/lib/theme';
 import { isLite, LITE_EVENT } from './motion-governor';
+
+/** Left, middle and right of each theme's dot spectrum. */
+const SPECTRA: Record<ThemeId, [string, string, string]> = {
+  midnight: [
+    'rgba(120, 132, 255, 0.78)',
+    'rgba(150, 178, 255, 0.62)',
+    'rgba(70, 211, 179, 0.8)',
+  ],
+  clean: [
+    'rgba(186, 194, 255, 0.76)',
+    'rgba(226, 234, 255, 0.64)',
+    'rgba(158, 230, 211, 0.82)',
+  ],
+};
 
 /**
  * A halftone dot screen for the hero. Every dot sits on a fixed grid and only
@@ -46,16 +60,20 @@ export function HalftoneField({ className }: { className?: string }) {
       spectrum = '';
     };
 
-    // Clean paints pale dots on its blue sky; Midnight lets the dots carry
-    // the logo spectrum, indigo on the left to teal on the right.
+    // The dots carry the logo spectrum, indigo on the left to teal on the
+    // right: deep tones on Midnight's night sky, pale tints that read on
+    // Clean's blue one.
     let spectrum: CanvasGradient | '' = '';
+    let spectrumTheme = '';
     const paint = () => {
-      if (currentTheme() !== 'midnight') return 'rgba(232, 238, 255, 0.62)';
-      if (!spectrum) {
+      const theme = currentTheme();
+      if (!spectrum || spectrumTheme !== theme) {
+        const stops = SPECTRA[theme];
         spectrum = context.createLinearGradient(0, 0, width, 0);
-        spectrum.addColorStop(0, 'rgba(120, 132, 255, 0.78)');
-        spectrum.addColorStop(0.5, 'rgba(150, 178, 255, 0.62)');
-        spectrum.addColorStop(1, 'rgba(70, 211, 179, 0.8)');
+        spectrum.addColorStop(0, stops[0]);
+        spectrum.addColorStop(0.5, stops[1]);
+        spectrum.addColorStop(1, stops[2]);
+        spectrumTheme = theme;
       }
       return spectrum;
     };

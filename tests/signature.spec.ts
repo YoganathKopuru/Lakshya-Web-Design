@@ -155,7 +155,7 @@ test('the custom cursor replaces the arrow and names card actions', async ({
   await expect(page.locator('html')).not.toHaveAttribute('data-cursor-ready');
 });
 
-test('the film aperture opens with scroll and closes on the way back', async ({
+test('the film stays hidden between the words at both ends of its scroll', async ({
   page,
 }) => {
   test.slow();
@@ -164,33 +164,53 @@ test('the film aperture opens with scroll and closes on the way back', async ({
     timeout: 20000,
   });
   const film = page.locator('[data-film]');
-  const open = () =>
+  const scene = () =>
+    film.evaluate((element) => {
+      const style = getComputedStyle(element);
+      return {
+        reveal: parseFloat(style.getPropertyValue('--reveal')),
+        grow: parseFloat(style.getPropertyValue('--grow')),
+        showing: element.hasAttribute('data-showing'),
+      };
+    });
+  // Scrolls to a point along the film's runway (0 start, 1 end).
+  const scrollAlong = (at: number) =>
     film.evaluate(
-      (element) =>
-        parseFloat(getComputedStyle(element).getPropertyValue('--open')) || 0,
+      (element: HTMLElement, at) =>
+        window.scrollTo({
+          top:
+            element.offsetTop +
+            (element.offsetHeight - window.innerHeight) * at,
+          behavior: 'instant',
+        }),
+      at,
     );
+  const hidden = { reveal: 0, grow: 0, showing: false };
   await expect(film.getByRole('heading', { level: 2 })).toHaveText(
     'Technology, with purpose.',
   );
-  await film.evaluate((element: HTMLElement) =>
-    window.scrollTo({
-      top:
-        element.offsetTop + (element.offsetHeight - window.innerHeight) * 0.95,
-      behavior: 'instant',
-    }),
-  );
-  await expect.poll(open, { timeout: 10000 }).toBeGreaterThan(0.98);
-  await film.evaluate((element: HTMLElement) =>
-    window.scrollTo({
-      top: element.offsetTop - window.innerHeight,
-      behavior: 'instant',
-    }),
-  );
-  await expect.poll(open, { timeout: 10000 }).toBeLessThan(0.02);
+  // Arriving from above, the line comes first and the film is hidden.
+  await scrollAlong(0);
+  await expect.poll(scene, { timeout: 10000 }).toEqual(hidden);
+  // Mid-runway the frame is fully open.
+  await scrollAlong(0.5);
+  await expect
+    .poll(scene, { timeout: 10000 })
+    .toEqual({ reveal: 1, grow: 1, showing: true });
+  // At the far end it has closed back into the line, so arriving from
+  // below (scrolling back up) the line comes first as well.
+  await scrollAlong(1);
+  await expect.poll(scene, { timeout: 10000 }).toEqual(hidden);
+  // A little way back up, the words have parted around a capsule of film.
+  await scrollAlong(0.8);
+  await expect
+    .poll(async () => (await scene()).reveal, { timeout: 10000 })
+    .toBeGreaterThan(0.7);
+  expect((await scene()).grow).toBe(0);
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.reload();
   await expect(film.locator('video')).toHaveCount(0);
-  await expect.poll(open).toBe(1);
+  await expect.poll(scene).toEqual({ reveal: 1, grow: 1, showing: false });
 });
 
 test('content reveals again when scrolling back up', async ({ page }) => {
@@ -225,7 +245,7 @@ test('content reveals again when scrolling back up', async ({ page }) => {
   await expect(card).toHaveCSS('opacity', '1');
 });
 
-test('inner heroes carry their own line art in Midnight only', async ({
+test('inner heroes carry their own line art in both themes', async ({
   page,
   isMobile,
 }) => {
@@ -235,5 +255,15 @@ test('inner heroes carry their own line art in Midnight only', async ({
   await expect(art).toHaveAttribute('data-signal-art', 'converge');
   await expect(art).toBeVisible();
   await page.getByRole('radio', { name: 'Clean theme' }).click();
-  await expect(art).toBeHidden();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'clean');
+  await expect(art).toBeVisible();
+  // The card keeps its own indigo sky: the page's light wash, which would
+  // paint over it inside the card's layer, stays out.
+  const card = page.locator('.story-hero');
+  await expect(card).toHaveCSS('isolation', 'isolate');
+  expect(
+    await card.evaluate(
+      (element) => getComputedStyle(element, '::before').display,
+    ),
+  ).toBe('none');
 });

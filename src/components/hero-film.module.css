@@ -1,15 +1,27 @@
-/* Film aperture (hero-film.tsx). One value, --open, runs from 0 (a closed
-   capsule) to 1 (an open frame) with scroll; every part of the scene is
-   derived from it, so scrolling back up plays it in reverse. */
+/* Film aperture (hero-film.tsx). Two values drive the scene from scroll
+   (start-scroll-motion.ts):
+
+   --reveal  0 → 1  "Technology, with purpose." parts in the middle and a
+                    capsule of film opens in the space between the words;
+   --grow    0 → 1  the capsule opens into a near-full-screen frame and the
+                    two halves close again over the footage.
+
+   The scene is symmetric along its scroll runway (open in the middle,
+   closed at both ends), so the film is hidden between the words whichever
+   way the page arrives: from above or from below, the line comes first and
+   the film opens out of it. Without the motion layer (or with reduced
+   motion) the scene is a still, open frame. */
 .film {
-  --open: 0;
-  --close: calc(1 - var(--open));
+  --reveal: 1;
+  --grow: 1;
+  /* How far each half of the line stands aside for the capsule. */
+  --part: calc(var(--reveal) * (1 - var(--grow)));
   --edge: 16px;
   --cap-w: clamp(110px, 11vw, 200px);
   --cap-h: clamp(84px, 15vh, 150px);
   --gap: clamp(18px, 2.4vw, 40px);
   position: relative;
-  height: 210vh;
+  height: 300vh;
   background: var(--film-bg, #07063a);
 }
 :global([data-theme='midnight']) .film {
@@ -23,16 +35,24 @@
   overflow: hidden;
 }
 
-/* The frame: an inset rectangle that starts as a capsule in the centre. */
+/* The frame: closed to nothing between the words, a capsule once they have
+   parted, then an inset rectangle that almost fills the screen. */
 .aperture {
+  --half-w: calc(
+    var(--cap-w) * var(--reveal) * (1 - var(--grow)) + (50% - var(--edge)) *
+      var(--grow)
+  );
+  --half-h: calc(
+    var(--cap-h) * (0.3 + 0.7 * var(--reveal)) * (1 - var(--grow)) +
+      (50% - var(--edge)) * var(--grow)
+  );
   position: absolute;
   inset: 0;
   overflow: hidden;
   background: #0b0e20;
   clip-path: inset(
-    calc(var(--edge) + var(--close) * (50% - var(--cap-h) - var(--edge)))
-      calc(var(--edge) + var(--close) * (50% - var(--cap-w) - var(--edge)))
-      round calc(28px + var(--close) * 400px)
+    calc(50% - var(--half-h)) calc(50% - var(--half-w)) round
+      calc(28px + (1 - var(--grow)) * 400px)
   );
 }
 .media {
@@ -41,7 +61,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  scale: calc(1.18 - var(--open) * 0.18);
+  scale: calc(1.18 - var(--grow) * 0.18);
 }
 .shade {
   position: absolute;
@@ -53,7 +73,7 @@
     #05060f33 62%,
     #05060fd9 100%
   );
-  opacity: calc(0.3 + var(--open) * 0.7);
+  opacity: calc(0.3 + var(--grow) * 0.7);
 }
 .credit {
   position: absolute;
@@ -66,9 +86,10 @@
   font-size: 11px;
 }
 
-/* The line: its two halves sit either side of the capsule, then close in
-   over the footage as it opens. */
+/* The line: one sentence while the film is hidden, two halves either side
+   of the capsule, one sentence again over the open frame. */
 .line {
+  --space: 0.26em;
   position: absolute;
   top: 50%;
   right: 0;
@@ -86,23 +107,24 @@
 }
 .before,
 .after {
+  /* From one word space apart to clear of the capsule. */
+  --offset: calc(
+    var(--space) / 2 * (1 - var(--part)) + (var(--cap-w) + var(--gap)) *
+      var(--part)
+  );
   position: absolute;
   top: 0;
   white-space: nowrap;
 }
 .before {
-  right: calc(
-    50% + var(--gap) / 2 + var(--close) * (var(--cap-w) + var(--gap) / 2)
-  );
+  right: calc(50% + var(--offset));
 }
 .after {
-  left: calc(
-    50% + var(--gap) / 2 + var(--close) * (var(--cap-w) + var(--gap) / 2)
-  );
+  left: calc(50% + var(--offset));
   color: #c9efdb;
 }
 .caption {
-  --show: clamp(0, (var(--open) - 0.72) * 4, 1);
+  --show: clamp(0, (var(--grow) - 0.72) * 4, 1);
   position: absolute;
   right: 0;
   bottom: max(9vh, 56px);
@@ -114,13 +136,24 @@
   translate: 0 calc((1 - var(--show)) * 16px);
 }
 
-/* Phones: the halves stack above and below the capsule instead. */
+/* Phones: the halves stack, so the capsule opens as a wide slot between
+   the two lines. */
 @media (max-width: 760px) {
   .film {
     --edge: 10px;
     --cap-w: 34vw;
     --cap-h: 12vh;
-    height: 180vh;
+    height: 260vh;
+  }
+  .aperture {
+    --half-w: calc(
+      var(--cap-w) * (0.3 + 0.7 * var(--reveal)) * (1 - var(--grow)) +
+        (50% - var(--edge)) * var(--grow)
+    );
+    --half-h: calc(
+      var(--cap-h) * var(--reveal) * (1 - var(--grow)) + (50% - var(--edge)) *
+        var(--grow)
+    );
   }
   .line {
     height: 0;
@@ -135,17 +168,16 @@
   }
   .before {
     top: auto;
-    bottom: calc(0.1em + var(--close) * (var(--cap-h) + 14px));
+    bottom: calc(0.08em + var(--part) * (var(--cap-h) + 14px));
   }
   .after {
-    top: calc(0.1em + var(--close) * (var(--cap-h) + 14px));
+    top: calc(0.08em + var(--part) * (var(--cap-h) + 14px));
   }
 }
 
 /* Reduced motion: the open frame, no scroll stage. */
 @media (prefers-reduced-motion: reduce) {
   .film {
-    --open: 1;
     height: auto;
   }
   .stage {

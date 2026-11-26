@@ -279,15 +279,14 @@
   translate: calc(var(--px, 0) * 12px) calc(var(--py, 0) * 6px);
 }
 
-/* ── Midnight theme ─────────────────────────────────────────────────────
-   A night sky lit from within: an indigo dome, a teal horizon under the
-   console, and a live aurora (aurora-shader.tsx) drifting through the
-   middle. The gradient below is also the still fallback without WebGL. */
+/* A live aurora (aurora-shader.tsx) drifts through each theme's sky:
+   Midnight's light through the middle of its night, Clean's pale veils
+   across the upper sky, kept clear of the copy. The CSS gradients are the
+   still fallback without WebGL. */
 .aurora {
   position: absolute;
   inset: 0;
   z-index: -2;
-  display: none;
   pointer-events: none;
 }
 /* The shader fades itself out towards the console, so no CSS mask (a mask
@@ -304,9 +303,10 @@
 .aurora canvas[data-off] {
   display: none;
 }
-:global([data-theme='midnight']) .aurora {
-  display: block;
-}
+
+/* ── Midnight theme ─────────────────────────────────────────────────────
+   A night sky lit from within: an indigo dome and a teal horizon under the
+   console. */
 :global([data-theme='midnight']) .hero {
   background:
     radial-gradient(55% 38% at 50% 66%, #1fbf9f24, transparent 70%),
